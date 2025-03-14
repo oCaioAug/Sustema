@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Sustema.Api.Repositories;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Sustema.Api.Models;
 using System.IdentityModel.Tokens.Jwt;
@@ -23,6 +22,7 @@ namespace Sustema.Api.Controllers
             _configuration = configuration;
         }
 
+        // POST: api/User/register
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] User user)
         {
@@ -33,6 +33,7 @@ namespace Sustema.Api.Controllers
             return Ok(new {message = "Usuário cadastrado com sucesso" });
         }
 
+        // POST: api/User/login
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] User loginRequest)
         {
@@ -52,7 +53,7 @@ namespace Sustema.Api.Controllers
                 {
                     new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
                     new Claim(ClaimTypes.Email, user.Email),
-                    new Claim(ClaimTypes.Role, user.Perfil)
+                    new Claim(ClaimTypes.Role, user.Perfil.ToString())
                 }),
                 //Expires = DateTime.UtcNow.AddHours(2),
                 Expires = DateTime.UtcNow.AddMinutes(Convert.ToDouble(jwtSettings["ExpiryMinutes"])),
@@ -65,6 +66,19 @@ namespace Sustema.Api.Controllers
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
             return Ok(new { token = tokenHandler.WriteToken(token)});
+        }
+
+        // GET: api/User/{id}
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetUser(int id)
+        {
+            var user = await _userRepository.GetByIdAsync(id);
+            if (user == null)
+            {
+                return NotFound(new { message = "Usuário não encontrado!" });
+            }
+
+            return Ok(user);
         }
     }
 }
