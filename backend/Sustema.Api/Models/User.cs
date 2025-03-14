@@ -25,7 +25,7 @@ namespace Sustema.Api.Models
         public string PasswordHash { get; set; }
 
         [Required]
-        public PerfilUsuario Perfil { get; set; }
+        public string Perfil { get; set; }
 
         [Required]
         public DateTime DataCadastro { get; set; }
