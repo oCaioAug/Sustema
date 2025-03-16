@@ -6,6 +6,9 @@ using Sustema.Api.Services;
 
 namespace Sustema.Api.Controllers
 {
+    /// <summary>
+    /// Controlador para gerenciar os registros de gamificação.
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class GamificationRecordController : ControllerBase

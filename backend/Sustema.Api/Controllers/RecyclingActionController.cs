@@ -5,18 +5,30 @@ using Sustema.Api.Repositories;
 
 namespace Sustema.Api.Controllers
 {
+    /// <summary>
+    /// Controlador para registro e consulta de ações de reciclagem.
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class RecyclingActionController : ControllerBase
     {
         private readonly IRepository<RecyclingAction> _repository;
 
+        /// <summary>
+        /// Inicializa uma nova instância do <see cref="RecyclingActionController"/>.
+        /// </summary>
+        /// <param name="repository">Repositório para RecyclingAction.</param>
         public RecyclingActionController(IRepository<RecyclingAction> repository)
         {
             _repository = repository;
         }
 
         // POST: api/RecyclingAction
+        /// <summary>
+        /// Registra uma nova ação de reciclagem.
+        /// </summary>
+        /// <param name="action">Dados da ação de reciclagem.</param>
+        /// <returns>Mensagem de sucesso.</returns>
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] RecyclingAction action)
         {
@@ -33,6 +45,10 @@ namespace Sustema.Api.Controllers
         }
 
         // GET: api/RecyclingAction
+        /// <summary>
+        /// Retorna todas as ações de reciclagem registradas.
+        /// </summary>
+        /// <returns>Lista de ações de reciclagem.</returns>
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {

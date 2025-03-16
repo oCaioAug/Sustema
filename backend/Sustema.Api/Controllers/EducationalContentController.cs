@@ -5,18 +5,29 @@ using Sustema.Api.Repositories;
 
 namespace Sustema.Api.Controllers
 {
+    /// <summary>
+    /// Controlador para gerenciamento de conteúdos educativos.
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class EducationalContentController : ControllerBase
     {
         private readonly IRepository<EducationalContent> _repository;
 
+        /// <summary>
+        /// Inicializa uma nova instância do <see cref="EducationalContentController"/>.
+        /// </summary>
+        /// <param name="repository">Repositório para EducationalContent.</param>
         public EducationalContentController(IRepository<EducationalContent> repository)
         {
             _repository = repository;
         }
 
         // GET: api/EducationalContent
+        /// <summary>
+        /// Retorna todos os conteúdos educativos.
+        /// </summary>
+        /// <returns>Lista de conteúdos educativos.</returns>
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -26,6 +37,11 @@ namespace Sustema.Api.Controllers
         }
 
         // GET: api/EducationalContent/{id}
+        /// <summary>
+        /// Retorna um conteúdo educativo pelo seu identificador.
+        /// </summary>
+        /// <param name="id">Identificador do conteúdo.</param>
+        /// <returns>Conteúdo educativo ou NotFound.</returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -39,6 +55,11 @@ namespace Sustema.Api.Controllers
         }
 
         // POST: api/EducationalContent
+        /// <summary>
+        /// Cria um novo conteúdo educativo.
+        /// </summary>
+        /// <param name="content">Dados do conteúdo educativo.</param>
+        /// <returns>Conteúdo criado.</returns>
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] EducationalContent content)
         {
@@ -54,6 +75,12 @@ namespace Sustema.Api.Controllers
         }
 
         // PUT: api/EducationalContent/{id}
+        /// <summary>
+        /// Atualiza um conteúdo educativo existente.
+        /// </summary>
+        /// <param name="id">Identificador do conteúdo a ser atualizado.</param>
+        /// <param name="updatedContent">Dados atualizados do conteúdo.</param>
+        /// <returns>Status NoContent se atualizado com sucesso.</returns>
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] EducationalContent updatedContent)
         {
@@ -81,6 +108,11 @@ namespace Sustema.Api.Controllers
         }
 
         // DELETE: api/EducationalContent/{id}
+        /// <summary>
+        /// Exclui um conteúdo educativo.
+        /// </summary>
+        /// <param name="id">Identificador do conteúdo a ser excluído.</param>
+        /// <returns>Status NoContent se excluído com sucesso.</returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

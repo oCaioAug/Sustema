@@ -11,6 +11,9 @@ using Sustema.Api.Models.DTOs;
 
 namespace Sustema.Api.Controllers
 {
+    /// <summary>
+    /// Controlador responsável por gerenciar as operações de usuários, como registro e autenticação.
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
@@ -18,6 +21,11 @@ namespace Sustema.Api.Controllers
         private readonly IUserRepository _userRepository;
         private readonly IConfiguration _configuration;
 
+        /// <summary>
+        /// Inicializa uma nova instância do <see cref="UserController"/>.
+        /// </summary>
+        /// <param name="userRepository">Repositório de usuários.</param>
+        /// <param name="configuration">Configurações da aplicação.</param>
         public UserController(IUserRepository userRepository, IConfiguration configuration)
         {
             _userRepository = userRepository;
@@ -25,11 +33,12 @@ namespace Sustema.Api.Controllers
         }
 
         /// <summary>
-        /// Cadastra um novo usuário
+        /// Registra um novo usuário no sistema.
         /// </summary>
-        /// <param name="user"></param>
-        /// <returns></returns>
-        // POST: api/User/register
+        /// <param name="request">Dados do usuário para registro.</param>
+        /// <returns>Mensagem de sucesso ou erro de validação.</returns>
+        /// <response code="200">Usuário registrado com sucesso.</response>
+        /// <response code="400">Dados inválidos.</response>
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
@@ -55,6 +64,14 @@ namespace Sustema.Api.Controllers
         }
 
         // POST: api/User/login
+        /// <summary>
+        /// Autentica um usuário e retorna um token JWT.
+        /// </summary>
+        /// <param name="loginRequest">Dados de autenticação (email e senha).</param>
+        /// <returns>Token JWT se as credenciais forem válidas.</returns>
+        /// <response code="200">Token JWT gerado com sucesso.</response>
+        /// <response code="400">Dados inválidos.</response>
+        /// <response code="401">Credenciais inválidas ou usuário não encontrado.</response>
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)
         {
