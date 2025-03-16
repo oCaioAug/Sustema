@@ -27,7 +27,8 @@ Sustema é um sistema de gestão de reciclagem e sustentabilidade que integra um
 --- 
 
 ## Estrutura do Projeto
-
+```bash
+raiz/
 ├───backend/
 │   └───Sustema.Api/
 │   │    ├───Controllers/
@@ -50,7 +51,7 @@ Sustema é um sistema de gestão de reciclagem e sustentabilidade que integra um
 │  ├───dockerfile (Opcional)
 │  └───tsconfig.json
 └───docker-compose.yaml (Opcional)
-
+```
 <!-- project-root/ 
 ├── backend/ # Projeto ASP.NET Core Web API 
 │ ├── EcoTech.API.csproj 
