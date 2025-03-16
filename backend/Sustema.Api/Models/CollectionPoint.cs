@@ -21,5 +21,8 @@ namespace Sustema.Api.Models
 
         [Required]
         public string Descricao { get; set; }
+
+        //Relacionamentos
+        public ICollection<RecyclingAction> RecyclingActions { get; set; }
     }
 }
