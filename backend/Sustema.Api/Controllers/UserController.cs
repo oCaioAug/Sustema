@@ -6,6 +6,8 @@ using Sustema.Api.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Sustema.Api.Helpers;
+using Sustema.Api.Models.DTOs;
 
 namespace Sustema.Api.Controllers
 {
@@ -22,11 +24,30 @@ namespace Sustema.Api.Controllers
             _configuration = configuration;
         }
 
+        /// <summary>
+        /// Cadastra um novo usuário
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         // POST: api/User/register
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] User user)
+        public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
-            user.DataCadastro = DateTime.UtcNow;
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            // Cria a entidade User e aplica o hash na senha
+            var user = new User
+            {
+                Nome = request.Nome,
+                Email = request.Email,
+                PasswordHash = PasswordHelper.HashPassword(request.Password),
+                Perfil = request.Perfil,
+                DataCadastro = DateTime.UtcNow
+            };
+
             await _userRepository.AddAsync(user);
             await _userRepository.SaveChangesAsync();
 
@@ -35,19 +56,24 @@ namespace Sustema.Api.Controllers
 
         // POST: api/User/login
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] User loginRequest)
+        public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             var user = await _userRepository.GetUserByEmailAsync(loginRequest.Email);
             if (user == null)
-            {
-                return Unauthorized(new { message = "Usuário não encontrado!" });
-            }
+                return Unauthorized("Usuário não encontrado.");
 
-            //Validação da senha e geração do token JWT
+            // Verifica a senha usando o método VerifyPassword do PasswordHelper
+            bool senhaValida = PasswordHelper.VerifyPassword(user.PasswordHash, loginRequest.Password);
+            if (!senhaValida)
+                return Unauthorized("Credenciais inválidas.");
+
+            // Geração do token JWT (código de geração permanece o mesmo)
             var jwtSettings = _configuration.GetSection("JwtSettings");
             var key = Encoding.ASCII.GetBytes(jwtSettings["Secret"]);
-            //var key = Encoding.ASCII.GetBytes(jwtSettings.GetSection("Secret").Value);
-            var tokenDescriptor = new SecurityTokenDescriptor
+            var tokenDescriptor = new Microsoft.IdentityModel.Tokens.SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new[]
                 {
@@ -55,7 +81,6 @@ namespace Sustema.Api.Controllers
                     new Claim(ClaimTypes.Email, user.Email),
                     new Claim(ClaimTypes.Role, user.Perfil.ToString())
                 }),
-                //Expires = DateTime.UtcNow.AddHours(2),
                 Expires = DateTime.UtcNow.AddMinutes(Convert.ToDouble(jwtSettings["ExpiryMinutes"])),
                 Issuer = jwtSettings["Issuer"],
                 Audience = jwtSettings["Audience"],
@@ -64,8 +89,7 @@ namespace Sustema.Api.Controllers
 
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(tokenDescriptor);
-
-            return Ok(new { token = tokenHandler.WriteToken(token)});
+            return Ok(new { token = tokenHandler.WriteToken(token) });
         }
 
         // GET: api/User/{id}
