@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Sustema.Api.Data;
+using Sustema.Api.Repositories;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +24,11 @@ builder.Services.AddSwaggerGen(c =>
         Version = "v1",
         Description = "API para gerenciamento do Sustema"
     });
+
+    // Localiza o arquivo XML gerado e adiciona ao Swagger
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    c.IncludeXmlComments(xmlPath);
 });
 
 var app = builder.Build();
@@ -30,12 +37,15 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     //app.MapOpenApi();
+    app.UseDeveloperExceptionPage();
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "Sustema API V1");
         c.RoutePrefix = string.Empty;
     });
+
+
 }
 
 app.UseHttpsRedirection();

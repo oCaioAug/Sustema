@@ -6,6 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>11d47f1f-3265-434f-9ad9-b45407fa43b8</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,6 +25,7 @@
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="9.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="7.3.1" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.6.1" />
   </ItemGroup>
 
 </Project>
