@@ -83,7 +83,7 @@ namespace Sustema.Api.Controllers
                 return Unauthorized("Usuário não encontrado.");
 
             // Verifica a senha usando o método VerifyPassword do PasswordHelper
-            bool senhaValida = PasswordHelper.VerifyPassword(user.PasswordHash, loginRequest.Password);
+            bool senhaValida = PasswordHelper.VerifyPassword(loginRequest.Password, user.PasswordHash);
             if (!senhaValida)
                 return Unauthorized("Credenciais inválidas.");
 
