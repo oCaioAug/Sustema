@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Sustema.Api.Data;
 using Sustema.Api.Models;
 using Sustema.Api.Repositories;
 
@@ -13,14 +14,16 @@ namespace Sustema.Api.Controllers
     public class RecyclingActionController : ControllerBase
     {
         private readonly IRepository<RecyclingAction> _repository;
+        private readonly ApplicationDbContext _context;
 
         /// <summary>
         /// Inicializa uma nova instância do <see cref="RecyclingActionController"/>.
         /// </summary>
         /// <param name="repository">Repositório para RecyclingAction.</param>
-        public RecyclingActionController(IRepository<RecyclingAction> repository)
+        public RecyclingActionController(IRepository<RecyclingAction> repository, ApplicationDbContext context)
         {
             _repository = repository;
+            _context = context;
         }
 
         // POST: api/RecyclingAction
@@ -38,7 +41,8 @@ namespace Sustema.Api.Controllers
             }
 
             action.Data = DateTime.UtcNow;
-            await _repository.AddAsync(action);
+            //await _repository.AddAsync(action);
+            await _context.AddAsync(action);
             await _repository.SaveChangesAsync();
 
             return Ok(new {message = "Ação de reciclagem registrada com sucesso!"});

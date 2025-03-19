@@ -8,6 +8,7 @@ using System.Security.Claims;
 using System.Text;
 using Sustema.Api.Helpers;
 using Sustema.Api.Models.DTOs;
+using Sustema.Api.Interfaces.Services;
 
 namespace Sustema.Api.Controllers
 {
@@ -20,16 +21,18 @@ namespace Sustema.Api.Controllers
     {
         private readonly IUserRepository _userRepository;
         private readonly IConfiguration _configuration;
+        private readonly IUserService _userService;
 
         /// <summary>
         /// Inicializa uma nova instância do <see cref="UserController"/>.
         /// </summary>
         /// <param name="userRepository">Repositório de usuários.</param>
         /// <param name="configuration">Configurações da aplicação.</param>
-        public UserController(IUserRepository userRepository, IConfiguration configuration)
+        public UserController(IUserRepository userRepository, IConfiguration configuration, IUserService userService)
         {
             _userRepository = userRepository;
             _configuration = configuration;
+            _userService = userService;
         }
 
         /// <summary>
@@ -119,7 +122,25 @@ namespace Sustema.Api.Controllers
                 return NotFound(new { message = "Usuário não encontrado!" });
             }
 
-            return Ok(user);
+            var userDto = new UserDto
+            {
+                Nome = user.Nome,
+                Email = user.Email,
+                Perfil = user.Perfil
+            };
+
+            return Ok(userDto);
+        }
+
+        /// <summary>
+        /// Método para buscar todos os Usuários
+        /// </summary>
+        /// <returns>Retorna todos os usuários cadastrados no Banco de Dados</returns>
+        public async Task<IActionResult> GetAllUsers()
+        {
+            var users = await _userRepository.GetAllAsync();
+
+            return Ok(users);
         }
     }
 }
