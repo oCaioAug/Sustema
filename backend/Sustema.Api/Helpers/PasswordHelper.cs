@@ -2,6 +2,9 @@
 
 namespace Sustema.Api.Helpers
 {
+    /// <summary>
+    /// Helper para Password
+    /// </summary>
     public static class PasswordHelper
     {
         private const int SaltSize = 16; // 128 bits
@@ -25,6 +28,13 @@ namespace Sustema.Api.Helpers
             }
         }
 
+        /// <summary>
+        /// Verifica se a senha inserida é igual à hash da senha armazenada no banco de dados
+        /// </summary>
+        /// <param name="password"></param>
+        /// <param name="hash"></param>
+        /// <returns></returns>
+        /// <exception cref="FormatException"></exception>
         public static bool VerifyPassword(string password, string hash)
         {
             var parts = hash.Split('.');
