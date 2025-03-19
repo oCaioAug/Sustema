@@ -28,6 +28,7 @@ namespace Sustema.Api.Controllers
         /// </summary>
         /// <param name="userRepository">Repositório de usuários.</param>
         /// <param name="configuration">Configurações da aplicação.</param>
+        /// <param name="userService">Serviço de usuários.</param>
         public UserController(IUserRepository userRepository, IConfiguration configuration, IUserService userService)
         {
             _userRepository = userRepository;
@@ -113,6 +114,11 @@ namespace Sustema.Api.Controllers
         }
 
         // GET: api/User/{id}
+        /// <summary>
+        /// Busca um usuário pelo ID.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUser(int id)
         {
