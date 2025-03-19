@@ -1,11 +1,18 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
 using Sustema.Api.Data;
 using Sustema.Api.Repositories;
 using System.Reflection;
+using Sustema.Api.Models.DTOs;
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using Sustema.Api.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Validação de DTOs
+builder.Services.AddValidatorsFromAssemblyContaining<RegisterRequestValidator>();
 // Add services to the container.
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -13,6 +20,28 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 // Registro dos serviços
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+
+// Configuração de autenticação JWT
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = "JwtBearer";
+    options.DefaultChallengeScheme = "JwtBearer";
+})
+.AddJwtBearer("JwtBearer", options =>
+{
+    var jwtSettings = builder.Configuration.GetSection("JwtSettings");
+    options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = jwtSettings["Issuer"],
+        ValidAudience = jwtSettings["Audience"],
+        IssuerSigningKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(jwtSettings["Secret"])),
+        ClockSkew = TimeSpan.Zero
+    };
+});
 
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
@@ -56,5 +85,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.Run(); 
