@@ -5,12 +5,12 @@ using Sustema.Api.Repositories;
 namespace Sustema.Api.Services
 {
     /// <summary>
-    /// Service para Usuário
+    /// Serviço responsável pelo gerenciamento de usuários.
     /// </summary>
     public class UserService : IUserService
     {
         /// <summary>
-        /// Repositorio para Usuarios
+        /// Construtor do serviço de usuário.
         /// </summary>
         public readonly IUserRepository _userRepository;
 
