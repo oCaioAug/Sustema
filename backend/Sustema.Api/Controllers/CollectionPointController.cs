@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Sustema.Api.Models;
+using Sustema.Api.Models.DTOs;
 using Sustema.Api.Repositories;
 
 namespace Sustema.Api.Controllers
@@ -72,6 +73,62 @@ namespace Sustema.Api.Controllers
             await _repository.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetById), new { id = point.CollectionPointId }, point);
+        }
+
+        /// <summary>
+        /// Atualiza os dados de um Ponto de Coleta
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="collectionPointDto"></param>
+        /// <returns></returns>
+        [HttpPut("update/{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> UpdateCollectionPoint(int id, [FromBody] UpdateCollectionPointDto collectionPointDto)
+        {
+            if (ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var collectionPoint = await _repository.GetByIdAsync(id);
+
+            if (collectionPoint == null)
+            {
+                return NotFound(new { message = "Ponto de coleta não encontrado.", collectionPointDto });
+            }
+
+            collectionPoint.Nome = collectionPointDto.Nome;
+            collectionPoint.Endereco = collectionPointDto.Endereco;
+            collectionPoint.Descricao = collectionPointDto.Descricao;
+            collectionPoint.Latitude = collectionPointDto.Latitude;
+            collectionPoint.Longitude = collectionPointDto.Longitude;
+
+            await _repository.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        /// <summary>
+        /// Deleta um Ponto de Coleta
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Retorna `NoContent` se o Ponto de Coleta foi apagado</returns>
+        [HttpDelete("delete/{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> DeleteCollectionPoint(int id)
+        {
+            var collectionPoint = await _repository.GetByIdAsync(id);
+            if (collectionPoint == null)
+            {
+                return NotFound(new { message = "Ponto de coleta não encontrado." });
+            }
+            _repository.Delete(collectionPoint);
+            await _repository.SaveChangesAsync();
+
+            return NoContent();
         }
     }
 }
