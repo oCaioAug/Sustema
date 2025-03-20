@@ -44,6 +44,8 @@ namespace Sustema.Api.Controllers
         /// <response code="200">Usuário registrado com sucesso.</response>
         /// <response code="400">Dados inválidos.</response>
         [HttpPost("register")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
             if (!ModelState.IsValid)
@@ -77,6 +79,9 @@ namespace Sustema.Api.Controllers
         /// <response code="400">Dados inválidos.</response>
         /// <response code="401">Credenciais inválidas ou usuário não encontrado.</response>
         [HttpPost("login")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)
         {
             if (!ModelState.IsValid)
@@ -120,6 +125,8 @@ namespace Sustema.Api.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetUser(int id)
         {
             var user = await _userRepository.GetByIdAsync(id);
@@ -142,11 +149,76 @@ namespace Sustema.Api.Controllers
         /// Método para buscar todos os Usuários
         /// </summary>
         /// <returns>Retorna todos os usuários cadastrados no Banco de Dados</returns>
+        [HttpGet("users/all")]
         public async Task<IActionResult> GetAllUsers()
         {
             var users = await _userRepository.GetAllAsync();
 
             return Ok(users);
+        }
+
+        /// <summary>
+        /// Retorna a view para atualizacao do usuario
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("update/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> UpdateUser(int id)
+        {
+            var user = await _userRepository.GetByIdAsync(id);
+
+            if (user == null)
+            {
+                return NotFound(new { message = "Usuário não encontrado!" });
+            }
+
+            var userDto = new UserDto
+            {
+                Id = user.UserId,
+                Email = user.Email,
+                Perfil = user.Perfil,
+                Nome = user.Nome
+            };
+
+            return Ok(userDto);
+        }
+
+        /// <summary>
+        /// Atualiza dados de um Usuário.
+        /// </summary>
+        /// <param name="id">Id do usuário a ser atualizado</param>
+        /// <param name="userDto">Novos dados do usuario</param>
+        /// <returns>Retorna `NoContent` se atualizado com sucesso.</returns>
+        /// <response code="204">Usuário atualizado com sucesso.</response>
+        /// <response code="400">Dados Invalidos.</response>
+        /// <response code="404">Usuario nao encontrado.</response>
+        [HttpPut("update/{id}")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> UpdateUser(int id, [FromBody] UserDto userDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var user = await _userRepository.GetByIdAsync(id);
+
+            if (user != null)
+            {
+                user.Email = userDto.Email;
+                user.Nome = userDto.Nome;
+
+                _userRepository.Update(user);
+                await _userRepository.SaveChangesAsync();
+
+                return NoContent();
+            }
+
+            return NotFound(new { message = "Usuário não encontrado!", userDto });
         }
     }
 }
