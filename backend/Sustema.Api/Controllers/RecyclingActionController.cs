@@ -64,5 +64,83 @@ namespace Sustema.Api.Controllers
 
             return Ok(actions);
         }
+
+        /// <summary>
+        /// Retorna uma ação de reciclagem pelo seu identificador.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var action = await _repository.GetByIdAsync(id);
+            if (action == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(action);
+        }
+
+        /// <summary>
+        /// Atualiza uma ação de reciclagem pelo seu identificador.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        [HttpPut("update/{id}")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> Update(int id, [FromBody] RecyclingAction action)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var actionToUpdate = await _repository.GetByIdAsync(id);
+
+            if (actionToUpdate == null)
+            {
+                return NotFound();
+            }
+
+            actionToUpdate.Data = action.Data;
+            actionToUpdate.CollectionPointId = action.CollectionPointId;
+            actionToUpdate.UserId = action.UserId;
+            actionToUpdate.Data = action.Data;
+            actionToUpdate.Quantidade = action.Quantidade;
+            actionToUpdate.TipoMaterial = action.TipoMaterial;
+            actionToUpdate.UnidadeMedida = action.UnidadeMedida;
+
+            _context.Update(actionToUpdate);
+            await _repository.SaveChangesAsync();
+
+            return Ok(new { message = "Ação de reciclagem atualizada com sucesso!" });
+        }
+
+        /// <summary>
+        /// Remove uma ação de reciclagem pelo seu identificador.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var action = await _repository.GetByIdAsync(id);
+            if (action == null)
+            {
+                return NotFound();
+            }
+            _context.Remove(action);
+            await _repository.SaveChangesAsync();
+
+            return Ok(new { message = "Ação de reciclagem removida com sucesso!" });
+        }
+
     }
 }
