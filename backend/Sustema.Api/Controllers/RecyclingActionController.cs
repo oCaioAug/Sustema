@@ -20,6 +20,7 @@ namespace Sustema.Api.Controllers
         /// Inicializa uma nova instância do <see cref="RecyclingActionController"/>.
         /// </summary>
         /// <param name="repository">Repositório para RecyclingAction.</param>
+        /// <param name="context">Contexto do banco de dados.</param>
         public RecyclingActionController(IRepository<RecyclingAction> repository, ApplicationDbContext context)
         {
             _repository = repository;
@@ -33,6 +34,8 @@ namespace Sustema.Api.Controllers
         /// <param name="action">Dados da ação de reciclagem.</param>
         /// <returns>Mensagem de sucesso.</returns>
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Create([FromBody] RecyclingAction action)
         {
             if (!ModelState.IsValid)
@@ -54,6 +57,7 @@ namespace Sustema.Api.Controllers
         /// </summary>
         /// <returns>Lista de ações de reciclagem.</returns>
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAll()
         {
             var actions = await _repository.GetAllAsync();
