@@ -92,5 +92,66 @@ namespace Sustema.Api.Controllers
 
             return Ok(new { badgesConquistadas, badgesNaoAdquiridas });
         }
+
+        /// <summary>
+        /// Registra um novo registro de gamificação.
+        /// </summary>
+        /// <param name="record"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> Create([FromBody] GamificationRecord record)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            record.DataRegistro = DateTime.UtcNow;
+            await _repository.AddAsync(record);
+            await _repository.SaveChangesAsync();
+
+            return Ok(new { message = "Registro de gamificação criado com sucesso!" });
+        }
+
+        /// <summary>
+        /// Retorna todos os registros de gamificação.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var record = await _repository.GetByIdAsync(id);
+            if (record == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(record);
+        }
+
+        /// <summary>
+        /// Apaga um registro de gamificação.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var record = await _repository.GetByIdAsync(id);
+            if (record == null)
+            {
+                return NotFound();
+            }
+            _repository.Delete(record);
+            await _repository.SaveChangesAsync();
+
+            return Ok(new { message = "Registro de gamificação excluído com sucesso!" });
+        }
     }
 }
