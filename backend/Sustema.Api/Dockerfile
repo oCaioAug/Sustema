@@ -1,30 +1,26 @@
-# See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
-
-# This stage is used when running from VS in fast mode (Default for Debug configuration)
-FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
-USER $APP_UID
-WORKDIR /app
-EXPOSE 8080
-EXPOSE 8081
-
-
-# This stage is used to build the service project
+# Etapa de build
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
-ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["Sustema.Api/Sustema.Api.csproj", "Sustema.Api/"]
-RUN dotnet restore "./Sustema.Api/Sustema.Api.csproj"
+
+# Copia e restaura dependências
+COPY ["Sustema.Api.csproj", "./"]
+RUN dotnet restore "Sustema.Api.csproj"
+
+# Copia todos os arquivos e constrói a aplicação
 COPY . .
-WORKDIR "/src/Sustema.Api"
-RUN dotnet build "./Sustema.Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet publish "Sustema.Api.csproj" -c Release -o /app/publish
 
-# This stage is used to publish the service project to be copied to the final stage
-FROM build AS publish
-ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./Sustema.Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
-
-# This stage is used in production or when running from VS in regular mode (Default when not using the Debug configuration)
-FROM base AS final
+# Etapa final
+FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS final
 WORKDIR /app
-COPY --from=publish /app/publish .
+
+# Copia os arquivos publicados da etapa anterior
+COPY --from=build /app/publish .
+
+# Definir o ambiente explicitamente
+ENV ASPNETCORE_ENVIRONMENT=Development
+# Expõe a porta padrão
+EXPOSE 80
+
+# Define o ponto de entrada
 ENTRYPOINT ["dotnet", "Sustema.Api.dll"]
