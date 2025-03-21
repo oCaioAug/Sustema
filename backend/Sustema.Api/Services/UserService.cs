@@ -18,7 +18,7 @@ namespace Sustema.Api.Services
         /// Construtor da classe
         /// </summary>
         /// <param name="userRepository"></param>
-        public UserService(UserRepository userRepository)
+        public UserService(IUserRepository userRepository)
         {
             _userRepository = userRepository;
         }

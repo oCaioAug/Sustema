@@ -8,6 +8,8 @@ using Sustema.Api.Models.DTOs;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Sustema.Api.Middlewares;
+using Sustema.Api.Interfaces.Services;
+using Sustema.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +22,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 // Registro dos serviços
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
+
 
 // Configuração de autenticação JWT
 builder.Services.AddAuthentication(options =>
