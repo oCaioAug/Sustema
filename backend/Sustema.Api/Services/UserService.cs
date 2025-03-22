@@ -35,6 +35,10 @@ namespace Sustema.Api.Services
             _userRepository = userRepository;
         }
 
+        /// <summary>
+        /// Busca todos os usuários
+        /// </summary>
+        /// <returns></returns>
         public async Task<IEnumerable<UserDto>> GetAllUsersAsync()
         {
             var users = await _userRepository.GetAllAsync();
@@ -53,11 +57,17 @@ namespace Sustema.Api.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<UserDto> GetUserByIdAsync(int id)
+        public async Task<UserDto?> GetUserByIdAsync(int id)
         {
             var user = await _userRepository.GetByIdAsync(id);
 
-            return user == null ? null : new UserDto { Id = user.UserId, Nome = user.Nome, Email = user.Email, Perfil = user.Perfil};
+            return user == null ? null : new UserDto 
+            { 
+                Id = user.UserId, 
+                Nome = user.Nome,
+                Email = user.Email, 
+                Perfil = user.Perfil
+            };
         }
 
         /// <summary>
@@ -102,5 +112,55 @@ namespace Sustema.Api.Services
                 return (RegisterUserResult.Error, null);
             }
         }
+
+        /// <summary>
+        /// Deleta um usuário pelo Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<bool> DeleteUserAsync(int id)
+        {
+            var user = await _userRepository.GetByIdAsync(id);
+
+            if (user == null)
+            {
+                return false;
+            }
+
+            await _userRepository.DeleteAsync(user);
+
+            return true;
+        }
+
+        public async Task<(bool Success, UserDto? User)> UpdateUserAsync(int id, UserUpdateDto request)
+        {
+            var user = await _userRepository.GetByIdAsync(id);
+
+            if (user == null)
+                return (false, null);
+
+            user.Nome = request.Nome;
+            user.Email = request.Email;
+
+            try
+            {
+                await _userRepository.UpdateAsync(user);
+
+                var updatedUser = new UserDto
+                {
+                    Id = user.UserId,
+                    Nome = user.Nome,
+                    Email = user.Email,
+                    Perfil = user.Perfil
+                };
+
+                return (true, updatedUser);
+            }
+            catch (Exception)
+            {
+                return (false, null);
+            }
+        }
+
     }
 }
