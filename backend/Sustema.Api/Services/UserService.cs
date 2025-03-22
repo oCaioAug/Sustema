@@ -23,6 +23,19 @@ namespace Sustema.Api.Services
             _userRepository = userRepository;
         }
 
+        public async Task<IEnumerable<UserDto>> GetAllUsersAsync()
+        {
+            var users = await _userRepository.GetAllAsync();
+
+            return users.Select(user => new UserDto
+            {
+                Id = user.UserId,
+                Nome = user.Nome,
+                Email = user.Email,
+                Perfil = user.Perfil
+            });
+        }
+
         /// <summary>
         /// Busca Usuário pelo Id
         /// </summary>
