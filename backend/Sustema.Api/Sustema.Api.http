@@ -4,3 +4,6 @@ GET {{Sustema.Api_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
+GET {{Sustema.Api_HostAddress}}/api/User/users/all
+Accept: application/json
+
