@@ -126,18 +126,12 @@ namespace Sustema.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetUser(int id)
         {
-            var user = await _userRepository.GetByIdAsync(id);
-            if (user == null)
+            var userDto = await _userService.GetUserByIdAsync(id);
+
+            if (userDto == null)
             {
                 return NotFound(new { message = "Usuário não encontrado!" });
             }
-
-            var userDto = new UserDto
-            {
-                Nome = user.Nome,
-                Email = user.Email,
-                Perfil = user.Perfil
-            };
 
             return Ok(new {data = userDto });
         }
@@ -187,7 +181,7 @@ namespace Sustema.Api.Controllers
         /// Atualiza dados de um Usuário.
         /// </summary>
         /// <param name="id">Id do usuário a ser atualizado</param>
-        /// <param name="userDto">Novos dados do usuario</param>
+        /// <param name="request">Novos dados do usuario</param>
         /// <returns>Retorna `NoContent` se atualizado com sucesso.</returns>
         /// <response code="204">Usuário atualizado com sucesso.</response>
         /// <response code="400">Dados Invalidos.</response>
@@ -196,31 +190,38 @@ namespace Sustema.Api.Controllers
         [ProducesResponseType(typeof(UserDto), StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> UpdateUser(int id, [FromBody] UserDto userDto)
+        public async Task<IActionResult> UpdateUser(int id, [FromBody] UserUpdateDto request)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var user = await _userRepository.GetByIdAsync(id);
+            var result = await _userService.UpdateUserAsync(id, request);
 
-            if (user != null)
+            if (!result.Success)
             {
-                user.Email = userDto.Email;
-                user.Nome = userDto.Nome;
-
-                _userRepository.Update(user);
-                await _userRepository.SaveChangesAsync();
-
-                return NoContent();
+                return NotFound(new { message = "Usuário não encontrado!" });
             }
 
-            return NotFound(new 
-            { 
-                message = "Usuário não encontrado!", 
-                data = userDto 
-            });
+            return Ok(new {message = "Usuário atualizado com sucesso!", data = result.User });
+        }
+
+        /// <summary>
+        /// Deleta um usuário pelo Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<IActionResult> DeleteUser(int id)
+        {
+            var result = await _userService.DeleteUserAsync(id);
+
+            if (result)
+            {
+                return Ok(new { message = "Usuário deletado com sucesso!" });
+            }
+
+            return NotFound(new { error = "Usuário não encontrado!"});
         }
     }
 }
