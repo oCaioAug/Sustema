@@ -30,11 +30,13 @@ namespace Sustema.Api.Controllers
         /// </summary>
         /// <returns>Lista de pontos de coleta.</returns>
         [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<CollectionPoint>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetAll()
         {
             var points = await _repository.GetAllAsync();
 
-            return Ok(points);
+            return Ok(new { data = points});
         }
 
         // GET: api/CollectionPoint/{id}
@@ -44,15 +46,17 @@ namespace Sustema.Api.Controllers
         /// <param name="id">Identificador do ponto de coleta.</param>
         /// <returns>Ponto de coleta ou NotFound se não existir.</returns>
         [HttpGet("{id}")]
+        [ProducesResponseType(typeof(CollectionPoint), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetById(int id)
         {
             var point = await _repository.GetByIdAsync(id);
             if (point == null)
             {
-                return NotFound();
+                return NotFound(new { message = "Ponto de coleta não encontrado!"});
             }
 
-            return Ok(point);
+            return Ok(new { data = point});
         }
 
         // POST: api/CollectionPoint
@@ -62,6 +66,8 @@ namespace Sustema.Api.Controllers
         /// <param name="point">Dados do ponto de coleta.</param>
         /// <returns>Ponto de coleta criado.</returns>
         [HttpPost]
+        [ProducesResponseType(typeof(CollectionPoint), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Create([FromBody] CollectionPoint point)
         {
             if (!ModelState.IsValid)
@@ -115,7 +121,7 @@ namespace Sustema.Api.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns>Retorna `NoContent` se o Ponto de Coleta foi apagado</returns>
-        [HttpDelete("delete/{id}")]
+        [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteCollectionPoint(int id)

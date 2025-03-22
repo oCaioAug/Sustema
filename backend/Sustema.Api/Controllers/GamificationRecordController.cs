@@ -34,11 +34,12 @@ namespace Sustema.Api.Controllers
         /// <param name="userId">Id do usuário.</param>
         /// <returns>Lista de registro de gamificação</returns>
         [HttpGet("user/{userId}")]
+        [ProducesResponseType(typeof(IEnumerable<GamificationRecord>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetByUser(int userId)
         {
             var record = (await _repository.GetAllAsync()).Where(record => record.UserId == userId);
 
-            return Ok(record);
+            return Ok(new { message = "Dados encontrados!", data = record});
         }
 
         //POST: api/GamificationRecord/update/{recordId}
@@ -49,13 +50,15 @@ namespace Sustema.Api.Controllers
         /// <param name="recordId">Identificador do registro de gamificação.</param>
         /// <param name="pontosAdicionados">Quantidade de pontos a serem adicionados.</param>
         /// <returns>Registro atualizado e mensagem de sucesso.</returns>
-        [HttpPost("update/{recordId}")]
+        [HttpPut("{recordId}")]
+        [ProducesResponseType(typeof(GamificationRecord), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> UpdateRecord(int recordId, [FromBody] int pontosAdicionados)
         { 
             var record = await _repository.GetByIdAsync(recordId);
             if (record == null)
             {
-                return NotFound();
+                return NotFound(new { message = "Registro de gamificação não encontrado", recordId});
             }
 
             //Atualiza a pontuação
@@ -68,7 +71,7 @@ namespace Sustema.Api.Controllers
             _repository.Update(record);
             await _repository.SaveChangesAsync();
 
-            return Ok(new { message = "Registro atualizado!", record});
+            return Ok(new { message = "Registro atualizado!", data = record});
         }
 
         // GET: api/GamificationRecord/availableBadges/{recordId}
@@ -79,18 +82,20 @@ namespace Sustema.Api.Controllers
         /// <param name="recordId">Identificador do registro de gamificaçãoIdentificador do registro de gamificação.</param>
         /// <returns>Objeto contendo as listas de badges conquistadas e não adquiridas.</returns>
         [HttpGet("availableBadges/{recordId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetAvailableBadges(int recordId)
         { 
             var record = await _repository.GetByIdAsync(recordId);
             if (record == null)
             {
-                return NotFound();
+                return NotFound(new { message = "Não foram encontradas badges disponíveis!"});
             }
 
             var badgesConquistadas = _gamificationService.ObterBadgesUsuario(record);
             var badgesNaoAdquiridas = _gamificationService.ObterBadgesNaoAdquiridas(record);
 
-            return Ok(new { badgesConquistadas, badgesNaoAdquiridas });
+            return Ok(new { badgesConquistadas = badgesConquistadas, badgesNaoAdquiridas = badgesNaoAdquiridas });
         }
 
         /// <summary>
@@ -99,8 +104,8 @@ namespace Sustema.Api.Controllers
         /// <param name="record"></param>
         /// <returns></returns>
         [HttpPost]
+        [ProducesResponseType(typeof(GamificationRecord), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Create([FromBody] GamificationRecord record)
         {
             if (!ModelState.IsValid)
@@ -108,10 +113,11 @@ namespace Sustema.Api.Controllers
                 return BadRequest(ModelState);
             }
             record.DataRegistro = DateTime.UtcNow;
+            
             await _repository.AddAsync(record);
             await _repository.SaveChangesAsync();
 
-            return Ok(new { message = "Registro de gamificação criado com sucesso!" });
+            return Ok(new { message = "Registro de gamificação criado com sucesso!", data = record });
         }
 
         /// <summary>
@@ -120,14 +126,14 @@ namespace Sustema.Api.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(GamificationRecord), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetById(int id)
         {
             var record = await _repository.GetByIdAsync(id);
             if (record == null)
             {
-                return NotFound();
+                return NotFound(new { message = "Registro de gamificação não encontrado!", id});
             }
 
             return Ok(record);
@@ -146,7 +152,7 @@ namespace Sustema.Api.Controllers
             var record = await _repository.GetByIdAsync(id);
             if (record == null)
             {
-                return NotFound();
+                return NotFound(new { message = "Registro de gamificação não encontradado"});
             }
             _repository.Delete(record);
             await _repository.SaveChangesAsync();
