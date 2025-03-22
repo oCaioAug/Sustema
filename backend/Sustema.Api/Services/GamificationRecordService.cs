@@ -3,22 +3,28 @@ using System.Text.Json;
 
 namespace Sustema.Api.Services
 {
+    /// <summary>
+    /// Service for managing gamification records and badges.
+    /// </summary>
     public class GamificationRecordService
     {
-        public static readonly List<BadgeInfo> BadgeMasterLista = new List<BadgeInfo>
-        {
-            new BadgeInfo { Nome = "Novato", PontosMinimos = 0 },
-            new BadgeInfo { Nome = "Eco-Guerreiro", PontosMinimos = 100 },
-            new BadgeInfo { Nome = "Guardião Verde", PontosMinimos = 500 },
-            new BadgeInfo { Nome = "Mestre da Sustentabilidade", PontosMinimos = 1000 }
-        };
+        /// <summary>
+        /// List of all available badges with their minimum points required.
+        /// </summary>
+        public static readonly List<BadgeInfo> BadgeMasterLista = new()
+            {
+                new BadgeInfo { Nome = "Novato", PontosMinimos = 0 },
+                new BadgeInfo { Nome = "Eco-Guerreiro", PontosMinimos = 100 },
+                new BadgeInfo { Nome = "Guardião Verde", PontosMinimos = 500 },
+                new BadgeInfo { Nome = "Mestre da Sustentabilidade", PontosMinimos = 1000 }
+            };
 
         /// <summary>
-        /// Atualiza as badges do usuário
+        /// Updates the user's badges based on their points.
         /// </summary>
-        /// <param name="record"></param>
+        /// <param name="record">The gamification record of the user.</param>
         public void AtualizarBadges(GamificationRecord record)
-        { 
+        {
             int pontosUsuario = record.Pontos;
 
             var badgesConquistadas = BadgeMasterLista
@@ -30,10 +36,10 @@ namespace Sustema.Api.Services
         }
 
         /// <summary>
-        /// Obtém a lista de badges do usuário
+        /// Gets the list of badges the user has earned.
         /// </summary>
-        /// <param name="record"></param>
-        /// <returns></returns>
+        /// <param name="record">The gamification record of the user.</param>
+        /// <returns>A list of badge names.</returns>
         public List<string> ObterBadgesUsuario(GamificationRecord record)
         {
             if (string.IsNullOrEmpty(record.Badges))
@@ -45,10 +51,10 @@ namespace Sustema.Api.Services
         }
 
         /// <summary>
-        /// Obtém a lista de badges não adquiridas pelo usuário
+        /// Gets the list of badges the user has not yet earned.
         /// </summary>
-        /// <param name="record"></param>
-        /// <returns></returns>
+        /// <param name="record">The gamification record of the user.</param>
+        /// <returns>A list of badge names.</returns>
         public List<string> ObterBadgesNaoAdquiridas(GamificationRecord record)
         {
             var badgesConquistadas = ObterBadgesUsuario(record);

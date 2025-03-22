@@ -35,7 +35,14 @@ namespace Sustema.Api.Models.DTOs
         [Required]
         public DateTime DataCadastro { get; set; }
 
+        /// <summary>
+        /// Ações de reciclagem do usuário
+        /// </summary>
         public ICollection<RecyclingActionDto> RecyclingActions { get; set; }
-        public ICollection<GamificationRecordDto> GamificationRecords { get; set; } 
+
+        /// <summary>
+        /// Registros de gamificação do usuário
+        /// </summary>
+        public ICollection<GamificationRecordDto> GamificationRecords { get; set; }
     }
 }
