@@ -13,5 +13,10 @@ namespace Sustema.Api.Interfaces.Services
         /// <param name="id">Id do usuario</param>
         /// <returns>UserDto usuario</returns>
         Task<UserDto> GetUserByIdAsync(int id);
+        /// <summary>
+        /// Busca todos os usuários
+        /// </summary>
+        /// <returns></returns>
+        Task<IEnumerable<UserDto>> GetAllUsersAsync();
     }
 }
