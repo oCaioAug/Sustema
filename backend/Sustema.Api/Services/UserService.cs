@@ -1,9 +1,21 @@
-﻿using Sustema.Api.Interfaces.Services;
+﻿using Sustema.Api.Helpers;
+using Sustema.Api.Interfaces.Services;
+using Sustema.Api.Models;
 using Sustema.Api.Models.DTOs;
 using Sustema.Api.Repositories;
 
 namespace Sustema.Api.Services
 {
+    /// <summary>
+    /// Resultado do registro de usuário.
+    /// </summary>
+    public enum RegisterUserResult
+    {
+        Success,
+        EmailAlreadyExists,
+        Error
+    }
+
     /// <summary>
     /// Serviço responsável pelo gerenciamento de usuários.
     /// </summary>
@@ -46,6 +58,49 @@ namespace Sustema.Api.Services
             var user = await _userRepository.GetByIdAsync(id);
 
             return user == null ? null : new UserDto { Id = user.UserId, Nome = user.Nome, Email = user.Email, Perfil = user.Perfil};
+        }
+
+        /// <summary>
+        /// Registra um novo usuário.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public async Task<(RegisterUserResult Result, UserDto? User)> RegisterUserAsync(RegisterRequest request)
+        {
+            var existingUser = await _userRepository.GetUserByEmailAsync(request.Email);
+            if (existingUser != null)
+            {
+                return (RegisterUserResult.EmailAlreadyExists, null);
+            }
+
+            var user = new User
+            {
+                Nome = request.Nome,
+                Email = request.Email,
+                PasswordHash = PasswordHelper.HashPassword(request.Password),
+                Perfil = request.Perfil,
+                DataCadastro = DateTime.UtcNow
+            };
+
+            try
+            {
+                await _userRepository.AddAsync(user);
+                await _userRepository.SaveChangesAsync();
+
+                var userDto = new UserDto
+                {
+                    Id = user.UserId,
+                    Nome = user.Nome,
+                    Email = user.Email,
+                    Perfil = user.Perfil
+                };
+
+                return (RegisterUserResult.Success, userDto);
+            }
+            catch (Exception)
+            {
+                return (RegisterUserResult.Error, null);
+            }
         }
     }
 }
