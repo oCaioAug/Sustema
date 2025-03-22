@@ -4,6 +4,23 @@ GET {{Sustema.Api_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
-GET {{Sustema.Api_HostAddress}}/api/User/users/all
+GET {{Sustema.Api_HostAddress}}/api/User/all
 Accept: application/json
 
+###
+@id=1
+GET {{Sustema.Api_HostAddress}}/api/user/{{id}}
+Accept: application/json
+###
+
+POST {{Sustema.Api_HostAddress}}/api/user/register
+Content-Type: application/json
+
+{
+  "nome": "Fulano de Tal",
+  "email": "teste@gmail.com",
+  "password": "Senha123",
+  "perfil": 0
+}
+
+###

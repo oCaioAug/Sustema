@@ -1,4 +1,5 @@
 ﻿using Sustema.Api.Models.DTOs;
+using Sustema.Api.Services;
 
 namespace Sustema.Api.Interfaces.Services
 {
@@ -18,5 +19,6 @@ namespace Sustema.Api.Interfaces.Services
         /// </summary>
         /// <returns></returns>
         Task<IEnumerable<UserDto>> GetAllUsersAsync();
+        Task<(RegisterUserResult Result, UserDto? User)> RegisterUserAsync(RegisterRequest request);
     }
 }
