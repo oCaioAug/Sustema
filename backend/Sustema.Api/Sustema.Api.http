@@ -14,7 +14,7 @@ Accept: application/json
 ###
 
 POST {{Sustema.Api_HostAddress}}/api/user/register
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwiZW1haWwiOiJ1c2VyQGV4YW1wbGUuY29tIiwicm9sZSI6IkNpZGFkYW8iLCJuYmYiOjE3NDI3NjM1MTMsImV4cCI6MTc0Mjc2NzExMywiaWF0IjoxNzQyNzYzNTEzLCJpc3MiOiJZb3VySXNzdWVyIiwiYXVkIjoiWW91ckF1ZGllbmNlIn0.TszAvIFhSPOueFdi-D-cFCqUD8GdgFTgBd4duAlPoME
+Authorization: Bearer JWT_TOKEN_HERE
 Content-Type: application/json
 
 {
