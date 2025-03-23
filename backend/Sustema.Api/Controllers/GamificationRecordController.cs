@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Sustema.Api.Models;
 using Sustema.Api.Repositories;
@@ -33,6 +34,7 @@ namespace Sustema.Api.Controllers
         /// </summary>
         /// <param name="userId">Id do usuário.</param>
         /// <returns>Lista de registro de gamificação</returns>
+        [Authorize]
         [HttpGet("user/{userId}")]
         [ProducesResponseType(typeof(IEnumerable<GamificationRecord>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetByUser(int userId)
@@ -50,6 +52,7 @@ namespace Sustema.Api.Controllers
         /// <param name="recordId">Identificador do registro de gamificação.</param>
         /// <param name="pontosAdicionados">Quantidade de pontos a serem adicionados.</param>
         /// <returns>Registro atualizado e mensagem de sucesso.</returns>
+        [Authorize]
         [HttpPut("{recordId}")]
         [ProducesResponseType(typeof(GamificationRecord), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -81,6 +84,7 @@ namespace Sustema.Api.Controllers
         /// </summary>
         /// <param name="recordId">Identificador do registro de gamificaçãoIdentificador do registro de gamificação.</param>
         /// <returns>Objeto contendo as listas de badges conquistadas e não adquiridas.</returns>
+        [Authorize]
         [HttpGet("availableBadges/{recordId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -103,6 +107,7 @@ namespace Sustema.Api.Controllers
         /// </summary>
         /// <param name="record"></param>
         /// <returns></returns>
+        [Authorize]
         [HttpPost]
         [ProducesResponseType(typeof(GamificationRecord), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -125,6 +130,7 @@ namespace Sustema.Api.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        [Authorize]
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(GamificationRecord), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -144,6 +150,7 @@ namespace Sustema.Api.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        [Authorize]
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]

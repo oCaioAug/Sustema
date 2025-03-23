@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Sustema.Api.Data;
 using Sustema.Api.Models;
@@ -33,6 +34,7 @@ namespace Sustema.Api.Controllers
         /// </summary>
         /// <param name="action">Dados da ação de reciclagem.</param>
         /// <returns>Mensagem de sucesso.</returns>
+        [Authorize]
         [HttpPost]
         [ProducesResponseType(typeof(RecyclingAction), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -56,6 +58,7 @@ namespace Sustema.Api.Controllers
         /// Retorna todas as ações de reciclagem registradas.
         /// </summary>
         /// <returns>Lista de ações de reciclagem.</returns>
+        [Authorize]
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<RecyclingAction>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -76,6 +79,7 @@ namespace Sustema.Api.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        [Authorize]
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(RecyclingAction), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -96,6 +100,7 @@ namespace Sustema.Api.Controllers
         /// <param name="id"></param>
         /// <param name="action"></param>
         /// <returns></returns>
+        [Authorize]
         [HttpPut("update/{id}")]
         [ProducesResponseType(typeof(RecyclingAction), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -133,6 +138,7 @@ namespace Sustema.Api.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        [Authorize]
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]

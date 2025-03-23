@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Sustema.Api.Models;
 using Sustema.Api.Repositories;
@@ -63,6 +64,7 @@ namespace Sustema.Api.Controllers
         /// </summary>
         /// <param name="content">Dados do conteúdo educativo.</param>
         /// <returns>Conteúdo criado.</returns>
+        [Authorize]
         [HttpPost]
         [ProducesResponseType(typeof(EducationalContent), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -86,6 +88,7 @@ namespace Sustema.Api.Controllers
         /// <param name="id">Identificador do conteúdo a ser atualizado.</param>
         /// <param name="updatedContent">Dados atualizados do conteúdo.</param>
         /// <returns>Status NoContent se atualizado com sucesso.</returns>
+        [Authorize]
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -121,6 +124,7 @@ namespace Sustema.Api.Controllers
         /// </summary>
         /// <param name="id">Identificador do conteúdo a ser excluído.</param>
         /// <returns>Status NoContent se excluído com sucesso.</returns>
+        [Authorize]
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
