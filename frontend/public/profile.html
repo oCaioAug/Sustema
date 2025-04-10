@@ -1,0 +1,86 @@
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../src/index.css">
+    <title>Perfil de Usuário</title>
+    <style>
+
+
+.posts {
+    margin-top: 20px;
+}
+
+.post {
+    background-color: #f7f7f7;
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 10px;
+}
+    </style>
+</head>
+<body>
+    <header>
+        <picture class="logoImg">
+          <a href="index.html">
+            <img src="./imgs/logo-sustema.png"></picture>
+          </a>
+        <nav>
+          <ul>
+            <li>
+              <button class="btn" role="button" onclick="window.location.href='index.html'">
+                Início
+              </button>
+            </li>
+            <li>
+              <button class="btn" role="button" onclick="window.location.href='tutorials.html'">
+                Consientização
+              </button>
+            </li>
+            <li>
+              <button class="btn" role="button" onclick="window.location.href='estatisticas.html'">
+                Estatísticas
+              </button>
+            </li>
+            <li>
+              <button class="btn green" role="button" onclick="window.location.href='profile.html'">
+                Login
+              </button>
+            </li>
+          </ul>
+        </nav>
+      </header>
+    <div class="wrapper">
+        <div class="container column bg">
+            <div class="profile-header">
+              <picture class="areaimg">
+                <img src="./imgs/user.png" alt="Foto de Perfil" class="profile-pic">
+              </picture>
+              <div class="profile-info">
+                  <h2>Nome do Usuário</h2>
+                  <p>Localização: Cidade, Estado</p>
+                  <p>Sobre: Uma breve descrição sobre o usuário.</p>
+              </div>
+              <div class="profile-badges">
+                <div class="badgeSlot">
+                  <div class="badge">
+                    <picture>
+                      <img src="./favicon.ico">
+                    </picture>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="posts">
+                <h3>Postagens</h3>
+                <div class="post">
+                    <p>Postagem</p>
+                </div>
+                <div class="post">
+                    <p>Postagem</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
