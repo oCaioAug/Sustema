@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conteúdo Educacional</title>
+    <link rel="stylesheet" href="../../src/style.css">
+    <script type="module" src="../../src/conteudoEducacional/createConteudoEducacional.js"></script>
+</head>
+<body>
+    <header class="header">
+        <a href="../index.html" class="logo-link">
+            <img src="../images/reciclagem-logo.png" alt="Logo" class="logo">
+        </a>
+        <nav class="nav">
+            <ul>
+                <li><a href="../PontosColeta/adicionarPontoDeColeta.html">Pontos de coleta</a></li>
+                <li><a href="../ConteudoEducacional/conteudoEducacionalIndex.html">Conteúdo educacional</a></li>
+                <li><a href="#">Empresas</a></li>
+                <li><a href="#">Sobre</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container-conteudo">
+        <button class="botao-adicionar" id="abrirModal">+ adicionar</button>
+        <div class="grade-conteudos"></div>
+    </div>
+
+    <div class="modal" id="modalConteudo">
+        <div class="modal-conteudo">
+            <span class="modal-close" id="fecharModal">&times;</span>
+            <h2>Adicionar Conteúdo Educacional</h2>
+            <form id="formConteudo">
+                <div class="form-group">
+                    <label for="titulo">Título:</label>
+                    <input type="text" id="titulo" name="titulo" required>
+                </div>
+                <div class="form-group">
+                    <label for="descricao">Descrição:</label>
+                    <textarea id="descricao" name="descricao" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="tipo">Tipo:</label>
+                    <select id="tipo" name="tipo" required>
+                        <option value="Video">Vídeo</option>
+                        <option value="Artigo">Artigo</option>
+                    </select>
+                </div>
+                <div class="form-group" id="grupoConteudo">
+                    <label for="conteudo" id="labelConteudo">URL do Vídeo:</label>
+                    <input type="url" id="conteudoUrl" name="conteudoUrl" pattern="https?://.*">
+                    <textarea id="conteudoTexto" name="conteudoTexto" class="hidden" rows="6"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="imagemUpload">Imagem (para o card):</label>
+                    <input type="file" id="imagemUpload" name="imagemUpload" accept="image/*">
+                </div>
+                <div class="button-group">
+                    <button type="submit" class="botao-salvar-edu">Adicionar Conteúdo</button>
+                    <button type="button" id="cancelarModal" class="botao-cancelar-edu">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="module">
+        import { buscarConteudosEducacionais } from '../../src/api/mockDataEdu.js';
+
+        async function carregarEExibirConteudos() {
+            try {
+                const conteudos = await buscarConteudosEducacionais();
+                renderizarConteudos(conteudos);
+            } catch (error) {
+                console.error('Erro ao carregar conteúdos:', error);
+                exibirMensagemErro();
+            }
+        }
+
+        function renderizarConteudos(conteudos) {
+            const grade = document.querySelector('.grade-conteudos');
+            grade.innerHTML = '';
+
+            if (conteudos.length === 0) {
+                grade.innerHTML = `
+                    <div class="sem-conteudo">
+                        <p>Nenhum conteúdo educacional encontrado</p>
+                    </div>
+                `;
+                return;
+            }
+
+            conteudos.forEach(conteudo => {
+                let imgHTML = '';
+                if (conteudo.imagem && conteudo.imagem.trim() !== '') {
+                    imgHTML = `<img src="${conteudo.imagem}" alt="Imagem do conteúdo ${conteudo.titulo}" class="imagem-card">`;
+                }
+                const card = document.createElement('div');
+                card.className = 'card-conteudo';
+                card.innerHTML = `
+                    <div class="categoria">${conteudo.tipo}</div>
+                    <h3 class="titulo-conteudo">${conteudo.titulo}</h3>
+                    ${imgHTML}
+                    <p class="descricao-conteudo">${conteudo.descricao}</p>
+                    <div class="metadados">
+                        <span class="data">${formatarData(conteudo.dataPublicacao)}</span>
+                        <span class="autor">${conteudo.autor}</span>
+                    </div>
+                    <button class="botao-ver-mais">Ver Conteúdo</button>
+                `;
+                card.querySelector('.botao-ver-mais').addEventListener('click', () => {
+                    abrirDetalhesConteudo(conteudo.id);
+                });
+                grade.appendChild(card);
+            });
+        }
+
+        function formatarData(dataString) {
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            return new Date(dataString).toLocaleDateString('pt-BR', options);
+        }
+
+        function abrirDetalhesConteudo(id) {
+            window.location.href = `detalhesConteudo.html?id=${id}`;
+        }
+
+        function exibirMensagemErro() {
+            const grade = document.querySelector('.grade-conteudos');
+            grade.innerHTML = `
+                <div class="erro-carregamento">
+                    <p>Erro ao carregar conteúdos. Tente recarregar a página.</p>
+                </div>
+            `;
+        }
+
+        document.addEventListener('DOMContentLoaded', carregarEExibirConteudos);
+
+        const abrirModal = document.getElementById('abrirModal');
+        const modal = document.getElementById('modalConteudo');
+        const fecharModal = document.getElementById('fecharModal');
+        const cancelarModal = document.getElementById('cancelarModal'); 
+        const tipoSelect = document.getElementById('tipo');
+        const labelConteudo = document.getElementById('labelConteudo');
+        const inputUrl = document.getElementById('conteudoUrl');
+        const textareaTexto = document.getElementById('conteudoTexto');
+
+        abrirModal.addEventListener('click', () => modal.classList.add('ativo'));
+        fecharModal.addEventListener('click', () => modal.classList.remove('ativo'));
+        cancelarModal.addEventListener('click', () => modal.classList.remove('ativo'));
+
+        tipoSelect.addEventListener('change', () => {
+            const tipo = tipoSelect.value;
+            if (tipo === 'Artigo') {
+                labelConteudo.textContent = "Conteúdo do Artigo:";
+                inputUrl.classList.add('hidden');
+                inputUrl.required = false;
+                textareaTexto.classList.remove('hidden');
+                textareaTexto.required = true;
+            } else if (tipo === 'Video') {
+                labelConteudo.textContent = "URL do Vídeo:";
+                textareaTexto.classList.add('hidden');
+                textareaTexto.required = false;
+                inputUrl.classList.remove('hidden');
+                inputUrl.required = true;
+            } else {
+                labelConteudo.textContent = "URL do Conteúdo:";
+                textareaTexto.classList.add('hidden');
+                textareaTexto.required = false;
+                inputUrl.classList.remove('hidden');
+                inputUrl.required = true;
+            }
+        });
+    </script>
+</body>
+</html>
