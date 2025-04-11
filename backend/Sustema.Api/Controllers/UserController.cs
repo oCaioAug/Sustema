@@ -122,7 +122,7 @@ namespace Sustema.Api.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [Authorize]
+        //[Authorize]
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(UserDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -142,7 +142,7 @@ namespace Sustema.Api.Controllers
         /// Método para buscar todos os Usuários
         /// </summary>
         /// <returns>Retorna todos os usuários cadastrados no Banco de Dados</returns>
-        [Authorize]
+        //[Authorize]
         [HttpGet("all")]
         [ProducesResponseType(typeof(UserDto), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAllUsers()
@@ -189,7 +189,7 @@ namespace Sustema.Api.Controllers
         /// <response code="204">Usuário atualizado com sucesso.</response>
         /// <response code="400">Dados Invalidos.</response>
         /// <response code="404">Usuario nao encontrado.</response>
-        [Authorize]
+        //[Authorize]
         [HttpPut("{id}")]
         [ProducesResponseType(typeof(UserDto), StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -216,7 +216,7 @@ namespace Sustema.Api.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [Authorize]
+        //[Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
