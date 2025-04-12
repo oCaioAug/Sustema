@@ -20,6 +20,8 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import Profile from './pages/Profile';
 import Home from './pages/Home';
+import Tutoriais from './pages/Tutoriais';
+import Estatisticas from './pages/Estatisticas';
 
 function App() {
   return <>
@@ -68,9 +70,10 @@ function App() {
         <Route path="/collection-points/delete/:id" element={<CollectionPointDelete />} />
         {/* Rotas Diversas */}
         <Route path="/" element={<Home />} />
-        <Route path="/estatisticas" element={<div>Estatísticas</div>} />
+        <Route path="/estatisticas" element={<Estatisticas />} />
         <Route path="/conscientizacao" element={<div>Conscientização</div>} />
-        <Route path="/login" element={<Profile />} />
+        <Route path="/tutoriais" element={<Tutoriais />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
 
       {/* <footer className="bg-light text-center text-lg-start mt-auto">

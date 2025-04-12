@@ -2,15 +2,24 @@ import { Link } from 'react-router-dom';
 
 const Header = () => {
   return (
-  <>
-    <header>
-      <picture className="logoImg">
+    <>
+      <header>
+        <picture className="logoImg">
           <Link to={'/'}>
-            <img src="./imgs/logo-sustema.png" alt="Sustema Logo"/>
+            <img src="./imgs/logo-sustema.png" alt="Sustema Logo" />
           </Link>
-      </picture>
+        </picture>
         <nav>
           <ul>
+            <li>
+              <Link to={'/users'} className="btn">Usuários</Link>
+            </li>
+            <li>
+              <Link to={'/collection-points'} className="btn">Pontos de Coleta</Link>
+            </li>
+            <li>
+              <Link to={'/educational-content'} className="btn">Conteúdo Educacional</Link>
+            </li>
             <li>
               {/* <button className="btn" onClick={() => window.location.href='index.html'}>
                 Início
@@ -21,7 +30,7 @@ const Header = () => {
               {/* <button className="btn" onClick={() => window.location.href='tutorials.html'}>
                 Conscientização
               </button> */}
-              <Link to={'/tutorials'} className="btn">Tutorials</Link>
+              <Link to={'/tutoriais'} className="btn">Tutorials</Link>
             </li>
             <li>
               {/* <button className="btn" onClick={() => window.location.href='estatisticas.html'}>
@@ -30,12 +39,12 @@ const Header = () => {
               <Link to={'/estatisticas'} className="btn">Estatísticas</Link>
             </li>
             <li>
-              <Link to={'/login'} className="btn green">Login</Link>
+              <Link to={'/profile'} className="btn green">Perfil</Link>
             </li>
           </ul>
         </nav>
-    </header>
-  </>);
+      </header>
+    </>);
 };
 
 export default Header;
