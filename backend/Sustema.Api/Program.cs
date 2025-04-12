@@ -10,6 +10,7 @@ using FluentValidation.AspNetCore;
 using Sustema.Api.Middlewares;
 using Sustema.Api.Interfaces.Services;
 using Sustema.Api.Services;
+using Sustema.Api.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +23,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 // Registro dos serviços
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IRepository<EducationalContent>, Repository<EducationalContent>>();
+builder.Services.AddScoped<IRepository<CollectionPoint>, Repository<CollectionPoint>>();
 builder.Services.AddScoped<IUserService, UserService>();
 
 

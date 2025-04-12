@@ -64,7 +64,7 @@ namespace Sustema.Api.Controllers
         /// </summary>
         /// <param name="content">Dados do conteúdo educativo.</param>
         /// <returns>Conteúdo criado.</returns>
-        [Authorize]
+        //[Authorize]
         [HttpPost]
         [ProducesResponseType(typeof(EducationalContent), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -88,7 +88,7 @@ namespace Sustema.Api.Controllers
         /// <param name="id">Identificador do conteúdo a ser atualizado.</param>
         /// <param name="updatedContent">Dados atualizados do conteúdo.</param>
         /// <returns>Status NoContent se atualizado com sucesso.</returns>
-        [Authorize]
+        //[Authorize]
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -124,7 +124,7 @@ namespace Sustema.Api.Controllers
         /// </summary>
         /// <param name="id">Identificador do conteúdo a ser excluído.</param>
         /// <returns>Status NoContent se excluído com sucesso.</returns>
-        [Authorize]
+        //[Authorize]
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -140,5 +140,18 @@ namespace Sustema.Api.Controllers
 
             return NoContent();
         }
+
+        /// <summary>
+        /// Retorna os possíveis tipos de Conteúdo.
+        /// </summary>
+        /// <returns>Lista de tipos de Conteúdo.</returns>
+        [HttpGet("tipos")]
+        [ProducesResponseType(typeof(IEnumerable<string>), StatusCodes.Status200OK)]
+        public IActionResult GetTipoConteudo()
+        {
+            var perfis = Enum.GetNames(typeof(ContentType));
+            return Ok(perfis);
+        }
+
     }
 }

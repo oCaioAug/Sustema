@@ -1,10 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Sustema.Api.Models
 {
     /// <summary>
     /// Represents the type of educational content.
     /// </summary>
+    [JsonConverter(typeof(JsonStringEnumConverter))] // Permite conversão de strings para enum
     public enum ContentType
     {
         /// <summary>
