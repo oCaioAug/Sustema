@@ -37,7 +37,7 @@ const UserList: React.FC = () => {
               <td>{user.nome}</td>
               <td>{user.email}</td>
               <td>
-                <Link to={`/users/edit/${user.id}`} className="btn btn-warning btn-sm me-2">Editar</Link>
+                <Link to={`/users/edit/${user.id}`} className="btn btn-warning btn-sm me-2">Alterar</Link>
                 <Link to={`/users/delete/${user.id}`} className="btn btn-danger btn-sm">Apagar</Link>
               </td>
             </tr>

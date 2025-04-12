@@ -229,5 +229,18 @@ namespace Sustema.Api.Controllers
 
             return NotFound(new { error = "Usuário não encontrado!"});
         }
+
+        /// <summary>
+        /// Retorna os possíveis tipos de perfil de usuário.
+        /// </summary>
+        /// <returns>Lista de tipos de perfil de usuário.</returns>
+        [HttpGet("perfil-usuarios")]
+        [ProducesResponseType(typeof(IEnumerable<string>), StatusCodes.Status200OK)]
+        public IActionResult GetPerfilUsuarios()
+        {
+            var perfis = Enum.GetNames(typeof(PerfilUsuario));
+            return Ok(perfis);
+        }
+
     }
 }

@@ -25,3 +25,26 @@ Content-Type: application/json
 }
 
 ###
+
+GET {{Sustema.Api_HostAddress}}/api/User/perfil-usuarios
+
+###
+
+GET {{Sustema.Api_HostAddress}}/api/EducationalContent/tipos
+
+###
+GET {{Sustema.Api_HostAddress}}/api/educationalcontent
+
+###
+
+GET {{Sustema.Api_HostAddress}}/api/educationalcontent/{{id}}
+
+###
+
+GET {{Sustema.Api_HostAddress}}/api/collectionpoint
+
+###
+
+GET {{Sustema.Api_HostAddress}}/api/collectionpoint/{{id}}
+
+###

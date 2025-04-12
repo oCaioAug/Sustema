@@ -1,29 +1,142 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../src/style.css">
-    <title>Document</title>
-</head>
-<body>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta
+      name="description"
+      content="Web site created using create-react-app"
+    />
+    <link rel="stylesheet" href="../src/index.css">
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
 
-    <header class="header">
-        <a href="/templates/index.html" class="logo-link">
-            <img src="./images/reciclagem-logo.png" alt="Logo" class="logo">
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <title>Sustema</title>
+  </head>
+  <body>
+    <header>
+      <picture class="logoImg">
+        <a href="index.html">
+          <img src="./imgs/logo-sustema.png"></picture>
         </a>
-        <nav class="nav">
-            <ul>
-                <li><a href="./PontosColeta/adicionarPontoDeColeta.html">Pontos de coleta</a></li>
-                <li><a href="./ConteudoEducacional/conteudoEducacionalIndex.html">Conteúdo educacional</a></li>
-                <li><a href="#">Empresas</a></li>
-                <li><a href="#">Sobre</a></li>
-            </ul>
-        </nav>
+      <nav>
+        <ul>
+          <li>
+            <button class="btn" role="button" onclick="window.location.href='index.html'">
+              Início
+            </button>
+          </li>
+          <li>
+            <button class="btn" role="button" onclick="window.location.href='tutorials.html'">
+              Conscientização
+            </button>
+          </li>
+          <li>
+            <button class="btn" role="button" onclick="window.location.href='estatisticas.html'">
+              Estatísticas
+            </button>
+          </li>
+          <li>
+            <button class="btn green" role="button" onclick="window.location.href='profile.html'">
+              Login
+            </button>
+          </li>
+        </ul>
+      </nav>
     </header>
 
-    <div>
-        <h1 class="titulo-index">Página index</h1>
+    <div class="container around">
+      <div class="tituloTexto">
+        <h2>Sobre Nós</h2>
+        <p class="texto">
+          Sustema é uma iniciativa destinada a incentivar e orientar o descarte
+        e a reciclagem adequada de equipamentos eletrônicos. Ao incentivar práticas de consumo consciente e o reaproveitamento de materiais, a iniciativa contribui significativamente para a redução do impacto ambiental e a promoção de uma economia mais sustentável e responsável.
+        </p>
+      </div>
+
+      <picture class="showImg">
+        <img src="./imgs/lamp.jpg"/>
+      </picture>
     </div>
-</body>
+
+    <div class="container around">
+      <div class="tituloTexto">
+        <h2>Motivação</h2>
+        <p class="texto">
+          Com o avanço contínuo da tecnologia e sua crescente utilização, 
+          observamos um aumento significativo na geração de resíduos eletrônicos, 
+          o que impõe desafios cada vez maiores à gestão ambiental e à sustentabilidade.
+        </p>
+      </div>
+
+      <picture class="showImg">
+        <img src="./imgs/pessoas.jpg"/>
+      </picture>
+    </div>
+
+    <div class="container around">
+      <div class="tituloTexto">
+        <h2>Estatísticas</h2>
+        <p class="texto">
+          Estatísticas revelam a importância de cuidarmos da nossa terra.
+          Confira os dados referentes à coleta de cada material.
+        </p>
+        <br>
+        <button class="btn" onclick="window.location.href='tutorials.html'">Estatísticas</button>
+      </div>
+
+      <picture class="showImg">
+        <img src="./imgs/graphic.jpg"/>
+      </picture>
+    </div>
+
+    <div class="container around">
+      <div class="tituloTexto">
+        <h2>Aprenda e Ensine</h2>
+        <p>
+          A cada dia descartamos diversos residuos.
+          Cada um de nós é responsavel pelo seu próprio material,
+          sabe como descartá-lo ou até mesmo reaproveitá-lo? Aprenda conosco!
+        </p>
+        <br>
+        <button class="btn" onclick="window.location.href='tutorials.html'">Conscientização</button>
+      </div>
+
+      <picture class="showImg">
+        <img src="./imgs/aula.jpg"/>
+      </picture>
+    </div>
+
+
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+  </body>
+
+  <footer>
+    <div class="footer-container">
+      <div class="footer-section about">
+        <h3>Sustema</h3>
+        <p>Nossa missão é oferecer soluções inovadoras e de qualidade.</p>
+      </div>
+      <div class="footer-section links">
+        <h3>Links Rápidos</h3>
+        <ul>
+          <li><a href="#">Início</a></li>
+        </ul>
+      </div>
+      <div class="footer-section contact">
+        <h3>Contato</h3>
+        <p><strong>Email:</strong> contato@exemplo.com</p>
+        <p><strong>Telefone:</strong> (11) 1234-5678</p>
+        <div class="social">
+
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Exemplo. Todos os direitos reservados.</p>
+    </div>
+  </footer>
 </html>
