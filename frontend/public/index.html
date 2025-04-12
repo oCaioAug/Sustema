@@ -1,22 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
-    <link rel="stylesheet" href="../src/index.css">
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+<html lang="pt-BR">
 
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <title>Sustema</title>
-  </head>
-  <body>
-    <header>
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" href="%PUBLIC_URL%/imgs/logo-sustema.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="description" content="Web site created using create-react-app" />
+  <link rel="stylesheet" href="../src/index.css">
+  <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+
+  <link rel="stylesheet" href="%PUBLIC_URL%/styles.css" />
+  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+  <title>Sustema</title>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <!-- <header>
       <picture class="logoImg">
         <a href="index.html">
           <img src="./imgs/logo-sustema.png"></picture>
@@ -45,76 +48,11 @@
           </li>
         </ul>
       </nav>
-    </header>
+    </header> -->
 
-    <div class="container around">
-      <div class="tituloTexto">
-        <h2>Sobre Nós</h2>
-        <p class="texto">
-          Sustema é uma iniciativa destinada a incentivar e orientar o descarte
-        e a reciclagem adequada de equipamentos eletrônicos. Ao incentivar práticas de consumo consciente e o reaproveitamento de materiais, a iniciativa contribui significativamente para a redução do impacto ambiental e a promoção de uma economia mais sustentável e responsável.
-        </p>
-      </div>
+</body>
 
-      <picture class="showImg">
-        <img src="./imgs/lamp.jpg"/>
-      </picture>
-    </div>
-
-    <div class="container around">
-      <div class="tituloTexto">
-        <h2>Motivação</h2>
-        <p class="texto">
-          Com o avanço contínuo da tecnologia e sua crescente utilização, 
-          observamos um aumento significativo na geração de resíduos eletrônicos, 
-          o que impõe desafios cada vez maiores à gestão ambiental e à sustentabilidade.
-        </p>
-      </div>
-
-      <picture class="showImg">
-        <img src="./imgs/pessoas.jpg"/>
-      </picture>
-    </div>
-
-    <div class="container around">
-      <div class="tituloTexto">
-        <h2>Estatísticas</h2>
-        <p class="texto">
-          Estatísticas revelam a importância de cuidarmos da nossa terra.
-          Confira os dados referentes à coleta de cada material.
-        </p>
-        <br>
-        <button class="btn" onclick="window.location.href='tutorials.html'">Estatísticas</button>
-      </div>
-
-      <picture class="showImg">
-        <img src="./imgs/graphic.jpg"/>
-      </picture>
-    </div>
-
-    <div class="container around">
-      <div class="tituloTexto">
-        <h2>Aprenda e Ensine</h2>
-        <p>
-          A cada dia descartamos diversos residuos.
-          Cada um de nós é responsavel pelo seu próprio material,
-          sabe como descartá-lo ou até mesmo reaproveitá-lo? Aprenda conosco!
-        </p>
-        <br>
-        <button class="btn" onclick="window.location.href='tutorials.html'">Conscientização</button>
-      </div>
-
-      <picture class="showImg">
-        <img src="./imgs/aula.jpg"/>
-      </picture>
-    </div>
-
-
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-  </body>
-
-  <footer>
+<!-- <footer>
     <div class="footer-container">
       <div class="footer-section about">
         <h3>Sustema</h3>
@@ -138,5 +76,6 @@
     <div class="footer-bottom">
       <p>&copy; 2025 Exemplo. Todos os direitos reservados.</p>
     </div>
-  </footer>
+  </footer> -->
+
 </html>
