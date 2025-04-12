@@ -5,6 +5,15 @@ import UserList from './pages/User/UserList';
 import UserCreate from './pages/User/UserCreate';
 import UserEdit from './pages/User/UserEdit';
 import UserDelete from './pages/User/UserDelete';
+import EducationalContentList from './pages/EducationalContent/EducationalContentList';
+import EducationalContentCreate from './pages/EducationalContent/EducationalContentCreate';
+import EducationalContentEdit from './pages/EducationalContent/EducationalContentEdit';
+import EducationalContentDelete from './pages/EducationalContent/EducationalContentDelete';
+import EducationalContentView from './pages/EducationalContent/EducationalContentView';
+import CollectionPointList from './pages/CollectionPoint/CollectionPointList';
+import CollectionPointCreate from './pages/CollectionPoint/CollectionPointCreate';
+import CollectionPointEdit from './pages/CollectionPoint/CollectionPointEdit';
+import CollectionPointDelete from './pages/CollectionPoint/CollectionPointDelete';
 
 function App() {
   return <>
@@ -31,12 +40,21 @@ function App() {
         </div>
       </nav>
 
-      <div className="container mt-5 flex-grow-1 bg-dark">
+      <div className="container mt-5 flex-grow-1 bg-light">
         <Routes>
           <Route path="/users" element={<UserList />} />
           <Route path="/users/create" element={<UserCreate />} />
           <Route path="/users/edit/:id" element={<UserEdit />} />
           <Route path="/users/delete/:id" element={<UserDelete />} />
+          <Route path="/educational-content" element={<EducationalContentList />} />
+          <Route path="/educational-content/create" element={<EducationalContentCreate />} />
+          <Route path="/educational-content/edit/:id" element={<EducationalContentEdit />} />
+          <Route path="/educational-content/delete/:id" element={<EducationalContentDelete />} />
+          <Route path="/educational-content/view/:id" element={<EducationalContentView />} />
+          <Route path="/collection-points" element={<CollectionPointList />} />
+          <Route path="/collection-points/create" element={<CollectionPointCreate />} />
+          <Route path="/collection-points/edit/:id" element={<CollectionPointEdit />} />
+          <Route path="/collection-points/delete/:id" element={<CollectionPointDelete />} />
         </Routes>
       </div>
 

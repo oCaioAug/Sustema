@@ -66,7 +66,7 @@ namespace Sustema.Api.Controllers
         /// </summary>
         /// <param name="point">Dados do ponto de coleta.</param>
         /// <returns>Ponto de coleta criado.</returns>
-        [Authorize]
+        //[Authorize]
         [HttpPost]
         [ProducesResponseType(typeof(CollectionPoint), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -89,7 +89,7 @@ namespace Sustema.Api.Controllers
         /// <param name="id"></param>
         /// <param name="collectionPointDto"></param>
         /// <returns></returns>
-        [Authorize]
+        //[Authorize]
         [HttpPut("update/{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -124,7 +124,7 @@ namespace Sustema.Api.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns>Retorna `NoContent` se o Ponto de Coleta foi apagado</returns>
-        [Authorize]
+        //[Authorize]
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

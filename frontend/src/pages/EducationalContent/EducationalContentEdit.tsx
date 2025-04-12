@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axiosInstance from '../../helper/axios-instance';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
-const EducationalContentCreate: React.FC = () => {
+const EducationalContentEdit: React.FC = () => {
+  const { id } = useParams<{ id: string }>();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [contentType, setContentType] = useState('');
@@ -12,11 +13,20 @@ const EducationalContentCreate: React.FC = () => {
 
   useEffect(() => {
     axiosInstance.get('/EducationalContent/tipos')
-      .then(response => { setContentTypeOptions(response.data);  })
+      .then(response => setContentTypeOptions(response.data))
       .catch(error => console.error('Error fetching content types:', error));
-  }, [0]);
 
-  console.log(contentTypeOptions);
+    axiosInstance.get(`/EducationalContent/${id}`)
+      .then(response => {
+        setTitle(response.data.data.titulo);
+        setDescription(response.data.data.descricao);
+        setContentType(response.data.data.tipo);
+        setPublicationDate(response.data.data.dataPublicacao);
+        console.log('resposta2 ---> ', response.data.data.descricao);
+        console.log('resposta ---> ', response.data.data);
+      })
+      .catch(error => console.error('Error fetching educational content:', error));
+  }, [id]);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -24,20 +34,18 @@ const EducationalContentCreate: React.FC = () => {
     const contentData = {
       Titulo: title,
       Descricao: description,
-      Tipo: parseInt(contentType), // Envia o valor correto do tipo como string
-      DataPublicacao: publicationDate,
+      Tipo: parseInt(contentType),
+      DataPublicacao: publicationDate || null,
     };
 
-    console.log('Dados do conteúdo educacional:', contentData);
-
-    axiosInstance.post('/EducationalContent', contentData)
+    axiosInstance.put(`/EducationalContent/${id}`, contentData)
       .then(() => navigate('/educational-content'))
-      .catch(error => console.error('Error creating educational content:', error));
+      .catch(error => console.error('Error updating educational content:', error));
   };
 
   return (
-    <div>
-      <h1>Criar Conteúdo Educacional</h1>
+    <>
+      <h1>Alterar Conteúdo Educacional</h1>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label className="form-label">Título</label>
@@ -72,20 +80,10 @@ const EducationalContentCreate: React.FC = () => {
             ))}
           </select>
         </div>
-        <div className="mb-3">
-          <label className="form-label">Data de Publicação</label>
-          <input
-            type="date"
-            className="form-control"
-            value={publicationDate}
-            onChange={(event) => setPublicationDate(event.target.value)}
-            required
-          />
-        </div>
-        <button type="submit" className="btn btn-primary">Criar</button>
+        <button type="submit" className="btn btn-primary">Salvar</button>
       </form>
-    </div>
+    </>
   );
 };
 
-export default EducationalContentCreate;
+export default EducationalContentEdit;
