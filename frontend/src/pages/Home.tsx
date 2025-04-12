@@ -1,7 +1,10 @@
 import { Link } from "react-router-dom";
-
+import useDocumentTitle from '../helper/useDocumentTitle';
 
 const Home = () => {
+
+  useDocumentTitle("Home - Sustema");
+
   return (<>
     <div className="container around">
       <div className="tituloTexto">
