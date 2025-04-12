@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciamento de Pontos de Coleta</title>
+    <link rel="stylesheet" href="../../src/style.css">
+</head>
+<body>
+    <header class="header">
+        <a href="../index.html" class="logo-link">
+            <img src="../images/reciclagem-logo.png" alt="Logo" class="logo">
+        </a>
+        <nav class="nav">
+            <ul>
+                <li><a href="../PontosColeta/adicionarPontoDeColeta.html">Pontos de coleta</a></li>
+                <li><a href="../ConteudoEducacional/conteudoEducacionalIndex.html">Conteúdo educacional</a></li>
+                <li><a href="#">Empresas</a></li>
+                <li><a href="#">Sobre</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container-gerenciamento">
+        <!-- <h1>Gerenciamento de Pontos de Coleta</h1> -->
+        
+        <!-- Formulário de edição (inicialmente oculto) -->
+        <div id="form-edicao" class="form-edicao" style="display: none;">
+            <h2>Editar Ponto</h2>
+            <form id="formEditarPonto">
+                <input type="hidden" id="editar-id">
+                
+                <label for="editar-nome">Nome:</label>
+                <input type="text" id="editar-nome" required>
+                
+                <label for="editar-endereco">Endereço:</label>
+                <input type="text" id="editar-endereco" required>
+                
+                <label for="editar-tipo">Tipo de Coleta:</label>
+                <select id="editar-tipo" required>
+                    <option value="Eletrônico">Eletrônico</option>
+                    <option value="Orgânico">Orgânico</option>
+                    <option value="Metal">Metal</option>
+                    <option value="Papel">Papel</option>
+                    <option value="Plástico">Plástico</option>
+                    <option value="Vidro">Vidro</option>
+                </select>
+                
+                <div class="botoes-form">
+                    <button type="submit" class="botao-salvar">Salvar</button>
+                    <button type="button" class="botao-cancelar" id="btnCancelar">Cancelar</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Lista de pontos -->
+        <div class="lista-pontos">
+            <div class="cabecalho-lista">
+                <span>Nome</span>
+                <span>Endereço</span>
+                <span>Tipo</span>
+                <span>Ações</span>
+            </div>
+            <div id="lista-pontos-container">
+                <!-- Pontos serão carregados aqui via JavaScript -->
+                <div class="carregando">Carregando pontos de coleta...</div>
+            </div>
+        </div>
+    </main>
+
+    
+    <script type="module" src="../../src/gerenciarPontosDeColeta.js"></script>
+</body>
+</html>

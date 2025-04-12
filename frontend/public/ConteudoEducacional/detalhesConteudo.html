@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detalhes do Conteúdo</title>
+  <link rel="stylesheet" href="../../src/style.css">
+</head>
+<body>
+
+  <header class="header">
+    <a href="../index.html" class="logo-link">
+      <img src="../images/reciclagem-logo.png" alt="Logo" class="logo">
+    </a>
+    <nav class="nav">
+        <ul>
+            <li><a href="./PontosColeta/adicionarPontoDeColeta.html">Pontos de coleta</a></li>
+            <li><a href="../ConteudoEducacional/conteudoEducacionalIndex.html">Conteúdo educacional</a></li>
+            <li><a href="#">Empresas</a></li>
+            <li><a href="#">Sobre</a></li>
+        </ul>
+    </nav>
+</header>
+
+  <div class="container-detalhes">
+    <a href="conteudoEducacionalIndex.html" class="botao-voltar">Voltar</a>
+    
+    <div class="cabecalho-conteudo">
+      <span class="categoria-detalhes">Artigo</span>
+      <h1 class="titulo-detalhes">Título do Conteúdo</h1>
+      <div class="metadados-detalhes">
+        <span class="data-detalhes">Publicado em: </span>
+        <span class="autor-detalhes">Autor: </span>
+      </div>
+    </div>
+
+    <div class="corpo-conteudo">
+      <div class="descricao-detalhes"></div>
+
+      <div class="conteudo-completo">
+        <div id="conteudo-texto" class="conteudo-texto"></div>
+        
+        <iframe id="conteudo-video" class="video-embed"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
+      </div>
+    </div>
+    
+    <div class="botoes-acoes">
+      <button class="botao-editar-conteudo">Editar</button>
+      <button class="botao-excluir-conteudo">Excluir</button>
+    </div>
+  </div>
+  
+  <!-- Modal para edição -->
+  <div class="modal" id="modalEditar">
+    <div class="modal-conteudo">
+      <span class="modal-close" id="fecharModalEditar">&times;</span>
+      <h2>Editar Conteúdo</h2>
+      <form id="formEditar">
+          <div class="form-group">
+              <label for="editarTitulo">Título:</label>
+              <input type="text" id="editarTitulo" name="editarTitulo" required>
+          </div>
+          <div class="form-group">
+              <label for="editarDescricao">Descrição:</label>
+              <textarea id="editarDescricao" name="editarDescricao" required></textarea>
+          </div>
+          <div class="form-group">
+              <label for="editarTipo">Tipo:</label>
+              <select id="editarTipo" name="editarTipo" required>
+                  <option value="Video">Vídeo</option>
+                  <option value="Artigo">Artigo</option>
+              </select>
+          </div>
+          <div class="form-group" id="grupoEditarConteudo">
+              <label for="editarConteudo" id="labelEditarConteudo">URL do Vídeo:</label>
+              <input type="url" id="editarConteudoUrl" name="editarConteudoUrl" pattern="https?://.*">
+              <textarea id="editarConteudoTexto" name="editarConteudoTexto" class="hidden" rows="6"></textarea>
+          </div>
+          <div class="form-group">
+              <label for="editarImagem">Imagem (para o card):</label>
+              <input type="file" id="editarImagem" name="editarImagem" accept="image/*">
+          </div>
+          <div class="button-group">
+              <button type="submit" class="botao-salvar-edu">Salvar Alterações</button>
+              <button type="button" id="cancelarEdicao" class="botao-cancelar-edu">Cancelar</button>
+          </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="../../src/conteudoEducacional/detalhes.js" type="module"></script>
+</body>
+</html>

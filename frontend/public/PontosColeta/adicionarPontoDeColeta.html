@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adicionar Ponto de coleta - Sustema</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <link rel="stylesheet" href="../../src/style.css">
+
+</head>
+<body>
+
+    <header class="header">
+        <a href="../index.html" class="logo-link">
+            <img src="../images/reciclagem-logo.png" alt="Logo" class="logo">
+        </a>
+        <nav class="nav">
+            <ul>
+                <li><a href="../PontosColeta/adicionarPontoDeColeta.html">Pontos de coleta</a></li>
+                <li><a href="../ConteudoEducacional/conteudoEducacionalIndex.html">Conteúdo educacional</a></li>
+                <li><a href="#">Empresas</a></li>
+                <li><a href="#">Sobre</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+
+    <!-- Container principal -->
+    <div class="container">
+        <!-- Formulário à esquerda -->
+        <div class="formulario">
+            <form id="formPesquisa">
+
+
+                <div class="formulario-cep">
+                    <div class="cep-label-container">
+                        <h3 class="titulo-cep">CEP:</h3>
+                        <label class="switch">
+                            <input type="checkbox" id="naoSeiCepSwitch" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <input type="text" id="cep" placeholder="Ex: 01001000" pattern="\d{8}" maxlength="8">                    
+                </div>
+                
+                <label for="estado">Estado:</label>
+                <input type="text" id="estado" placeholder="Ex: SP" required>
+
+                <label for="cidade">Cidade:</label>
+                <input type="text" id="cidade" placeholder="Ex: São Paulo">
+
+                <label for="bairro">Bairro:</label>
+                <input type="text" id="bairro" placeholder="Ex: Jardim Paulista">
+
+                <label for="rua">Rua:</label>
+                <input type="text" id="rua" placeholder="Ex: Avenida Paulista">
+
+                <label for="numero">Número:</label>
+                <input type="text" id="numero" placeholder="Ex: 1000">
+
+                <button type="button" id="btnPesquisar" class="botao-pesquisar">Pesquisar</button>
+                <h3 class="description-text">(Pressione CTRL + Botão direito para adicionar ponto novo)</h3>
+                
+                <a type="button" href="./gerenciarPontosDeColeta.html" class="botao-gerenciar-pontos">
+                    Gerenciar pontos de coleta
+                </a>
+            </form>
+        </div>
+
+        <!-- Mapa à direita -->
+        <div class="mapa" id="map">
+            <!-- Overlay (fundo escuro) -->
+            <div id="overlay"></div>
+
+            <!-- Modal para adicionar nome e tipo de coleta -->
+            <div id="modal">
+                <h2>Adicionar Ponto</h2>
+                <label for="nomeEmpresa">Nome da Empresa:</label>
+                <input type="text" id="nomeEmpresa" placeholder="Ex: Recicla SP" required>
+                <label for="descricao">Descrição:</label>
+                <input type="text" id="descricao" placeholder="Descreca o ponto" required>
+
+                <select id="tipoColeta">
+                    <option value="Eletrônico">Eletrônico</option>
+                    <option value="Orgânico">Orgânico</option>
+                    <option value="Metal">Metal</option>
+                    <option value="Químico">Químico</option>
+                    <option value="Papel">Papel</option>
+                    <option value="Plástico">Plástico</option>
+                    <option value="Vidro">Vidro</option>
+                </select>
+
+                <button type="button" id="btnAdicionar">Adicionar</button>
+                <button type="button" id="btnCancelar">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script type="module" src="../../src/main.js"></script>
+</body>
+</html>
