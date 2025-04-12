@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Sustema.Api.Data;
 using Sustema.Api.Models;
@@ -33,9 +34,10 @@ namespace Sustema.Api.Controllers
         /// </summary>
         /// <param name="action">Dados da ação de reciclagem.</param>
         /// <returns>Mensagem de sucesso.</returns>
+        [Authorize]
         [HttpPost]
+        [ProducesResponseType(typeof(RecyclingAction), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Create([FromBody] RecyclingAction action)
         {
             if (!ModelState.IsValid)
@@ -48,7 +50,7 @@ namespace Sustema.Api.Controllers
             await _context.AddAsync(action);
             await _repository.SaveChangesAsync();
 
-            return Ok(new {message = "Ação de reciclagem registrada com sucesso!"});
+            return Ok(new {message = "Ação de reciclagem registrada com sucesso!", data = action});
         }
 
         // GET: api/RecyclingAction
@@ -56,13 +58,20 @@ namespace Sustema.Api.Controllers
         /// Retorna todas as ações de reciclagem registradas.
         /// </summary>
         /// <returns>Lista de ações de reciclagem.</returns>
+        [Authorize]
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IEnumerable<RecyclingAction>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetAll()
         {
             var actions = await _repository.GetAllAsync();
 
-            return Ok(actions);
+            if (actions == null)
+            {
+                return NotFound(new { message = "Não encontrado!" });
+            }
+
+            return Ok(new { data = actions});
         }
 
         /// <summary>
@@ -70,17 +79,19 @@ namespace Sustema.Api.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        [Authorize]
         [HttpGet("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(RecyclingAction), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetById(int id)
         {
             var action = await _repository.GetByIdAsync(id);
             if (action == null)
             {
-                return NotFound();
+                return NotFound(new { message = "Não encontrado!"});
             }
 
-            return Ok(action);
+            return Ok(new { data = action});
         }
 
         /// <summary>
@@ -89,8 +100,9 @@ namespace Sustema.Api.Controllers
         /// <param name="id"></param>
         /// <param name="action"></param>
         /// <returns></returns>
+        [Authorize]
         [HttpPut("update/{id}")]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(RecyclingAction), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Update(int id, [FromBody] RecyclingAction action)
@@ -104,7 +116,7 @@ namespace Sustema.Api.Controllers
 
             if (actionToUpdate == null)
             {
-                return NotFound();
+                return NotFound(new { message = "Não encontrado!" });
             }
 
             actionToUpdate.Data = action.Data;
@@ -118,7 +130,7 @@ namespace Sustema.Api.Controllers
             _context.Update(actionToUpdate);
             await _repository.SaveChangesAsync();
 
-            return Ok(new { message = "Ação de reciclagem atualizada com sucesso!" });
+            return Ok(new { message = "Ação de reciclagem atualizada com sucesso!", data = actionToUpdate });
         }
 
         /// <summary>
@@ -126,6 +138,7 @@ namespace Sustema.Api.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        [Authorize]
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -134,7 +147,7 @@ namespace Sustema.Api.Controllers
             var action = await _repository.GetByIdAsync(id);
             if (action == null)
             {
-                return NotFound();
+                return NotFound(new { message = "Não encontrado!" });
             }
             _context.Remove(action);
             await _repository.SaveChangesAsync();

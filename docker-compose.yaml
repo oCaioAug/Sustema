@@ -5,9 +5,22 @@ services:
       context: ./backend/Sustema.Api
       dockerfile: Dockerfile
     ports:
-      - "5001:80"
+      - "5001:5001"
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: "http://+:5001"
+    depends_on:
+      - db
+
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      ACCEPT_EULA: Y
+      MSSQL_SA_PASSWORD: Sustema123!
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserverdata:/var/opt/mssql
 
   frontend:
     build:
@@ -15,3 +28,6 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3000:80"
+
+volumes:
+  sqlserverdata:

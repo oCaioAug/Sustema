@@ -9,6 +9,8 @@ using System.Text;
 using Sustema.Api.Helpers;
 using Sustema.Api.Models.DTOs;
 using Sustema.Api.Interfaces.Services;
+using Sustema.Api.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Sustema.Api.Controllers
 {
@@ -41,10 +43,10 @@ namespace Sustema.Api.Controllers
         /// </summary>
         /// <param name="request">Dados do usuário para registro.</param>
         /// <returns>Mensagem de sucesso ou erro de validação.</returns>
-        /// <response code="200">Usuário registrado com sucesso.</response>
+        /// <response code="201">Usuário registrado com sucesso.</response>
         /// <response code="400">Dados inválidos.</response>
         [HttpPost("register")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(UserDto), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
@@ -53,20 +55,16 @@ namespace Sustema.Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            // Cria a entidade User e aplica o hash na senha
-            var user = new User
+            var result = await _userService.RegisterUserAsync(request);
+
+
+            //return Ok(new {message = "Usuário cadastrado com sucesso" });
+            return result.Result switch
             {
-                Nome = request.Nome,
-                Email = request.Email,
-                PasswordHash = PasswordHelper.HashPassword(request.Password),
-                Perfil = request.Perfil,
-                DataCadastro = DateTime.UtcNow
+                RegisterUserResult.Success => CreatedAtAction(nameof(GetUser), new { id = result.User!.Id }, result.User),
+                RegisterUserResult.EmailAlreadyExists => Conflict(new { error = "Já existe um usuário com esse e-mail." }),
+                _ => StatusCode(500, new { error = "Erro interno ao criar o usuário." })
             };
-
-            await _userRepository.AddAsync(user);
-            await _userRepository.SaveChangesAsync();
-
-            return Ok(new {message = "Usuário cadastrado com sucesso" });
         }
 
         // POST: api/User/login
@@ -124,101 +122,112 @@ namespace Sustema.Api.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        //[Authorize]
         [HttpGet("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(UserDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetUser(int id)
         {
-            var user = await _userRepository.GetByIdAsync(id);
-            if (user == null)
+            var userDto = await _userService.GetUserByIdAsync(id);
+
+            if (userDto == null)
             {
                 return NotFound(new { message = "Usuário não encontrado!" });
             }
 
-            var userDto = new UserDto
-            {
-                Nome = user.Nome,
-                Email = user.Email,
-                Perfil = user.Perfil
-            };
-
-            return Ok(userDto);
+            return Ok(new {data = userDto });
         }
 
         /// <summary>
         /// Método para buscar todos os Usuários
         /// </summary>
         /// <returns>Retorna todos os usuários cadastrados no Banco de Dados</returns>
-        [HttpGet("users/all")]
+        //[Authorize]
+        [HttpGet("all")]
+        [ProducesResponseType(typeof(UserDto), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAllUsers()
         {
-            var users = await _userRepository.GetAllAsync();
+            var users = await _userService.GetAllUsersAsync();
 
             return Ok(users);
         }
 
-        /// <summary>
-        /// Retorna a view para atualizacao do usuario
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        [HttpGet("update/{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> UpdateUser(int id)
-        {
-            var user = await _userRepository.GetByIdAsync(id);
+        ///// <summary>
+        ///// Retorna a view para atualizacao do usuario
+        ///// </summary>
+        ///// <param name="id"></param>
+        ///// <returns></returns>
+        //[HttpGet("{id}")]
+        //[ProducesResponseType(StatusCodes.Status200OK)]
+        //[ProducesResponseType(StatusCodes.Status404NotFound)]
+        //public async Task<IActionResult> UpdateUser(int id)
+        //{
+        //    var user = await _userRepository.GetByIdAsync(id);
 
-            if (user == null)
-            {
-                return NotFound(new { message = "Usuário não encontrado!" });
-            }
+        //    if (user == null)
+        //    {
+        //        return NotFound(new { message = "Usuário não encontrado!" });
+        //    }
 
-            var userDto = new UserDto
-            {
-                Id = user.UserId,
-                Email = user.Email,
-                Perfil = user.Perfil,
-                Nome = user.Nome
-            };
+        //    var userDto = new UserDto
+        //    {
+        //        Id = user.UserId,
+        //        Email = user.Email,
+        //        Perfil = user.Perfil,
+        //        Nome = user.Nome
+        //    };
 
-            return Ok(userDto);
-        }
+        //    return Ok(userDto);
+        //}
 
         /// <summary>
         /// Atualiza dados de um Usuário.
         /// </summary>
         /// <param name="id">Id do usuário a ser atualizado</param>
-        /// <param name="userDto">Novos dados do usuario</param>
+        /// <param name="request">Novos dados do usuario</param>
         /// <returns>Retorna `NoContent` se atualizado com sucesso.</returns>
         /// <response code="204">Usuário atualizado com sucesso.</response>
         /// <response code="400">Dados Invalidos.</response>
         /// <response code="404">Usuario nao encontrado.</response>
-        [HttpPut("update/{id}")]
-        [ProducesResponseType(StatusCodes.Status201Created)]
+        //[Authorize]
+        [HttpPut("{id}")]
+        [ProducesResponseType(typeof(UserDto), StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> UpdateUser(int id, [FromBody] UserDto userDto)
+        public async Task<IActionResult> UpdateUser(int id, [FromBody] UserUpdateDto request)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var user = await _userRepository.GetByIdAsync(id);
+            var result = await _userService.UpdateUserAsync(id, request);
 
-            if (user != null)
+            if (!result.Success)
             {
-                user.Email = userDto.Email;
-                user.Nome = userDto.Nome;
-
-                _userRepository.Update(user);
-                await _userRepository.SaveChangesAsync();
-
-                return NoContent();
+                return NotFound(new { message = "Usuário não encontrado!" });
             }
 
-            return NotFound(new { message = "Usuário não encontrado!", userDto });
+            return Ok(new {message = "Usuário atualizado com sucesso!", data = result.User });
+        }
+
+        /// <summary>
+        /// Deleta um usuário pelo Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        //[Authorize]
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteUser(int id)
+        {
+            var result = await _userService.DeleteUserAsync(id);
+
+            if (result)
+            {
+                return Ok(new { message = "Usuário deletado com sucesso!" });
+            }
+
+            return NotFound(new { error = "Usuário não encontrado!"});
         }
     }
 }
