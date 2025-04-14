@@ -1,0 +1,13 @@
+/* Estilo para o contêiner do mapa */
+.map-container {
+  width: 100%;
+  height: 100%; /* Ajuste a altura conforme necessário */
+  position: relative;
+  overflow: hidden;
+}
+
+/* Garante que o mapa ocupe todo o espaço do contêiner */
+.map-container > * {
+  width: 100%;
+  height: 100%;
+}

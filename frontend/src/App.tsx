@@ -11,10 +11,12 @@ import EducationalContentCreate from './pages/EducationalContent/EducationalCont
 import EducationalContentEdit from './pages/EducationalContent/EducationalContentEdit';
 import EducationalContentDelete from './pages/EducationalContent/EducationalContentDelete';
 import EducationalContentView from './pages/EducationalContent/EducationalContentView';
+import EducationalContentDetails from './pages/EducationalContent/EducationalContentDetails';
 import CollectionPointList from './pages/CollectionPoint/CollectionPointList';
 import CollectionPointCreate from './pages/CollectionPoint/CollectionPointCreate';
 import CollectionPointEdit from './pages/CollectionPoint/CollectionPointEdit';
 import CollectionPointDelete from './pages/CollectionPoint/CollectionPointDelete';
+import CollectionPointMap from './pages/CollectionPoint/CollectionPointMap';
 
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -63,11 +65,13 @@ function App() {
         <Route path="/educational-content/edit/:id" element={<EducationalContentEdit />} />
         <Route path="/educational-content/delete/:id" element={<EducationalContentDelete />} />
         <Route path="/educational-content/view/:id" element={<EducationalContentView />} />
+        <Route path="/educational-content/view/:id" element={<EducationalContentDetails />} />
         {/* Rotas Pontos de Coleta */}
         <Route path="/collection-points" element={<CollectionPointList />} />
         <Route path="/collection-points/create" element={<CollectionPointCreate />} />
         <Route path="/collection-points/edit/:id" element={<CollectionPointEdit />} />
         <Route path="/collection-points/delete/:id" element={<CollectionPointDelete />} />
+        <Route path="/collection-points2" element={<CollectionPointMap />} />
         {/* Rotas Diversas */}
         <Route path="/" element={<Home />} />
         <Route path="/estatisticas" element={<Estatisticas />} />

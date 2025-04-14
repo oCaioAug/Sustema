@@ -1,4 +1,6 @@
 // Configura os ícones e cores para os marcadores
+import L from 'leaflet';
+
 const coresReciclagem = {
     "Eletrônico": "blue",
     "Orgânico": "green",

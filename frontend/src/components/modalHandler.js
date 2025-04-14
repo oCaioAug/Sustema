@@ -1,10 +1,9 @@
 import { criarIcone } from "../map/mapIcons.js";
-import { municipioBounds, map } from "../map/mapConfig.js";
 import { carregarPontosDoLocalStorage, salvarPontosNoLocalStorage } from "../api/mockData.js";
 
 let coordenadasClicadas = null;
 
-export function initModalEvents() {
+export function initModalEvents(map) {
     map.on('click', function(e) {
         if (e.originalEvent.ctrlKey) {
             const cepSwitch = document.getElementById('naoSeiCepSwitch');
@@ -42,11 +41,6 @@ export function initModalEvents() {
             return;
         }
 
-        // if (cidade.toLowerCase() !== 'resende') {
-        //     alert("Só são permitidos endereços no município de Resende-RJ");
-        //     return;
-        // }
-
         let endereco = cepSwitch.checked 
             ? `${cep}, ${rua}, ${numero}, ${bairro}, ${cidade}, ${estado}, Brasil`
             : `${rua}, ${numero}, ${bairro}, ${cidade}, ${estado}, Brasil`;
@@ -61,11 +55,9 @@ export function initModalEvents() {
         };
 
         const pontos = carregarPontosDoLocalStorage();
-        console.log(pontos)
         pontos.push(novoPonto);
-        console.log(novoPonto)
         salvarPontosNoLocalStorage(pontos);
-        adicionarMarcador(novoPonto);
+        adicionarMarcador(map, novoPonto);
         fecharModal();
         alert("Ponto de reciclagem adicionado com sucesso!");
     });
@@ -82,7 +74,7 @@ function fecharModal() {
     coordenadasClicadas = null;
 }
 
-export function adicionarMarcador(local) {
+export function adicionarMarcador(map, local) {
     const icone = criarIcone(local.tipo);
     L.marker([local.lat, local.lng], { icon: icone })
         .addTo(map)
@@ -100,7 +92,7 @@ export function adicionarMarcador(local) {
         .on('mouseover', function() { this.openPopup(); });
 }
 
-export function carregarMarcadores() {
+export function carregarMarcadores(map) {
     const pontos = carregarPontosDoLocalStorage();
-    pontos.forEach(adicionarMarcador);
+    pontos.forEach(ponto => adicionarMarcador(map, ponto));
 }

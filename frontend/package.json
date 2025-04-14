@@ -11,15 +11,16 @@
     "@types/node": "^16.18.126",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
+    "axios": "^1.4.0",
+    "bootstrap": "^5.3.0-alpha3",
+    "leaflet": "^1.9.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-scripts": "^3.0.1",
+    "react-router-dom": "^6.14.1",
+    "react-scripts": "^5.0.1",
     "source-map-loader": "^5.0.0",
     "typescript": "^4.9.5",
-    "web-vitals": "^2.1.4",
-    "react-router-dom": "^6.14.1",
-    "axios": "^1.4.0",
-    "bootstrap": "^5.3.0-alpha3"
+    "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -44,5 +45,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/leaflet": "^1.9.17"
   }
 }
