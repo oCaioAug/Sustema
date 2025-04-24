@@ -1,4 +1,4 @@
-mande completo, 
+mande completo,
 
 
 
@@ -16,20 +16,20 @@ body {
     background-repeat: no-repeat; /* Evita repetição */
     margin: 0;
     padding: 0;
-  
+
     font-size: 1.2rem;
     font-style: normal;
     line-height: 1.6;
     letter-spacing: -0.01em;
     word-spacing: -0.01em;
-  
+
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
       'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
       sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-  
+
 
 .container {
     margin-top: 90px;
@@ -39,13 +39,13 @@ body {
     display: flex;
     gap: 20px;
     height: 853px;
-    
+
 }
 
 .formulario {
     display: flex;
     flex-direction: column;
-    
+
     flex: 1;
     max-width: 400px;
     padding: 20px;
@@ -55,7 +55,7 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     align-items: center;
     height: 80vh;
-    
+
 }
 
 .formulario label {
@@ -312,7 +312,7 @@ input:checked + .slider:before {
     top: 0;
     left: 0;
     z-index: 10000000000000000000; /* Garante que o header fique sobre tudo */
-}   
+}
 
 .titulo {
     font-size: 22px;
@@ -350,13 +350,13 @@ input:checked + .slider:before {
                 text-decoration: none;
                 font-weight: bold;
                 transition: opacity 0.3s;
-        
+
                 &:hover {
                     opacity: 0.7;
                     translate: 50px;
                 }
             }
-        }  
+        }
     }
 }
 
@@ -384,12 +384,12 @@ input:checked + .slider:before {
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    width: auto; 
+    width: auto;
     text-decoration: none;
     font-size: 13px;
-    display: block; 
-    margin: 0 auto; 
-    text-align: center; 
+    display: block;
+    margin: 0 auto;
+    text-align: center;
     transition: opacity 0.3s ease;
 }
 .botao-gerenciar-pontos:hover{
@@ -579,23 +579,23 @@ input:checked + .slider:before {
         grid-template-columns: 1fr 1fr;
         grid-template-rows: auto auto;
     }
-    
+
     .cabecalho-lista span:nth-child(3),
     .cabecalho-lista span:nth-child(4),
     .ponto-item span:nth-child(3) {
         display: none;
     }
-    
+
     .acoes-item {
         grid-column: 2;
         grid-row: 1 / span 2;
         justify-content: flex-end;
     }
-    
+
     .form-edicao {
         padding: 15px;
     }
-    
+
     .botoes-form {
         justify-content: center;
     }
@@ -626,7 +626,7 @@ input:checked + .slider:before {
         grid-template-columns: 1fr;
         gap: 10px;
     }
-    
+
     .acoes-item {
         justify-content: center;
     }
@@ -729,7 +729,7 @@ hover {
 .formulario-edu {
     display: center;
     flex-direction: column;
-    
+
     flex: 1;
     max-width: 400px;
     padding: 20px;
@@ -866,7 +866,7 @@ body {
     .grade-conteudos {
         grid-template-columns: 1fr;
     }
-    
+
     .titulo-principal {
         font-size: 2rem;
     }
@@ -1041,12 +1041,12 @@ body {
 .erro-conteudo {
     text-align: center;
     padding: 50px 20px;
-    
+
     h2 {
         color: #e74c3c;
         margin-bottom: 15px;
     }
-    
+
     p {
         color: #666;
         margin-bottom: 25px;
@@ -1058,12 +1058,12 @@ body {
     .titulo-detalhes {
         font-size: 1.8em;
     }
-    
+
     .metadados-detalhes {
         flex-direction: column;
         gap: 5px;
     }
-    
+
     .corpo-conteudo {
         padding: 20px;
     }
@@ -1073,7 +1073,7 @@ body {
     .container-detalhes {
         margin-top: 60px;
     }
-    
+
     .conteudo-completo iframe {
         height: 250px;
     }
@@ -1127,7 +1127,7 @@ body {
     display: block;
     margin: 0 auto;
   }
-  
+
 
   iframe.video-embed {
     width: 100%;
@@ -1165,7 +1165,7 @@ body {
     cursor: pointer;
     margin-right: 10px;
     transition: background-color 0.3s ease, transform 0.2s ease;
-    
+
     &:hover {
         background-color: #01579b;
         transform: scale(1.03);
@@ -1192,16 +1192,16 @@ iframe#conteudo-video {
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
-  
-    
+
+
     &:hover {
     background-color: #45a049;
     transform: scale(1.03);
     }
   }
-  
-  
-  
+
+
+
   .botao-cancelar-edu {
     background-color: #f5f5f5;
     color: #333;
@@ -1210,7 +1210,7 @@ iframe#conteudo-video {
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
-  
+
     &:hover {
     background-color: #e0e0e0;
     transform: scale(1.03);
@@ -1235,13 +1235,13 @@ body {
     align-items: center;
     padding: 2rem;
 
-    
+
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    
+
 }
 
 /* Container Principal */
@@ -1263,18 +1263,18 @@ h1 {
     margin-bottom: 1.5rem;
     position: relative;
     width: 100vh;
- 
-    &:after {
+     &:after {
         content: '';
         display: block;
         width: 60%;
         height: 3px;
-        margin: 10px auto 0;
+        /* margin: 10px, auto; */
+        margin-left: -25;
         background: linear-gradient(to right, transparent, #a8e6cf, transparent);
         border-radius: 2px;
         width: 100vh;
-    
-    }
+
+    } 
 }
 /* Formulários */
 #login, #cadastro {
