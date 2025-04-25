@@ -25,6 +25,7 @@ import Home from './pages/Home';
 import Tutoriais from './pages/Tutoriais';
 import Estatisticas from './pages/Estatisticas';
 import Login from './pages/Login';
+import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
   return <>
@@ -55,32 +56,44 @@ function App() {
 
       {/* <div className="container mt-5 flex-grow-1 bg-light"> */}
       <Routes>
-        {/* Rotas Usuários */}
-        <Route path="/users" element={<UserList />} />
-        <Route path="/users/create" element={<UserCreate />} />
-        <Route path="/users/edit/:id" element={<UserEdit />} />
-        <Route path="/users/delete/:id" element={<UserDelete />} />
-        {/* Rotas Conteúdo Educacional */}
-        <Route path="/educational-content" element={<EducationalContentList />} />
-        <Route path="/educational-content/create" element={<EducationalContentCreate />} />
-        <Route path="/educational-content/edit/:id" element={<EducationalContentEdit />} />
-        <Route path="/educational-content/delete/:id" element={<EducationalContentDelete />} />
-        <Route path="/educational-content/view/:id" element={<EducationalContentView />} />
-        <Route path="/educational-content/view/:id" element={<EducationalContentDetails />} />
-        {/* Rotas Pontos de Coleta */}
-        <Route path="/collection-points" element={<CollectionPointList />} />
-        <Route path="/collection-points/create" element={<CollectionPointCreate />} />
-        <Route path="/collection-points/edit/:id" element={<CollectionPointEdit />} />
-        <Route path="/collection-points/delete/:id" element={<CollectionPointDelete />} />
-        <Route path="/collection-points2" element={<CollectionPointMap />} />
-        {/* Rotas Diversas */}
+        {/* Rotas Públicas */}
         <Route path="/" element={<Home />} />
         <Route path="/estatisticas" element={<Estatisticas />} />
         <Route path="/conscientizacao" element={<div>Conscientização</div>} />
         <Route path="/tutoriais" element={<Tutoriais />} />
-        <Route path="/profile" element={<Profile />} />
-
         <Route path="/login" element={<Login />} />
+        <Route path="/educational-content" element={<EducationalContentList />} />
+        <Route path="/educational-content/view/:id" element={<EducationalContentView />} />
+        <Route path="/educational-content/view/:id" element={<EducationalContentDetails />} />
+        <Route path="/collection-points" element={<CollectionPointList />} />
+        <Route path="/collection-points2" element={<CollectionPointMap />} />
+
+        {/* Rotas Protegidas - Usuários */}
+        <Route element={<ProtectedRoute />}>
+          <Route path="/users" element={<UserList />} />
+          <Route path="/users/create" element={<UserCreate />} />
+          <Route path="/users/edit/:id" element={<UserEdit />} />
+          <Route path="/users/delete/:id" element={<UserDelete />} />
+        </Route>
+        
+        {/* Rotas Protegidas - Conteúdo Educacional (CRUD) */}
+        <Route element={<ProtectedRoute />}>
+          <Route path="/educational-content/create" element={<EducationalContentCreate />} />
+          <Route path="/educational-content/edit/:id" element={<EducationalContentEdit />} />
+          <Route path="/educational-content/delete/:id" element={<EducationalContentDelete />} />
+        </Route>
+        
+        {/* Rotas Protegidas - Pontos de Coleta (CRUD) */}
+        <Route element={<ProtectedRoute />}>
+          <Route path="/collection-points/create" element={<CollectionPointCreate />} />
+          <Route path="/collection-points/edit/:id" element={<CollectionPointEdit />} />
+          <Route path="/collection-points/delete/:id" element={<CollectionPointDelete />} />
+        </Route>
+        
+        {/* Rotas Protegidas - Perfil */}
+        <Route element={<ProtectedRoute />}>
+          <Route path="/profile" element={<Profile />} />
+        </Route>
       </Routes>
 
       {/* <footer className="bg-light text-center text-lg-start mt-auto">

@@ -1,14 +1,22 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import '../style.css';
 import axiosInstance from '../helper/axios-instance'; // Importando instância do axios configurada
 
+interface LocationState {
+  from?: string;
+}
+
 const Login = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  
+  // Obtém a rota de onde o usuário veio (se disponível)
+  const { from } = (location.state as LocationState) || { from: '/' };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,8 +33,9 @@ const Login = () => {
       // Armazenando o token JWT recebido no localStorage
       localStorage.setItem('token', response.data.token);
       
-      // Redirecionando para a página inicial após login bem-sucedido
-      navigate('/');
+      // Redirecionando para a página que o usuário tentou acessar
+      // ou para a página inicial se ele veio direto para o login
+      navigate(from || '/');
     } catch (error: any) {
       console.error('Erro ao fazer login:', error);
       
@@ -59,6 +68,12 @@ const Login = () => {
             >
               Voltar
             </button>
+
+            {from && from !== '/' && (
+              <div className="info-message" style={{ color: 'blue', marginBottom: '15px' }}>
+                Você precisa fazer login para acessar essa página.
+              </div>
+            )}
 
             {error && (
               <div className="error-message" style={{ color: 'red', marginBottom: '15px' }}>

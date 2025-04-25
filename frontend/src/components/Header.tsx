@@ -9,6 +9,17 @@ const Header = () => {
     // Verificar se o token existe no localStorage
     const token = localStorage.getItem('token');
     setIsAuthenticated(!!token);
+    
+    // Adicionar um listener para atualizar o estado quando o localStorage mudar
+    const handleStorageChange = () => {
+      const token = localStorage.getItem('token');
+      setIsAuthenticated(!!token);
+    };
+    
+    window.addEventListener('storage', handleStorageChange);
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
   }, []);
 
   const handleLogout = () => {
@@ -29,9 +40,11 @@ const Header = () => {
         </picture>
         <nav>
           <ul>
-            <li>
-              <Link to={'/users'} className="btn">Usuários</Link>
-            </li>
+            {isAuthenticated && (
+              <li>
+                <Link to={'/users'} className="btn">Usuários</Link>
+              </li>
+            )}
             <li>
               <Link to={'/collection-points'} className="btn">Pontos de Coleta</Link>
             </li>
@@ -42,7 +55,7 @@ const Header = () => {
               <Link to={'/'} className="btn">Início</Link>
             </li>
             <li>
-              <Link to={'/tutoriais'} className="btn">Tutorials</Link>
+              <Link to={'/tutoriais'} className="btn">Tutoriais</Link>
             </li>
             <li>
               <Link to={'/estatisticas'} className="btn">Estatísticas</Link>
