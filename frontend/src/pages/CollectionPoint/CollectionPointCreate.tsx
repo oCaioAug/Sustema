@@ -20,106 +20,124 @@ const CollectionPointCreate: React.FC = () => {
       Endereco: endereco,
       Latitude: parseFloat(latitude),
       Longitude: parseFloat(longitude),
-      descricao: descricao,
+      Descricao: descricao, // Changed from 'descricao' to 'Descricao' to match the backend model
     };
 
     axiosInstance.post('/CollectionPoint', pointData)
-      .then(() => navigate('/collection-points'))
-      .catch(error => console.error('Error creating collection point:', error));
+      .then(response => {
+        console.log('Ponto de coleta criado com sucesso:', response);
+        navigate('/collection-points');
+      })
+      .catch(error => {
+        console.error('Erro ao criar ponto de coleta:', error);
+        // Optional: Add user feedback about the error
+        alert('Erro ao criar ponto de coleta. Verifique os dados e tente novamente.');
+      });
   };
 
-  return (<>
-    <div className='d-flex gap-2'>
-      <div className='col-4'>
-        <h1>Criar Ponto de Coleta</h1>
-        <form onSubmit={handleSubmit}>
-          <div className="mb-3">
-            <label className="form-label">Nome</label>
-            <input
-              type="text"
-              className="form-control"
-              value={nome}
-              onChange={(event) => setNome(event.target.value)}
-              required
-            />
+  return (
+    <div className="container mt-4">
+      {/* <h2 className="text-center mb-4">Novo Ponto de Coleta</h2> */}
+      
+      <div className="card shadow">
+        <div className="card-header bg-primary text-white">
+          <h4 className="mb-0">Dados do Ponto de Coleta</h4>
+        </div>
+        
+        <div className="card-body">
+          <div className="row">
+            {/* Formulário - Lado Esquerdo */}
+            <div className="col-md-6">
+              <form onSubmit={handleSubmit} className="px-3">
+                <div className="mb-4">
+                  <label className="form-label fw-bold">Nome</label>
+                  <input
+                    type="text"
+                    className="form-control w-75"
+                    placeholder="Nome do ponto de coleta"
+                    value={nome}
+                    onChange={(event) => setNome(event.target.value)}
+                    required
+                  />
+                </div>
+                
+                <div className="mb-3">
+                  <label className="form-label fw-bold">Endereço</label>
+                  <input
+                    type="text"
+                    className="form-control w-75"
+                    placeholder="Endereço completo"
+                    value={endereco}
+                    onChange={(event) => setEndereco(event.target.value)}
+                    required
+                  />
+                </div>
+                
+                <div className="mb-3">
+                  <label className="form-label fw-bold">Descrição</label>
+                  <textarea
+                    className="form-control w-75"
+                    placeholder="Descreva o ponto de coleta"
+                    value={descricao}
+                    onChange={(event) => setDescricao(event.target.value)}
+                    rows={3}
+                    required
+                  />
+                </div>
+                
+                <div className="row w-75">
+                  <div className="col-md-6 mb-3">
+                    <label className="form-label fw-bold">Latitude</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="Ex: -22.4689"
+                      value={latitude}
+                      onChange={(event) => setLatitude(event.target.value)}
+                      required
+                    />
+                  </div>
+                  
+                  <div className="col-md-6 mb-3">
+                    <label className="form-label fw-bold">Longitude</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="Ex: -44.4469"
+                      value={longitude}
+                      onChange={(event) => setLongitude(event.target.value)}
+                      required
+                    />
+                  </div>
+                </div>
+                
+                <div className="d-grid gap-2 d-md-flex justify-content-md-end w-75">
+                  <button 
+                    type="button" 
+                    className="btn btn-secondary me-md-2" 
+                    onClick={() => navigate('/collection-points')}
+                  >
+                    Cancelar
+                  </button>
+                  <button type="submit" className="btn btn-success">Salvar Ponto de Coleta</button>
+                </div>
+              </form>
+            </div>
+            
+            {/* Mapa - Lado Direito */}
+            <div className="col-md-6">
+              <div className="map-wrapper" style={{ height: '450px', border: '1px solid #ddd', borderRadius: '4px' }}>
+                <MapComponent />
+              </div>
+              {/* <div className="mt-2 text-muted small">
+                <i className="bi bi-info-circle"></i> Clique no mapa para selecionar a localização ou digite as coordenadas.
+              </div> */}
+            </div>
           </div>
-          <div className="mb-3">
-            <label className="form-label">Endereço</label>
-            <input
-              type="text"
-              className="form-control"
-              value={endereco}
-              onChange={(event) => setEndereco(event.target.value)}
-              required
-            />
-          </div>
-          <div className="mb-3">
-            <label className="form-label">Descrição</label>
-            <input
-              type="text"
-              className="form-control"
-              value={descricao}
-              onChange={(event) => setDescricao(event.target.value)}
-              required
-            />
-          </div>
-          <div className="mb-3">
-            <label className="form-label">Latitude</label>
-            <input
-              type="text"
-              className="form-control"
-              value={latitude}
-              onChange={(event) => setLatitude(event.target.value)}
-              required
-            />
-          </div>
-          <div className="mb-3">
-            <label className="form-label">Longitude</label>
-            <input
-              type="text"
-              className="form-control"
-              value={longitude}
-              onChange={(event) => setLongitude(event.target.value)}
-              required
-            />
-          </div>
-          <button type="submit" className="btn btn-primary">Criar</button>
-        </form>
-      </div>
-
-      <div className='map-container' style={{ flex: '1', height: '500px', border: '1px solid #ccc' }}>
-        <MapComponent />
+        </div>
       </div>
     </div>
-
-    {/* <div >
-      <div id="overlay"></div>
-
-      <div id="modal">
-        <h2>Adicionar Ponto</h2>
-        <label htmlFor="nomeEmpresa">Nome da Empresa:</label>
-        <input type="text" id="nomeEmpresa" placeholder="Ex: Recicla SP" required />
-        <label htmlFor="descricao">Descrição:</label>
-        <input type="text" id="descricao" placeholder="Descreca o ponto" required />
-
-        <label htmlFor="tipoColeta">Tipo de Coleta:</label>
-        <select id="tipoColeta" required>
-          <option value="Eletrônico">Eletrônico</option>
-          <option value="Orgânico">Orgânico</option>
-          <option value="Metal">Metal</option>
-          <option value="Químico">Químico</option>
-          <option value="Papel">Papel</option>
-          <option value="Plástico">Plástico</option>
-          <option value="Vidro">Vidro</option>
-        </select>
-
-        <button type="button" id="btnAdicionar">Adicionar</button>
-        <button type="button" id="btnCancelar">Cancelar</button>
-      </div>
-    </div> */}
-
-
-  </>);
+  );
 };
 
 export default CollectionPointCreate;

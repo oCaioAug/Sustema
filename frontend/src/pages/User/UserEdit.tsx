@@ -28,7 +28,7 @@ const UserEdit: React.FC = () => {
 
   return (
     <div>
-      <h1>Edit User</h1>
+      <h1>Alterar Usuário</h1>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label className="form-label">Nome</label>
