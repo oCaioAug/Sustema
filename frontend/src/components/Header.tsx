@@ -1,6 +1,24 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 const Header = () => {
+  const navigate = useNavigate();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  
+  useEffect(() => {
+    // Verificar se o token existe no localStorage
+    const token = localStorage.getItem('token');
+    setIsAuthenticated(!!token);
+  }, []);
+
+  const handleLogout = () => {
+    // Remover o token do localStorage
+    localStorage.removeItem('token');
+    setIsAuthenticated(false);
+    // Redirecionar para a página inicial
+    navigate('/');
+  };
+
   return (
     <>
       <header>
@@ -21,26 +39,28 @@ const Header = () => {
               <Link to={'/educational-content'} className="btn">Conteúdo Educacional</Link>
             </li>
             <li>
-              {/* <button className="btn" onClick={() => window.location.href='index.html'}>
-                Início
-              </button> */}
               <Link to={'/'} className="btn">Início</Link>
             </li>
             <li>
-              {/* <button className="btn" onClick={() => window.location.href='tutorials.html'}>
-                Conscientização
-              </button> */}
               <Link to={'/tutoriais'} className="btn">Tutorials</Link>
             </li>
             <li>
-              {/* <button className="btn" onClick={() => window.location.href='estatisticas.html'}>
-                Estatísticas
-              </button> */}
               <Link to={'/estatisticas'} className="btn">Estatísticas</Link>
             </li>
-            <li>
-              <Link to={'/profile'} className="btn green">Perfil</Link>
-            </li>
+            {isAuthenticated ? (
+              <>
+                <li>
+                  <Link to={'/profile'} className="btn green">Perfil</Link>
+                </li>
+                <li>
+                  <button onClick={handleLogout} className="btn red">Logout</button>
+                </li>
+              </>
+            ) : (
+              <li>
+                <Link to={'/login'} className="btn green">Login</Link>
+              </li>
+            )}
           </ul>
         </nav>
       </header>

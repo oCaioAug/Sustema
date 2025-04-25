@@ -301,17 +301,18 @@ input:checked + .slider:before {
 }
 
 
-.header {
+header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: #66b969;
-    padding: 15px 30px;
+    /* background-color: #66b969; */
+    /* padding: 15px 30px; */
+    /* margin-bottom: 20px; */
     width: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 10000000000000000000; /* Garante que o header fique sobre tudo */
+    /* position: fixed; */
+    /* top: 0;
+    left: 0; */
+    /* z-index: 10000000000000000000; Garante que o header fique sobre tudo */
 }
 
 .titulo {

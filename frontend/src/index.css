@@ -126,6 +126,21 @@ picture {
     }
   }
 
+  &.red {
+    background-color: #e53935;
+    box-shadow: #2d234266 0 2px 4px, #2d23424d 0 7px 13px -3px, #e53935 0 -3px 0 inset;
+  
+    &:hover {
+      box-shadow: #2d234266 0 4px 8px, #2d23424d 0 7px 13px -3px, #e53935 0 -3px 0 inset;
+      transform: translateY(-2px);
+    }
+    
+    &:active {
+      box-shadow: #D6D6E7 0 3px 7px inset;
+      transform: translateY(2px);
+    }
+  }
+
 }
 
 .btn-effect {
@@ -316,6 +331,7 @@ footer {
   color: #fff;
   padding: 40px 20px;
   font-family: Arial, sans-serif;
+  width: 100%;
 }
 
 .footer-container {

@@ -24,6 +24,7 @@ import Profile from './pages/Profile';
 import Home from './pages/Home';
 import Tutoriais from './pages/Tutoriais';
 import Estatisticas from './pages/Estatisticas';
+import Login from './pages/Login';
 
 function App() {
   return <>
@@ -78,6 +79,8 @@ function App() {
         <Route path="/conscientizacao" element={<div>Conscientização</div>} />
         <Route path="/tutoriais" element={<Tutoriais />} />
         <Route path="/profile" element={<Profile />} />
+
+        <Route path="/login" element={<Login />} />
       </Routes>
 
       {/* <footer className="bg-light text-center text-lg-start mt-auto">

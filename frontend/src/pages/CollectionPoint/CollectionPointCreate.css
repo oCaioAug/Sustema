@@ -1,13 +1,33 @@
-/* Estilo para o contêiner do mapa */
+/* Estilos para o contêiner do mapa */
 .map-container {
   width: 100%;
-  height: 100%; /* Ajuste a altura conforme necessário */
-  position: relative;
+  height: 500px;
+  border: 1px solid #ccc;
+  position: relative !important;
+  z-index: 0;
   overflow: hidden;
+  border-radius: 4px;
 }
 
-/* Garante que o mapa ocupe todo o espaço do contêiner */
-.map-container > * {
-  width: 100%;
-  height: 100%;
+/* Garantir que o mapa ocupe todo o espaço disponível */
+.map-container .leaflet-container {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Corrigir problema com os tiles do mapa */
+.leaflet-tile {
+  width: 256px !important;
+  height: 256px !important;
+}
+
+/* Garantir que a camada do mapa fique abaixo do modal e outros elementos */
+.leaflet-pane {
+  z-index: 0 !important;
+}
+
+/* Ajustes para o modal de criar pontos */
+#modal {
+  z-index: 1000;
+  position: absolute;
 }

@@ -9,7 +9,6 @@ const CollectionPointCreate: React.FC = () => {
   const [endereco, setEndereco] = useState('');
   const [latitude, setLatitude] = useState('');
   const [longitude, setLongitude] = useState('');
-  // const [tipoMaterialAceito, setTipoMaterialAceito] = useState('');
   const [descricao, setDescricao] = useState('');
   const navigate = useNavigate();
 
@@ -84,21 +83,11 @@ const CollectionPointCreate: React.FC = () => {
               required
             />
           </div>
-          {/* <div className="mb-3">
-          <label className="form-label">Tipo de Material Aceito</label>
-          <input
-            type="text"
-            className="form-control"
-            value={tipoMaterialAceito}
-            onChange={(event) => setTipoMaterialAceito(event.target.value)}
-            required
-          />
-        </div> */}
           <button type="submit" className="btn btn-primary">Criar</button>
         </form>
       </div>
 
-      <div className='map-container'>
+      <div className='map-container' style={{ flex: '1', height: '500px', border: '1px solid #ccc' }}>
         <MapComponent />
       </div>
     </div>
