@@ -1,0 +1,124 @@
+/* Container geral */
+.card-container {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    padding: 20px;
+    margin-top: 30px;
+    margin-left: 1vh;
+    margin-right: 1vh;
+}
+  
+/* Header da tabela */
+.card-header-custom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+  
+.card-header-custom .title {
+    font-size: 24px;
+    font-weight: 600;
+    color: #007bff;
+}
+  
+/* Botão de adicionar */
+.btn-add {
+    background-color: #007bff;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: 0.3s ease;
+    
+    &:hover {
+      background-color: #0056b3;
+    }
+}
+  
+/* Tabela */
+.custom-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+  
+.custom-table th, .custom-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+}
+  
+.custom-table th {
+    background-color: #f0f8ff;
+    font-weight: 600;
+}
+  
+/* Avatar com letra inicial */
+.avatar-cell {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+  
+.avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+  
+/* Botões de ação */
+.btn-action {
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin-right: 5px;
+    color: white;
+    font-size: 14px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.btn-action img.icon {
+    width: 18px;
+    height: 18px;
+    display: inline-block;
+}
+  
+.btn-action.edit {
+    background-color: #1ca4f3;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    
+        &:hover {
+            transform: scale(1.1);
+    }
+}
+
+  
+.btn-action.delete {
+    background-color: #e72d15e1;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+
+    &:hover {
+        transform: scale(1.1);
+    }
+}
+  
+/* Sem dados */
+.no-data {
+    text-align: center;
+    color: #888;
+    padding: 20px;
+    font-style: italic;
+}

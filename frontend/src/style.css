@@ -45,17 +45,18 @@ body {
 .formulario {
     display: flex;
     flex-direction: column;
-
     flex: 1;
     max-width: 400px;
-    padding: 20px;
+    padding: 2vh;
     background-color: white;
     border: 1px solid #ccc;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    align-items: center;
-    height: 80vh;
-
+    align-items: start;
+    margin-bottom: 10vh;
+    height: 95vh; 
+    margin-left: 1vh;
+    
 }
 
 .formulario label {

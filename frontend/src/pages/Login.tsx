@@ -116,7 +116,7 @@ const Login = () => {
 
             <p className="link">
               Ainda não tem conta?{' '}
-              <a href="/signin">Cadastre-se</a>
+              <a href="/users/create">Cadastre-se</a>
             </p>
           </form>
         </div>

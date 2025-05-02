@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo } from 'react';
+import React, { useState, useRef, useMemo, useEffect } from 'react';
 import axiosInstance from '../../helper/axios-instance';
 import { useNavigate } from 'react-router-dom';
 import MapComponent from '../../map/MapComponent';
@@ -18,6 +18,7 @@ const CollectionPointCreate: React.FC = () => {
   const [showPopup, setShowPopup] = useState(false); // Controla a exibição do pop-up
   const [popupData, setPopupData] = useState({ nome: '', descricao: '' }); // Dados do pop-up
   const [popupCoords, setPopupCoords] = useState<{ lat: number; lng: number } | null>(null); // Coordenadas do clique
+  const [collectionPoints, setCollectionPoints] = useState([]); // Estado para armazenar os pontos de coleta
   const navigate = useNavigate();
   const mapRef = useRef<L.Map | null>(null); // Referência para o mapa
 
@@ -99,7 +100,7 @@ const CollectionPointCreate: React.FC = () => {
       alert('Preencha todos os campos antes de adicionar o ponto.');
       return;
     }
-    
+
     const enderecoCompleto = `${cep}, ${rua}, ${numero}, ${bairro}, ${cidade}, ${estado}`;
 
     const pointData = {
@@ -126,7 +127,7 @@ const CollectionPointCreate: React.FC = () => {
         });
 
         marker
-          .addTo(mapRef.current)
+          .addTo(mapRef.current!)
           .bindPopup(`<b>${popupData.nome}</b><br>${popupData.descricao}`)
           .openPopup();
       }
@@ -141,6 +142,40 @@ const CollectionPointCreate: React.FC = () => {
       alert('Erro ao criar ponto de coleta. Verifique os dados e tente novamente.');
     }
   };
+
+  // Função para buscar todos os pontos de coleta
+  const fetchCollectionPoints = async () => {
+    try {
+      const response = await axiosInstance.get('/CollectionPoint');
+      const points = response.data.data; // Supondo que os dados estão no campo `data`
+      setCollectionPoints(points);
+
+      // Adiciona os pontos no mapa
+      if (mapRef.current) {
+        points.forEach((point: any) => {
+          const marker = L.marker([point.latitude, point.longitude], {
+            icon: L.icon({
+              iconUrl: 'https://leafletjs.com/examples/custom-icons/leaf-green.png',
+              iconSize: [25, 41],
+              iconAnchor: [12, 41],
+            }),
+          });
+
+          marker
+            .addTo(mapRef.current!)
+            .bindPopup(`<b>${point.nome}</b><br>${point.descricao}`);
+        });
+      }
+    } catch (error) {
+      console.error('Erro ao buscar pontos de coleta:', error);
+      alert('Erro ao carregar os pontos de coleta. Tente novamente mais tarde.');
+    }
+  };
+
+  // UseEffect para carregar os pontos de coleta ao montar o componente
+  useEffect(() => {
+    fetchCollectionPoints();
+  }, []);
 
   // Memoriza o componente MapComponent para evitar recriação
   const memoizedMapComponent = useMemo(
@@ -165,7 +200,6 @@ const CollectionPointCreate: React.FC = () => {
     <div className="collection-container">
       <div className="form-container">
         <form onSubmit={handleSubmit} className="formulario">
-          <h2>Adicionar Ponto de Coleta</h2>
           <div className="mb-3">
             <label className="form-label">CEP:</label>
             <input
@@ -227,12 +261,13 @@ const CollectionPointCreate: React.FC = () => {
           </div>
 
           <div className="d-grid gap-2">
-            <button type="button" className="btn btn-primary" onClick={handleSearch}>
+            <button type="button" className="btn-pesquisar" onClick={handleSearch}>
               Pesquisar
             </button>
+            <h3 className="description-text">(Clique ctrl + botão esquerdo para adicionar ponto)</h3>
             <button
               type="button"
-              className="btn btn-secondary"
+              className="btn-gerenciar"
               onClick={() => navigate('/collection-points')}
             >
               Gerenciar Pontos de Coleta
