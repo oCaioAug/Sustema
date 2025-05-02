@@ -1,12 +1,69 @@
+/* Contêiner principal */
+.collection-container {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  margin-top: 20px;
+  height: 100%; /* Garante que o contêiner ocupe toda a altura disponível */
+}
+
+/* Estilos para o formulário */
+/* .form-container {
+  flex: 1; 
+  padding: 20px;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+} */
+
+.formulario h2 {
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.formulario label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.formulario input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.formulario button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.formulario .btn-success {
+  background-color: #28a745;
+  color: white;
+}
+
+.formulario .btn-secondary {
+  background-color: #6c757d;
+  color: white;
+}
+
 /* Estilos para o contêiner do mapa */
 .map-container {
-  width: 100%;
-  height: 500px;
+  flex: 2; /* Ocupa 2 partes do espaço disponível */
+  height: 80vh; /* Altura fixa para o mapa */
   border: 1px solid #ccc;
-  position: relative !important;
-  z-index: 0;
+  border-radius: 8px;
   overflow: hidden;
-  border-radius: 4px;
+  position: relative;
 }
 
 /* Garantir que o mapa ocupe todo o espaço disponível */
@@ -15,19 +72,13 @@
   height: 100% !important;
 }
 
-/* Corrigir problema com os tiles do mapa */
-.leaflet-tile {
-  width: 256px !important;
-  height: 256px !important;
-}
+/* Responsividade */
+@media (max-width: 768px) {
+  .collection-container {
+    flex-direction: column; /* Empilha o formulário e o mapa em telas menores */
+  }
 
-/* Garantir que a camada do mapa fique abaixo do modal e outros elementos */
-.leaflet-pane {
-  z-index: 0 !important;
-}
-
-/* Ajustes para o modal de criar pontos */
-#modal {
-  z-index: 1000;
-  position: absolute;
+  .map-container {
+    height: 300px; /* Reduz a altura do mapa em telas menores */
+  }
 }

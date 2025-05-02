@@ -1,95 +1,115 @@
+// filepath: c:\Sustema\frontend\src\map\MapComponent.tsx
+
 import React, { useEffect, useRef } from 'react';
 import L from 'leaflet';
-import { createMap } from './mapConfig';
 import { criarIcone } from './mapIcons';
 import { addLayersToMap } from './mapLayers';
 import './MapComponent.css';
-import 'leaflet/dist/leaflet.css'; // Importar estilos do Leaflet
+import 'leaflet/dist/leaflet.css';
 
-const MapComponent: React.FC = () => {
-  const mapRef = useRef<L.Map | null>(null);
+interface MapComponentProps {
+  /**
+   * Função opcional que será chamada ao clicar no mapa,
+   * passando latitude, longitude e o evento do Leaflet.
+   */
+  onMapClick?: (lat: number, lng: number, event: L.LeafletMouseEvent) => void;
+
+  /**
+   * Ref externa opcional para obter acesso ao objeto Leaflet.Map
+   * a partir do componente pai.
+   */
+  mapRef?: React.RefObject<L.Map | null>;
+}
+
+const MapComponent: React.FC<MapComponentProps> = ({ onMapClick, mapRef }) => {
+  // Se o usuário passou uma mapRef externa, usaremos ela,
+  // caso contrário criaremos uma interna.
+  const internalMapRef = useRef<L.Map | null>(null);
   const mapInitializedRef = useRef<boolean>(false);
 
+  // decide qual ref usar
+  const mapRefToUse = mapRef ?? internalMapRef;
+
   useEffect(() => {
-    // Esta função inicializa o mapa
     const initMap = () => {
-      // Certifique-se de que o elemento DOM existe
       const mapElement = document.getElementById('map');
       if (!mapElement) return;
 
       try {
-        // Configurando o mapa com as opções básicas
         const map = L.map('map', {
           center: [-22.4689, -44.4469],
           zoom: 8
         });
 
-        // Adicionando a camada de tiles do OpenStreetMap
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
           attribution: '© OpenStreetMap contributors',
           maxZoom: 19
         }).addTo(map);
 
-        // Adicionando um marcador de exemplo
+        // Exemplo de marcador
         const marker = L.marker([-22.4689, -44.4469], { icon: criarIcone('Orgânico') });
         marker.addTo(map).bindPopup('Exemplo de Ponto de Coleta');
 
-        // Adicionando outras camadas configuradas
+        // Adiciona camadas extras
         addLayersToMap(map);
 
-        // Armazenando a referência do mapa para uso posterior
-        mapRef.current = map;
+        // Evento de clique: repassa lat, lng e o próprio evento
+        if (onMapClick) {
+          map.on('click', (e: L.LeafletMouseEvent) => {
+            onMapClick(e.latlng.lat, e.latlng.lng, e);
+          });
+        }
+
+        // Guarda a instância do mapa na ref escolhida
+        mapRefToUse.current = map;
         mapInitializedRef.current = true;
 
-        // Forçar um recálculo de tamanho do mapa quando a janela for redimensionada
+        // Reajusta mapa ao redimensionar janela
         const handleResize = () => {
-          if (mapRef.current) {
-            mapRef.current.invalidateSize();
-          }
+          mapRefToUse.current?.invalidateSize();
         };
-
         window.addEventListener('resize', handleResize);
-        
-        // Isso vai garantir que o mapa seja redimensionado após a renderização completa
-        setTimeout(() => {
-          if (mapRef.current) {
-            mapRef.current.invalidateSize();
-          }
-        }, 300);
 
+        // Pequeno timeout para garantir que o container já esteja dimensionado
+        setTimeout(() => mapRefToUse.current?.invalidateSize(), 300);
+
+        // cleanup do resize
         return () => {
           window.removeEventListener('resize', handleResize);
         };
       } catch (error) {
-        console.error("Erro ao inicializar o mapa:", error);
+        console.error('Erro ao inicializar o mapa:', error);
       }
     };
 
-    // Inicializa o mapa apenas uma vez
     if (!mapInitializedRef.current) {
       initMap();
     }
 
-    // Função de limpeza ao desmontar o componente
     return () => {
-      if (mapRef.current) {
-        mapRef.current.remove();
-        mapRef.current = null;
+      // Ao desmontar, remove o mapa e limpa as refs
+      if (mapRefToUse.current) {
+        mapRefToUse.current.off();   // remove todos os listeners
+        mapRefToUse.current.remove();
+        mapRefToUse.current = null;
         mapInitializedRef.current = false;
       }
     };
-  }, []);
+  }, [onMapClick, mapRef]);
 
   return (
-    <div 
-      id="map" 
+    <div
+      id="map"
       style={{
         width: '100%',
         height: '400px',
         position: 'relative'
-      }} 
+      }}
     />
   );
 };
 
 export default MapComponent;
+export type { MapComponentProps };
+export { criarIcone } from './mapIcons';
+export { addLayersToMap } from './mapLayers';

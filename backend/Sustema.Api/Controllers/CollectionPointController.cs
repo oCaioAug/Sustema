@@ -90,34 +90,31 @@ namespace Sustema.Api.Controllers
         /// <param name="collectionPointDto"></param>
         /// <returns></returns>
         //[Authorize]
-        [HttpPut("update/{id}")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> UpdateCollectionPoint(int id, [FromBody] UpdateCollectionPointDto collectionPointDto)
-        {
-            if (ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+      [HttpPut("update/{id}")]
+[ProducesResponseType(StatusCodes.Status204NoContent)]
+[ProducesResponseType(StatusCodes.Status400BadRequest)]
+[ProducesResponseType(StatusCodes.Status404NotFound)]
+public async Task<IActionResult> UpdateCollectionPoint(int id, [FromBody] UpdateCollectionPointDto collectionPointDto)
+{
+    // Inverte a condição:
+    if (!ModelState.IsValid)
+    {
+        return BadRequest(ModelState);
+    }
 
-            var collectionPoint = await _repository.GetByIdAsync(id);
+    var collectionPoint = await _repository.GetByIdAsync(id);
+    if (collectionPoint == null)
+        return NotFound(new { message = "Ponto de coleta não encontrado.", collectionPointDto });
 
-            if (collectionPoint == null)
-            {
-                return NotFound(new { message = "Ponto de coleta não encontrado.", collectionPointDto });
-            }
+    collectionPoint.Nome      = collectionPointDto.Nome;
+    collectionPoint.Endereco  = collectionPointDto.Endereco;
+    collectionPoint.Descricao = collectionPointDto.Descricao;
+    collectionPoint.Latitude  = collectionPointDto.Latitude;
+    collectionPoint.Longitude = collectionPointDto.Longitude;
 
-            collectionPoint.Nome = collectionPointDto.Nome;
-            collectionPoint.Endereco = collectionPointDto.Endereco;
-            collectionPoint.Descricao = collectionPointDto.Descricao;
-            collectionPoint.Latitude = collectionPointDto.Latitude;
-            collectionPoint.Longitude = collectionPointDto.Longitude;
-
-            await _repository.SaveChangesAsync();
-
-            return NoContent();
-        }
+    await _repository.SaveChangesAsync();
+    return NoContent();
+}
 
         /// <summary>
         /// Deleta um Ponto de Coleta
