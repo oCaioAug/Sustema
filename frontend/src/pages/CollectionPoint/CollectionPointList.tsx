@@ -55,7 +55,7 @@ const CollectionPointList: React.FC = () => {
             {points.length > 0 ? (
               points.map((point, index) => (
                 <tr key={point.collectionPointId}>
-                  <td>{index + 1}</td>
+                  <td>{point.collectionPointId}</td>
                   <td>
                     <div className="avatar-cell">
                       <span>{point.nome}</span>
