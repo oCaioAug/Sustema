@@ -1293,7 +1293,7 @@ input:not([type="checkbox"]) {
     background: #f9fffa;
     font-size: 1rem;
     transition: 0.3s ease;
-    width: 90vh;
+    width: 100%;
 
 }
 
