@@ -1,0 +1,88 @@
+.collection-container {
+display: flex;
+gap: 2rem;
+padding: 1rem;
+}
+
+.form-container {
+flex: 1;
+max-width: 400px;
+}
+
+.formulario {
+display: flex;
+flex-direction: column;
+}
+
+.formulario h2 {
+margin-bottom: 1rem;
+font-size: 1.5rem;
+color: #333;
+}
+
+.formulario label {
+margin-top: 0.75rem;
+font-weight: 500;
+}
+
+.formulario input {
+padding: 0.5rem;
+border: 1px solid #ccc;
+border-radius: 0.375rem;
+margin-top: 0.25rem;
+}
+
+
+.buttons {
+display: flex;
+gap: 1rem;
+margin-top: 1.5rem;
+flex-direction: column;
+width: 100%;
+}
+
+.btn-cancel,
+.btn-save {
+flex: 1;
+padding: 0.6rem 1.2rem;
+border: none;
+border-radius: 0.375rem;
+cursor: pointer;
+transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-cancel {
+background-color: #6c757d; 
+color: #fff;
+}
+
+.btn-cancel\:hover {
+background-color: #5a6268;
+transform: translateY(-2px);
+}
+
+.btn-save {
+background-color: #28a745;
+color: #fff;
+}
+
+.btn-save\:hover {
+background-color: #218838;
+transform: translateY(-2px);
+}
+
+.map-container {
+flex: 2;
+position: relative;
+}
+
+.map-container small {
+position: absolute;
+bottom: 0.5rem;
+left: 0.5rem;
+background: rgba(255,255,255,0.8);
+padding: 0.25rem 0.5rem;
+border-radius: 0.25rem;
+font-size: 0.8rem;
+color: #555;
+}

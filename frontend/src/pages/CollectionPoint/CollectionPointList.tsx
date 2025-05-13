@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+// src/components/collection-point/CollectionPointList.tsx
+import React, { useEffect, useState, ChangeEvent } from 'react';
 import axiosInstance from '../../helper/axios-instance';
 import { Link } from 'react-router-dom';
-import './CollectionPointList.css'; // ← Importe o CSS
+import './CollectionPointList.css';
 
 interface CollectionPoint {
   collectionPointId: number;
@@ -13,28 +14,58 @@ interface CollectionPoint {
 }
 
 const CollectionPointList: React.FC = () => {
-  const [points, setPoints] = useState<CollectionPoint[]>([]);
+  const [allPoints, setAllPoints] = useState<CollectionPoint[]>([]);
+  const [filteredPoints, setFilteredPoints] = useState<CollectionPoint[]>([]);
+  const [searchTerm, setSearchTerm] = useState('');
 
+  // busca inicial
   useEffect(() => {
     axiosInstance.get('/CollectionPoint')
       .then(response => {
-        if (response.data && Array.isArray(response.data.data)) {
-          setPoints(response.data.data);
-        } else {
-          console.warn('Formato inesperado:', response.data);
-          setPoints([]);
-        }
+        const data = Array.isArray(response.data.data)
+          ? response.data.data
+          : [];
+        setAllPoints(data);
+        setFilteredPoints(data);
       })
       .catch(error => {
         console.error('Erro ao buscar pontos de coleta:', error);
-        setPoints([]);
+        setAllPoints([]);
+        setFilteredPoints([]);
       });
   }, []);
+
+  // atualiza lista ao mudar o termo de busca
+  const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const term = e.target.value;
+    setSearchTerm(term);
+
+    if (!term.trim()) {
+      setFilteredPoints(allPoints);
+    } else {
+      const lower = term.toLowerCase();
+      setFilteredPoints(
+        allPoints.filter(p =>
+          p.nome.toLowerCase().includes(lower)
+        )
+      );
+    }
+  };
 
   return (
     <div className="card-container">
       <div className="card-header-custom">
         <h2 className="title">Gerenciamento de Pontos de Coleta</h2>
+
+        {/* campo de pesquisa no canto superior direito */}
+        <input
+          type="text"
+          placeholder="Pesquisar por nome..."
+          value={searchTerm}
+          onChange={handleSearchChange}
+          className="search-input"
+        />
+
         <Link to="/collection-points/create" className="btn-add">
           Novo Ponto
         </Link>
@@ -52,8 +83,8 @@ const CollectionPointList: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {points.length > 0 ? (
-              points.map((point, index) => (
+            {filteredPoints.length > 0 ? (
+              filteredPoints.map(point => (
                 <tr key={point.collectionPointId}>
                   <td>{point.collectionPointId}</td>
                   <td>
@@ -64,18 +95,34 @@ const CollectionPointList: React.FC = () => {
                   <td>{point.endereco}</td>
                   <td>{point.descricao}</td>
                   <td>
-                    <Link to={`/collection-points/edit/${point.collectionPointId}`} className="btn-action edit">
-                      <img src="/images/editIcon.png" alt="Editar" className="icon" />
+                    <Link
+                      to={`/collection-points/edit/${point.collectionPointId}`}
+                      className="btn-action edit"
+                    >
+                      <img
+                        src="/images/editIcon.png"
+                        alt="Editar"
+                        className="icon"
+                      />
                     </Link>
-                    <Link to={`/collection-points/delete/${point.collectionPointId}`} className="btn-action delete">
-                      <img src="/images/deleteIcon.png" alt="Apagar" className="icon" />
+                    <Link
+                      to={`/collection-points/delete/${point.collectionPointId}`}
+                      className="btn-action delete"
+                    >
+                      <img
+                        src="/images/deleteIcon.png"
+                        alt="Apagar"
+                        className="icon"
+                      />
                     </Link>
                   </td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan={5} className="no-data">Nenhum ponto de coleta encontrado.</td>
+                <td colSpan={5} className="no-data">
+                  Nenhum ponto de coleta encontrado.
+                </td>
               </tr>
             )}
           </tbody>

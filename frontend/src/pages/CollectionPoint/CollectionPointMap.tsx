@@ -5,7 +5,10 @@ const CollectionPointMap: React.FC = () => {
   return (
     <div>
       <h1>Pontos de Coleta</h1>
-      <MapComponent />
+      <MapComponent 
+        onMapClick={() => console.log('Map clicked')} 
+        mapRef={React.createRef()} 
+      />
     </div>
   );
 };

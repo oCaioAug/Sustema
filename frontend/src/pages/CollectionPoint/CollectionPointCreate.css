@@ -19,6 +19,7 @@
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   display: flex;
+  min-height: auto;
 }
 
 .formulario h2 {
@@ -52,6 +53,7 @@
   font-style: none;
   font-size: 1rem;
   box-shadow: none; /* Remove a sombra abaixo do botão */
+  margin-top: 1vh;
 }
 
 

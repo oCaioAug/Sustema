@@ -1,3 +1,56 @@
+.container-apagar-coleta {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 73vh;
+    text-align: center;
+    /* margin-bottom: 3vh; */
+
+    &::after{
+
+    }
+}
+
+.titulo-apagar-coleta {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.botao-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* Espaçamento entre os botões */
+}
+
+.botao-apagar-coleta {
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.botao-apagar-coleta:hover {
+    background-color: #c9302c;
+}
+
+.botao-cancelar-coleta {
+    background-color: #5bc0de;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.botao-cancelar-coleta:hover {
+    background-color: #31b0d5;
+}
 .delete-container {
     display: flex;
     flex-direction: column;

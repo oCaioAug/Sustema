@@ -158,34 +158,23 @@ const CollectionPointCreate: React.FC = () => {
     <div className="collection-container">
       <div className="form-container">
         <form onSubmit={handleSubmit} className="formulario">
-          <div className="mb-3">
+          
             <label className="form-label">CEP:</label>
-            <input type="text" className="form-control" placeholder="Ex: 27515000" value={cep} onChange={e => setCep(e.target.value)} onBlur={handleCepBlur} required />
-          </div>
-          <div className="mb-3">
+            <input type="text" placeholder="Ex: 27515000" value={cep} onChange={e => setCep(e.target.value)} onBlur={handleCepBlur} required />
+         
             <label className="form-label">Estado:</label>
             <input type="text" className="form-control" placeholder="Ex: SP" value={estado} onChange={e => setEstado(e.target.value)} required />
-          </div>
-          <div className="mb-3">
             <label className="form-label">Cidade:</label>
             <input type="text" className="form-control" placeholder="Ex: São Paulo" value={cidade} onChange={e => setCidade(e.target.value)} required />
-          </div>
-          <div className="mb-3">
             <label className="form-label">Rua:</label>
             <input type="text" className="form-control" placeholder="Ex: Avenida Paulista" value={rua} onChange={e => setRua(e.target.value)} required />
-          </div>
-          <div className="mb-3">
             <label className="form-label">Bairro:</label>
             <input type="text" className="form-control" placeholder="Ex: Alegria" value={bairro} onChange={e => setBairro(e.target.value)} required />
-          </div>
-          <div className="mb-3">
             <label className="form-label">Número:</label>
             <input type="text" className="form-control" placeholder="Ex: 1000" value={numero} onChange={e => setNumero(e.target.value)} />
-          </div>
-          <div className="d-grid gap-2">
+            <p>(Ctrl + botão esquerdo para adicionar ponto)</p>
             <button type="button" className="btn-pesquisar" onClick={handleSearch}>Pesquisar</button>
             <button type="button" className="btn-gerenciar" onClick={() => navigate('/collection-points')}>Gerenciar Pontos de Coleta</button>
-          </div>
         </form>
       </div>
       <div className="map-container">{memoizedMapComponent}</div>

@@ -122,3 +122,20 @@
     padding: 20px;
     font-style: italic;
 }
+
+
+.card-header-custom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  
+  .search-input {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    flex: 1;
+    width: 1vh;
+  }
+  
