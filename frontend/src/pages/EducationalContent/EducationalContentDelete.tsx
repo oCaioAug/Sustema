@@ -1,7 +1,7 @@
 import React from 'react';
 import axiosInstance from '../../helper/axios-instance';
 import { useNavigate, useParams } from 'react-router-dom';
-import './EducationalContentDelete.css'; 
+import '../styles/EducationalContent/EducationalContentDelete.css'; 
 
 const CollectionPointDelete: React.FC = () => {
   const { id } = useParams<{ id: string }>();

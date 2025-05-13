@@ -1,0 +1,266 @@
+:root {
+  --green: #38a169;
+  --green-dark: #2f855a;
+  --gray-100: #f7fafc;
+  --gray-300: #e2e8f0;
+  --gray-600: #4a5568;
+}
+
+/* card geral */
+.ecc-card {
+  max-width: 960px;
+  margin: 10vh auto;
+  padding: 24px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  width: 80%;
+  height: fit-content;
+}
+
+.ecc-form {
+  display: flex;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+/* lado esquerdo */
+.ecc-left {
+  flex: 1;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* dropzone */
+.ecc-dropzone {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  height: 200px;
+  border: 3px dashed var(--gray-300);
+  border-radius: 12px;
+  background: var(--gray-100);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  text-align: center;
+}
+
+.ecc-dropzone:hover {
+  border-color: var(--green);
+  background: #fff;
+}
+
+.ecc-drop-text {
+  font-size: 1rem;
+  color: var(--gray-600);
+  line-height: 1.4;
+}
+
+/* input escondido */
+.ecc-file-input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* thumbnail */
+.ecc-thumb {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+/* botao arquivo */
+.ecc-file-btn {
+  margin-top: 12px;
+  padding: 6px 12px;
+  font-size: 0.95rem;
+  color: var(--green-dark);
+  border: 2px solid var(--green);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.ecc-file-btn:hover {
+  background: var(--green);
+  color: white;
+}
+
+/* lado direito */
+.ecc-right {
+  flex: 1;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* campos */
+.ecc-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.ecc-field label {
+  font-size: 0.9rem;
+  color: var(--gray-600);
+  margin-bottom: 4px;
+  text-transform: lowercase;
+}
+
+.ecc-field input,
+.ecc-field select {
+  padding: 8px 12px;
+  font-size: 1rem;
+  border: 2px solid var(--gray-300);
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.2s;
+  width: 100%;
+  background: white;
+}
+
+.ecc-field input:focus,
+.ecc-field select:focus {
+  border-color: var(--green);
+}
+
+/* select com seta */
+.ecc-select-wrapper {
+  position: relative;
+}
+
+.ecc-select-wrapper .ecc-arrow {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: var(--gray-600);
+}
+
+/* botões salvar/cancelar */
+.ecc-actions {
+  margin-top: 24px;
+  display: flex;
+  gap: 16px;
+}
+
+.ecc-btn {
+  flex: 1;
+  padding: 10px 0;
+  font-size: 1rem;
+  border-radius: 8px;
+  text-transform: lowercase;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.ecc-btn-save {
+  background: var(--green);
+  border: none;
+  color: white;
+}
+
+.ecc-btn-save:disabled {
+  background: var(--gray-300);
+  cursor: not-allowed;
+}
+
+.ecc-btn-save:hover:not(:disabled) {
+  background: var(--green-dark);
+}
+
+.ecc-btn-cancel {
+  background: white;
+  border: 2px solid var(--gray-300);
+  color: var(--gray-600);
+}
+
+.ecc-btn-cancel:hover {
+  border-color: var(--green);
+  color: var(--green-dark);
+}
+
+/* responsivo */
+@media (max-width: 760px) {
+  .ecc-form {
+    flex-direction: column;
+  }
+  .ecc-left, .ecc-right {
+    width: 100%;
+  }
+}
+
+
+/* Ajustes para o editor TipTap */
+.ecc-editor-wrapper {
+  border: 2px solid var(--gray-300);
+  border-radius: 8px;
+}
+
+/* ProseMirror (TipTap) já aplica padding interno */
+/* Destaque em foco */
+.ecc-editor-wrapper:focus-within {
+  border-color: var(--green);
+}
+
+/* Opção: limitar altura e permitir scroll */
+.ecc-editor-wrapper .ProseMirror {
+  min-height: 150px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.ecc-toolbar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.ecc-toolbar button {
+  padding: 4px 8px;
+  border: 1px solid var(--gray-300);
+  background: white;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.ecc-toolbar button:hover {
+  border-color: var(--green);
+}
+
+.ecc-toolbar button.active {
+  background: var(--green);
+  color: white;
+  border-color: var(--green-dark);
+}
+
+/* Ajuste do wrapper do editor */
+.ecc-editor-wrapper {
+  border: 2px solid var(--gray-300);
+  border-radius: 8px;
+  padding: 8px;
+}
+
+.ecc-editor-wrapper:focus-within {
+  border-color: var(--green);
+}
+
+/* Altura mínima e scroll interno */
+.ecc-editor-wrapper .ProseMirror {
+  min-height: 150px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+

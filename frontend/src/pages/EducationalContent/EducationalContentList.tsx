@@ -1,7 +1,7 @@
 import React, { useEffect, useState, ChangeEvent } from 'react';
 import axiosInstance from '../../helper/axios-instance';
 import { Link } from 'react-router-dom';
-import './EducationalContentList.css';
+import '../styles/EducationalContent/EducationalContentList.css'; 
 
 interface EducationalContent {
   contentId: number;
