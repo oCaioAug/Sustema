@@ -12,16 +12,22 @@ interface MapComponentProps {
    * Função opcional que será chamada ao clicar no mapa,
    * passando latitude, longitude e o evento do Leaflet.
    */
-  onMapClick?: (lat: number, lng: number, event: L.LeafletMouseEvent) => void;
+  onMapClick: (lat: number, lng: number, ev: L.LeafletMouseEvent) => void;
 
   /**
    * Ref externa opcional para obter acesso ao objeto Leaflet.Map
    * a partir do componente pai.
    */
-  mapRef?: React.RefObject<L.Map | null>;
+  mapRef: React.RefObject<L.Map | null>;
+
+  /**
+   * Marcadores iniciais a serem exibidos no mapa.
+   * Cada marcador pode ter uma posição (lat, lng) e um texto para o popup.
+   */
+  initialMarkers?: { lat: number; lng: number; popup: string }[];
 }
 
-const MapComponent: React.FC<MapComponentProps> = ({ onMapClick, mapRef }) => {
+const MapComponent: React.FC<MapComponentProps> = ({ mapRef, onMapClick, initialMarkers }) => {
   // Se o usuário passou uma mapRef externa, usaremos ela,
   // caso contrário criaremos uma interna.
   const internalMapRef = useRef<L.Map | null>(null);
@@ -53,12 +59,19 @@ const MapComponent: React.FC<MapComponentProps> = ({ onMapClick, mapRef }) => {
         // Adiciona camadas extras
         addLayersToMap(map);
 
-        // Evento de clique: repassa lat, lng e o próprio evento
-        if (onMapClick) {
-          map.on('click', (e: L.LeafletMouseEvent) => {
-            onMapClick(e.latlng.lat, e.latlng.lng, e);
+        // Adiciona marcadores iniciais, se fornecidos
+        if (initialMarkers) {
+          initialMarkers.forEach(({ lat, lng, popup }) => {
+            L.marker([lat, lng], { icon: criarIcone('Orgânico') })
+              .addTo(map)
+              .bindPopup(popup);
           });
         }
+
+        // Evento de clique: repassa lat, lng e o próprio evento
+        map.on('click', (e: L.LeafletMouseEvent) => {
+          onMapClick(e.latlng.lat, e.latlng.lng, e);
+        });
 
         // Guarda a instância do mapa na ref escolhida
         mapRefToUse.current = map;
@@ -95,7 +108,26 @@ const MapComponent: React.FC<MapComponentProps> = ({ onMapClick, mapRef }) => {
         mapInitializedRef.current = false;
       }
     };
-  }, [onMapClick, mapRef]);
+  }, [onMapClick, mapRef, initialMarkers]);
+
+  useEffect(() => {
+    if (mapRef.current) {
+      const map = mapRef.current;
+
+      // Add initial markers if provided
+      if (initialMarkers) {
+        initialMarkers.forEach(marker => {
+          L.marker([marker.lat, marker.lng])
+            .addTo(map)
+            .bindPopup(marker.popup);
+        });
+      }
+
+      map.on('click', (e: L.LeafletMouseEvent) => {
+        onMapClick(e.latlng.lat, e.latlng.lng, e);
+      });
+    }
+  }, [mapRef, onMapClick, initialMarkers]);
 
   return (
     <div

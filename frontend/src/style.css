@@ -54,9 +54,9 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     align-items: start;
     margin-bottom: 10vh;
-    height: 95vh; 
+    height: auto;
     margin-left: 1vh;
-    
+    min-height: fit-content;
 }
 
 .formulario label {
@@ -88,18 +88,13 @@ body {
 }
 
 .mapa {
-    flex: 2;
-    position: relative;
+    flex: 1; /* Faz o mapa ocupar o mesmo espaço que o formulário */
+    height: auto; /* Ajusta a altura automaticamente */
+    min-height: 100%; /* Garante que o mapa preencha o espaço vertical */
     background-color: #e0e0e0;
     border: 1px solid #ccc;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    max-height: 80vh;
-    cursor: grab;
-
-    &:active {
-        cursor:grabbing;
-    }
 }
 
 #modal {
@@ -298,7 +293,7 @@ input:checked + .slider:before {
 
 
 #map {
-    height: 100%;
+    height: 100vh;
 }
 
 
