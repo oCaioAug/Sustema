@@ -1,25 +1,33 @@
 import React from 'react';
 import axiosInstance from '../../helper/axios-instance';
 import { useNavigate, useParams } from 'react-router-dom';
+import './EducationalContentDelete.css'; 
 
-const EducationalContentDelete: React.FC = () => {
+const CollectionPointDelete: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
   const handleDelete = () => {
     axiosInstance.delete(`/EducationalContent/${id}`)
-      .then(() => navigate('/educational-content'))
-      .catch(error => console.error('Error deleting educational content:', error));
+    .then(() => navigate('/educational-content'))
+      .catch(error => console.error('Error deleting Educational Content: ', error));
   };
 
   return (
-    <div>
-      <h1>Apagar Conteúdo Educacional</h1>
-      <p>Tem certeza de que deseja apagar o conteúdo educacional com ID: {id}?</p>
-      <button onClick={handleDelete} className="btn btn-danger">Apagar</button>
-      <button onClick={() => navigate('/educational-content')} className="btn btn-secondary ms-2">Cancelar</button>
+    <div className="container-apagar-coleta">
+      <h2 className="titulo-apagar-coleta">
+        <span style={{ color: 'red' }}>Apagar</span> Ponto de Coleta
+      </h2>
+      <p>
+        Tem certeza de que deseja apagar o conteudo educacional com ID: {id}?
+      </p>
+
+      <div className="botao-container">
+        <button onClick={handleDelete} className="botao-apagar-coleta">Apagar</button>
+        <button onClick={() => navigate('/educational-content')} className="botao-cancelar-coleta">Cancelar</button>
+      </div>
     </div>
   );
 };
 
-export default EducationalContentDelete;
+export default CollectionPointDelete;

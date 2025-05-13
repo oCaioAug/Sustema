@@ -50,97 +50,86 @@ const EducationalContentCreate: React.FC = () => {
   };
 
   return (
-    <div className="container mt-4">
-      <div className="card shadow">
-        <div className="card-header bg-primary text-white">
-          <h4 className="mb-0">Novo Conteúdo Educacional</h4>
+    <div className="educational-content-create-layout">
+      <div className="cover-section">
+        <div className="cover-image-preview">
+          {image ? (
+            <img src={URL.createObjectURL(image)} alt="Capa" className="cover-image" />
+          ) : (
+            <span className="cover-placeholder">capa</span>
+          )}
         </div>
-        
-        <div className="card-body">
-          <form onSubmit={handleSubmit}>
-            <div className="mb-3">
-              <label className="form-label fw-bold">Título</label>
-              <input
-                type="text"
-                className="form-control"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                required
-              />
-            </div>
-            <div className="mb-3">
-              <label className="form-label fw-bold">Descrição</label>
-              <textarea
-                className="form-control"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                required
-              />
-            </div>
-            <div className="mb-3">
-              <label className="form-label fw-bold">Tipo</label>
-              <select
-                className="form-control"
-                value={type}
-                onChange={(e) => setType(e.target.value)}
-                required
-              >
-                <option value="">Selecione um tipo</option>
-                <option value="Artigo">Artigo</option>
-                <option value="Vídeo">Vídeo</option>
-              </select>
-            </div>
-            <div className="mb-3">
-              <label className="form-label fw-bold">
-                {type === 'Artigo' ? 'Conteúdo do Artigo' : 'URL do Vídeo'}
-              </label>
-              {type === 'Artigo' ? (
-                <textarea
-                  className="form-control"
-                  value={content}
-                  onChange={(e) => setContent(e.target.value)}
-                  rows={5}
-                  required
-                />
-              ) : (
-                <input
-                  type="url"
-                  className="form-control"
-                  placeholder="Ex: https://www.youtube.com/watch?v=..."
-                  value={content}
-                  onChange={(e) => setContent(e.target.value)}
-                  required={type === 'Vídeo'}
-                />
-              )}
-            </div>
-            <div className="mb-3">
-              <label className="form-label fw-bold">Imagem de Capa</label>
-              <input
-                type="file"
-                className="form-control"
-                onChange={(e) => setImage(e.target.files ? e.target.files[0] : null)}
-              />
-              <small className="text-muted">Opcional. Imagem para ilustrar o conteúdo.</small>
-            </div>
-            <div className="d-grid gap-2 d-md-flex justify-content-md-end">
-              <button 
-                type="button" 
-                className="btn btn-secondary me-md-2" 
-                onClick={() => navigate('/educational-content')}
-              >
-                Cancelar
-              </button>
-              <button 
-                type="submit" 
-                className="btn btn-success" 
-                disabled={loading}
-              >
-                {loading ? 'Salvando...' : 'Salvar Conteúdo'}
-              </button>
-            </div>
-          </form>
+        <div className="cover-file-input">
+          <input
+            type="file"
+            accept="image/*"
+            onChange={e => setImage(e.target.files ? e.target.files[0] : null)}
+            id="cover-upload"
+          />
+          <label htmlFor="cover-upload" className="cover-upload-label">
+            (arquivo da capa)
+          </label>
         </div>
       </div>
+      <form className="content-section" onSubmit={handleSubmit}>
+        <div className="field-group">
+          <label htmlFor="title">Título</label>
+          <input
+            id="title"
+            type="text"
+            value={title}
+            onChange={e => setTitle(e.target.value)}
+            required
+          />
+        </div>
+        <div className="field-group">
+          <label htmlFor="description">Descrição</label>
+          <textarea
+            id="description"
+            value={description}
+            onChange={e => setDescription(e.target.value)}
+            required
+          />
+        </div>
+        <div className="field-group">
+          <label htmlFor="type">Tipo</label>
+          <select
+            id="type"
+            value={type}
+            onChange={e => setType(e.target.value)}
+            required
+          >
+            <option value="">Selecione um tipo</option>
+            <option value="Artigo">Artigo</option>
+            <option value="Vídeo">Vídeo</option>
+          </select>
+        </div>
+        <div className="field-group">
+          <label htmlFor="content">{type === 'Artigo' ? 'Conteúdo do Artigo' : 'URL do Vídeo'}</label>
+          {type === 'Artigo' ? (
+            <textarea
+              id="content"
+              value={content}
+              onChange={e => setContent(e.target.value)}
+              rows={5}
+              required
+            />
+          ) : (
+            <input
+              id="content"
+              type="url"
+              placeholder="Ex: https://www.youtube.com/watch?v=..."
+              value={content}
+              onChange={e => setContent(e.target.value)}
+              required={type === 'Vídeo'}
+            />
+          )}
+        </div>
+        <div className="actions">
+          <button type="button" className="btn-cancel" onClick={() => navigate('/educational-content')}>Cancelar</button>
+          <button type="submit" className="btn-save" disabled={loading}>{loading ? 'Salvando...' : 'Salvar Conteúdo'}</button>
+        </div>
+      </form>
     </div>
   );
 };

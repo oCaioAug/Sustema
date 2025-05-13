@@ -1,0 +1,109 @@
+.container-apagar-coleta {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 73vh;
+    text-align: center;
+    /* margin-bottom: 3vh; */
+
+    &::after{
+
+    }
+}
+
+.titulo-apagar-coleta {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.botao-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* Espaçamento entre os botões */
+}
+
+.botao-apagar-coleta {
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.botao-apagar-coleta:hover {
+    background-color: #c9302c;
+}
+
+.botao-cancelar-coleta {
+    background-color: #5bc0de;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.botao-cancelar-coleta:hover {
+    background-color: #31b0d5;
+}
+.delete-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-image: url('../../../public/imgs/background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: #000000;
+    text-align: center;
+    padding: 20px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 15vh;
+}
+
+.btn-delete {
+    background-color: #e72d15e1;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.btn-delete:hover {
+    background-color: #ff0000;
+}
+
+.btn-cancel {
+    background-color: #35a4e4;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.btn-cancel:hover {
+    background-color: #00a2ff;
+}
+
+.highlight-delete {
+  color: #c21802; /* Cor específica para a palavra "Excluir" */
+  font-weight: bold; /* Opcional: deixa a palavra em negrito */
+}
