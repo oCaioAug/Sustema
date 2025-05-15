@@ -16,7 +16,7 @@ const CollectionPointDelete: React.FC = () => {
   return (
     <div className="container-apagar-coleta">
       <h2 className="titulo-apagar-coleta">
-        <span style={{ color: 'red' }}>Apagar</span> Ponto de Coleta
+        <span style={{ color: 'red' }}>Apagar</span> Conteudo Educacional
       </h2>
       <p>
         Tem certeza de que deseja apagar o conteudo educacional com ID: {id}?

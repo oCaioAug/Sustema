@@ -75,6 +75,22 @@ namespace Sustema.Api.Controllers
                 return BadRequest(ModelState);
             }
 
+            // Garante que a URL e TextoArtigo sejam preenchidos corretamente
+            if (content.Tipo == ContentType.Video)
+            {
+                content.TextoArtigo = null;
+                content.URL = content.URL ?? content.Titulo; // fallback se vier vazio
+            }
+            else if (content.Tipo == ContentType.Artigo)
+            {
+                content.URL = null; // Artigo não tem URL
+                // Garante que TextoArtigo está preenchido
+                if (string.IsNullOrWhiteSpace(content.TextoArtigo))
+                {
+                    return BadRequest(new { message = "O texto do artigo é obrigatório para conteúdos do tipo Artigo." });
+                }
+            }
+
             await _repository.AddAsync(content);
             await _repository.SaveChangesAsync();
 
@@ -106,11 +122,37 @@ namespace Sustema.Api.Controllers
                 return NotFound(new { message = "Conteúdo educacional não encontrado!", id });
             }
 
+            // LOG DETALHADO PARA DEPURAÇÃO
+            Console.WriteLine($"[DEBUG] TextoArtigo recebido: {updatedContent.TextoArtigo}");
+            Console.WriteLine($"[DEBUG] TextoArtigo antes do update: {content.TextoArtigo}");
+
             content.Titulo = updatedContent.Titulo;
             content.Descricao = updatedContent.Descricao;
             content.Tipo = updatedContent.Tipo;
-            content.URL = updatedContent.URL;
             content.DataPublicacao = updatedContent.DataPublicacao;
+
+            if (updatedContent.Tipo == ContentType.Video)
+            {
+                content.URL = updatedContent.URL;
+                content.TextoArtigo = string.Empty;
+            }
+            else if (updatedContent.Tipo == ContentType.Artigo)
+            {
+                content.TextoArtigo = updatedContent.TextoArtigo ?? string.Empty;
+                content.URL = string.Empty;
+                // Força o EF a marcar o campo como modificado
+                var dbContext = (Sustema.Api.Data.ApplicationDbContext)typeof(Repository<EducationalContent>)
+                    .GetField("_context", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                    .GetValue(_repository);
+                dbContext.Entry(content).Property(x => x.TextoArtigo).IsModified = true;
+            }
+            else
+            {
+                content.URL = updatedContent.URL;
+                content.TextoArtigo = updatedContent.TextoArtigo ?? string.Empty;
+            }
+
+            Console.WriteLine($"[DEBUG] TextoArtigo depois do update: {content.TextoArtigo}");
 
             _repository.Update(content);
             await _repository.SaveChangesAsync();

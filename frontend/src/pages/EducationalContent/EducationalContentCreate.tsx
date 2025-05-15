@@ -1,41 +1,42 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useEditor, EditorContent } from '@tiptap/react';
-import StarterKit from '@tiptap/starter-kit';
-import Underline from '@tiptap/extension-underline';
 import axiosInstance from '../../helper/axios-instance';
 import '../styles/EducationalContent/EducationalContentCreate.css';
+import { url } from 'inspector';
 
 const EducationalContentCreate: React.FC = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [type, setType] = useState<'Artigo' | 'Vídeo' | ''>('');
   const [videoUrl, setVideoUrl] = useState('');
+  const [content, setContent] = useState(''); // Substitui o editor por um estado simples
   const [image, setImage] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-
-  // configura o editor TipTap com Underline
-  const editor = useEditor({
-    extensions: [
-      StarterKit,
-      Underline,
-    ],
-    content: '',
-  });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     try {
-      const tipoNumeric = type === 'Artigo' ? 0 : 1;
+      let tipoNumeric = 0;
+
+      if (type === 'Artigo') {
+        tipoNumeric = 4;
+      } else if (type === 'Vídeo') {
+        tipoNumeric = 2;
+      }
+
       const payload = {
         Titulo: title,
         Descricao: description,
         Tipo: tipoNumeric,
-        Conteudo: type === 'Artigo' ? editor?.getHTML() : videoUrl,
+        URL: type === 'Vídeo' ? videoUrl : null,
+        TextoArtigo: type === 'Artigo' ? content : null,
         DataPublicacao: new Date().toISOString(),
       };
+
+      console.log('Payload:', payload);
+      
       await axiosInstance.post('/EducationalContent', payload);
       navigate('/educational-content');
     } catch (err) {
@@ -105,44 +106,15 @@ const EducationalContentCreate: React.FC = () => {
             <label htmlFor="content">
               {type === 'Artigo' ? 'conteúdo do artigo' : 'URL do vídeo'}
             </label>
-            {type === 'Artigo' && editor ? (
-              <>
-                <div className="ecc-toolbar">
-                  <button
-                    type="button"
-                    onClick={() => editor.chain().focus().toggleBold().run()}
-                    className={editor.isActive('bold') ? 'active' : ''}
-                  ><strong>B</strong></button>
-                  <button
-                    type="button"
-                    onClick={() => editor.chain().focus().toggleItalic().run()}
-                    className={editor.isActive('italic') ? 'active' : ''}
-                  ><em>I</em></button>
-                  <button
-                    type="button"
-                    onClick={() => editor.chain().focus().toggleStrike().run()}
-                    className={editor.isActive('strike') ? 'active' : ''}
-                  ><s>S</s></button>
-                  <button
-                    type="button"
-                    onClick={() => editor.chain().focus().toggleUnderline().run()}
-                    className={editor.isActive('underline') ? 'active' : ''}
-                  ><u>U</u></button>
-                  <button
-                    type="button"
-                    onClick={() => editor.chain().focus().toggleBulletList().run()}
-                    className={editor.isActive('bulletList') ? 'active' : ''}
-                  >• List</button>
-                  <button
-                    type="button"
-                    onClick={() => editor.chain().focus().toggleOrderedList().run()}
-                    className={editor.isActive('orderedList') ? 'active' : ''}
-                  >1. List</button>
-                </div>
-                <div className="ecc-editor-wrapper">
-                  <EditorContent editor={editor} />
-                </div>
-              </>
+            {type === 'Artigo' ? (
+              <textarea
+                id="content"
+                className="ecc-textarea"
+                value={content}
+                onChange={e => setContent(e.target.value)}
+                required
+                rows={8}
+              />
             ) : (
               <input
                 id="content"
@@ -185,7 +157,7 @@ const EducationalContentCreate: React.FC = () => {
         </div>
       </form>
     </div>
-);
+  );
 };
 
 export default EducationalContentCreate;

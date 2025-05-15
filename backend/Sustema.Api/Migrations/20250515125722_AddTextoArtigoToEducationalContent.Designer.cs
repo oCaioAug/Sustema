@@ -12,8 +12,8 @@ using Sustema.Api.Data;
 namespace Sustema.Api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250501145134_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250515125722_AddTextoArtigoToEducationalContent")]
+    partial class AddTextoArtigoToEducationalContent
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -69,6 +69,9 @@ namespace Sustema.Api.Migrations
 
                     b.Property<string>("Descricao")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TextoArtigo")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Tipo")

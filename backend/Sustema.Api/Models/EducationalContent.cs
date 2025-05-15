@@ -74,5 +74,10 @@ namespace Sustema.Api.Models
         /// </summary>
         [Required]
         public DateTime DataPublicacao { get; set; }
+
+        /// <summary>
+        /// Gets or sets the article text for article content type.
+        /// </summary>
+        public string TextoArtigo { get; set; } // Novo campo para artigos
     }
 }
