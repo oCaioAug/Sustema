@@ -55,7 +55,8 @@ namespace Sustema.Api.Controllers
                 return NotFound(new { message = "Conteúdo educacional não encontrado!"});
             }
 
-            return Ok(new { data = content});
+            // Retorna todos os campos do conteúdo educacional
+            return Ok(content);
         }
 
         // POST: api/EducationalContent

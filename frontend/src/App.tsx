@@ -12,6 +12,7 @@ import EducationalContentEdit from './pages/EducationalContent/EducationalConten
 import EducationalContentDelete from './pages/EducationalContent/EducationalContentDelete';
 import EducationalContentView from './pages/EducationalContent/EducationalContentView';
 import EducationalContentDetails from './pages/EducationalContent/EducationalContentDetails';
+import EducationalContentCards from './pages/EducationalContent/EducationalContentCards';
 import CollectionPointList from './pages/CollectionPoint/CollectionPointList';
 import CollectionPointCreate from './pages/CollectionPoint/CollectionPointCreate';
 import CollectionPointEdit from './pages/CollectionPoint/CollectionPointEdit';
@@ -77,11 +78,12 @@ function App() {
         </Route>
         
         {/* Rotas Protegidas - Conteúdo Educacional (CRUD) */}
-        <Route element={<ProtectedRoute />}>
+        {/* <Route element={<ProtectedRoute />}> */}
           <Route path="/educational-content/create" element={<EducationalContentCreate />} />
           <Route path="/educational-content/edit/:id" element={<EducationalContentEdit />} />
           <Route path="/educational-content/delete/:id" element={<EducationalContentDelete />} />
-        </Route>
+          <Route path="/educational-content/educational-cards" element={<EducationalContentCards />} />
+        {/* </Route> */}
         
         {/* Rotas Protegidas - Pontos de Coleta (CRUD) */}
         <Route element={<ProtectedRoute />}>

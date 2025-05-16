@@ -19,10 +19,10 @@ const EducationalContentEdit: React.FC = () => {
     if (!id) return;
     axiosInstance.get(`/EducationalContent/${id}`)
       .then(response => {
-        const data = response.data.data;
+        const data = response.data;
         setTitle(data.titulo);
         setDescription(data.descricao);
-        // Ajuste: tipo conforme string recebida do backend ("Artigo" ou "Video")
+        // Ajuste: tipo conforme string recebida do backend ("Artigo", "Video", "Imagem", etc)
         if (data.tipo === "Artigo") {
           setType('Artigo');
           setArticleContent(data.textoArtigo || '');
@@ -36,6 +36,8 @@ const EducationalContentEdit: React.FC = () => {
           setArticleContent('');
           setVideoUrl('');
         }
+        // Se quiser carregar imagem existente, pode adicionar aqui
+        // setImage(data.imagem || null);
       })
       .catch(err => {
         console.error('Erro ao carregar conteúdo educacional:', err);
@@ -47,24 +49,21 @@ const EducationalContentEdit: React.FC = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      // Ajuste: tipoNumeric conforme enum backend (Artigo = 4, Vídeo = 2)
-      let tipoNumeric = 0;
-      if (type === 'Artigo') tipoNumeric = 4;
-      else if (type === 'Vídeo') tipoNumeric = 2;
+      // Ajuste: tipoString conforme enum backend (Artigo, Video, Imagem, etc)
+      let tipoString = type;
       const payload: any = {
         Titulo: title,
         Descricao: description,
-        Tipo: tipoNumeric,
+        Tipo: tipoString,
         URL: type === 'Vídeo' ? videoUrl : null,
         TextoArtigo: type === 'Artigo' ? articleContent : null,
         DataPublicacao: new Date().toISOString(),
       };
-      console.log('Payload:', payload);
       // Se estiver alterando também a imagem, use FormData:
       if (image) {
         const form = new FormData();
         Object.entries(payload).forEach(([key, value]) => {
-          form.append(key, value as string);
+          if (value !== null && value !== undefined) form.append(key, value as string);
         });
         form.append('Imagem', image);
         await axiosInstance.put(`/EducationalContent/${id}`, form, {

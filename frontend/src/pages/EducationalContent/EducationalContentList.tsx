@@ -86,7 +86,7 @@ const EducationalContentList: React.FC = () => {
                   <td>{content.titulo}</td>
                   <td>{content.descricao}</td>
                   <td>{content.tipo}</td>
-                  <td>{content.dataPublicacao}</td>
+                  <td>{content.dataPublicacao ? new Date(content.dataPublicacao).toLocaleDateString() : ''}</td>
                   <td>
                     <Link
                       to={`/educational-content/edit/${content.contentId}`}
