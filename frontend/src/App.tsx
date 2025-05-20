@@ -86,11 +86,11 @@ function App() {
         {/* </Route> */}
         
         {/* Rotas Protegidas - Pontos de Coleta (CRUD) */}
-        <Route element={<ProtectedRoute />}>
+        {/* <Route element={<ProtectedRoute />}> */}
           <Route path="/collection-points/create" element={<CollectionPointCreate />} />
           <Route path="/collection-points/edit/:id" element={<CollectionPointEdit />} />
           <Route path="/collection-points/delete/:id" element={<CollectionPointDelete />} />
-        </Route>
+        {/* </Route> */}
         
         {/* Rotas Protegidas - Perfil */}
         <Route element={<ProtectedRoute />}>

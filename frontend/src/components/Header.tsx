@@ -46,7 +46,7 @@ const Header = () => {
               </li>
             )}
             <li>
-              <Link to={'/collection-points'} className="btn">Pontos de Coleta</Link>
+              <Link to={'/collection-points2'} className="btn">Pontos de Coleta</Link>
             </li>
             <li>
               <Link to={'/educational-content'} className="btn">Conteúdo Educacional</Link>

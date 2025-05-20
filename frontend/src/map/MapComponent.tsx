@@ -25,9 +25,15 @@ interface MapComponentProps {
    * Cada marcador pode ter uma posição (lat, lng) e um texto para o popup.
    */
   initialMarkers?: { lat: number; lng: number; popup: string }[];
+
+  /**
+   * ID customizado para o container do mapa.
+   * Permite aplicar CSS específico para este mapa.
+   */
+  containerId?: string;
 }
 
-const MapComponent: React.FC<MapComponentProps> = ({ mapRef, onMapClick, initialMarkers }) => {
+const MapComponent: React.FC<MapComponentProps> = ({ mapRef, onMapClick, initialMarkers, containerId }) => {
   // Se o usuário passou uma mapRef externa, usaremos ela,
   // caso contrário criaremos uma interna.
   const internalMapRef = useRef<L.Map | null>(null);
@@ -38,11 +44,11 @@ const MapComponent: React.FC<MapComponentProps> = ({ mapRef, onMapClick, initial
 
   useEffect(() => {
     const initMap = () => {
-      const mapElement = document.getElementById('map');
+      const mapElement = document.getElementById(containerId || 'map');
       if (!mapElement) return;
 
       try {
-        const map = L.map('map', {
+        const map = L.map(containerId || 'map', {
           center: [-22.4689, -44.4469],
           zoom: 8
         });
@@ -108,7 +114,7 @@ const MapComponent: React.FC<MapComponentProps> = ({ mapRef, onMapClick, initial
         mapInitializedRef.current = false;
       }
     };
-  }, [onMapClick, mapRef, initialMarkers]);
+  }, [onMapClick, mapRef, initialMarkers, containerId]);
 
   useEffect(() => {
     if (mapRef.current) {
@@ -131,10 +137,10 @@ const MapComponent: React.FC<MapComponentProps> = ({ mapRef, onMapClick, initial
 
   return (
     <div
-      id="map"
+      id={containerId || 'map'}
       style={{
         width: '100%',
-        height: '400px',
+        height: '100%', // Alterado de 400px para 100% para permitir controle via CSS externo
         position: 'relative'
       }}
     />
