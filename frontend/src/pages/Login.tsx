@@ -61,13 +61,13 @@ const Login = () => {
           <form onSubmit={handleSubmit}>
             <h1>Login</h1>
 
-            <button
+            {/* <button
               type="button"
               className="botao-voltar"
               onClick={() => navigate('/')}
             >
               Voltar
-            </button>
+            </button> */}
 
             {from && from !== '/' && (
               <div className="info-message" style={{ color: 'blue', marginBottom: '15px' }}>

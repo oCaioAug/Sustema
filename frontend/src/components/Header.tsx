@@ -57,9 +57,9 @@ const Header = () => {
             <li>
               <Link to={'/tutoriais'} className="btn">Tutoriais</Link>
             </li>
-            <li>
+            {/* <li>
               <Link to={'/estatisticas'} className="btn">Estatísticas</Link>
-            </li>
+            </li> */}
             {isAuthenticated ? (
               <>
                 <li>

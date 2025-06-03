@@ -22,10 +22,10 @@ const CollectionPointCreate: React.FC = () => {
   const mapRef = useRef<L.Map | null>(null)
 
   const handleCepBlur = async () => {
-    if (cep.length !== 8) {
-      alert('Digite um CEP válido com 8 dígitos.')
-      return
-    }
+    // if (cep.length !== 8) {
+    //   alert('Digite um CEP válido com 8 dígitos.')
+    //   return
+    // }
     try {
       const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`)
       const data = response.data
