@@ -35,7 +35,7 @@ const Home = () => {
       </picture>
     </div>
 
-    <div className="container around">
+    {/* <div className="container around">
       <div className="tituloTexto">
         <h2>Estatísticas</h2>
         <p className="texto">
@@ -43,14 +43,13 @@ const Home = () => {
           Confira os dados referentes à coleta de cada material.
         </p>
         <br />
-        {/* <button className="btn" onClick={() => window.location.href = 'tutorials.html'}>Estatísticas</button> */}
         <Link to="/estatisticas" className="btn">Estatísticas</Link>
       </div>
 
       <picture className="showImg">
         <img src="./imgs/graphic.jpg" alt="Gráfico ilustrativo" />
       </picture>
-    </div>
+    </div> */}
 
     <div className="container around">
       <div className="tituloTexto">

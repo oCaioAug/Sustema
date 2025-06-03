@@ -27,7 +27,7 @@ body {
     display: flex;
     gap: 20px;
     height: 853px;
-    
+    max-height: fit-content;
 }
 
 .formulario {
