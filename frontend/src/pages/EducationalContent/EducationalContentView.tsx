@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axiosInstance from '../../helper/axios-instance';
 import { useParams, useNavigate } from 'react-router-dom';
-import '../../style.css';
+import '../styles/EducationalContent/EducationalContentView.css'; 
 
 const EducationalContentView: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -41,46 +41,26 @@ const EducationalContentView: React.FC = () => {
 
   return (
     <div className="content-view-container">
-      <div className="content-view-card">
+      <div className="titulo-container">
         <h1>{title}</h1>
-        <p className="content-description">{description}</p>
-        <p className="content-type"><b>Tipo:</b> {type}</p>
-        {publicationDate && <p className="content-date"><b>Publicado em:</b> {publicationDate}</p>}
-
-        {type === 'Artigo' && article && (
-          <div className="content-article">
-            <h2>Artigo</h2>
-            <p>{article}</p>
-          </div>
-        )}
-        {type === 'Imagem' && imageUrl && (
-          <div className="content-image">
-            <img src={imageUrl} alt="Imagem de capa" className="content-cover" />
-          </div>
-        )}
-        {type === 'Video' && url && (
-          <div className="content-video">
-            <h2>Vídeo</h2>
-            <iframe
-              width="100%"
-              height="400"
-              src={url}
-              title="Vídeo"
-              frameBorder="0"
-              allowFullScreen
-            />
-          </div>
-        )}
-        {type === 'Infografico' && imageUrl && (
-          <div className="content-infographic">
-            <h2>Infográfico</h2>
-            <img src={imageUrl} alt="Infográfico" className="content-cover" />
-          </div>
-        )}
-
-        <button className="botao-verde" onClick={() => navigate('/educational-content')}>
-          Voltar
-        </button>
+      </div>
+      <p><strong>Data de Publicação:</strong> {publicationDate}</p>
+      {imageUrl && <img src={imageUrl} alt={title} className="content-image" />}
+      <p>{description}</p>
+      {url && (
+        <div>
+          <h2>Link Externo</h2>
+          <a href={url} target="_blank" rel="noopener noreferrer">{url}</a>
+        </div>
+      )}
+      {article && (
+        <div>
+          <h2>Artigo</h2>
+          <p>{article}</p>
+        </div>
+      )}
+      <div className="button-container">
+        <button onClick={() => navigate(-1)} className="back-button">Voltar</button>
       </div>
     </div>
   );

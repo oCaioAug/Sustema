@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import axiosInstance from '../../helper/axios-instance';
 import '../styles/EducationalContent/EducationalContentCards.css';
 
@@ -11,9 +10,11 @@ interface EducationalContent {
   tipo: string;
   url?: string;
   imagem?: string;
+  dataPublicacao?: string;
+  autor?: string;
 }
 
-const EducationalContentCards: React.FC = () => {
+const EducationalContentCards = () => {
   const [contents, setContents] = useState<EducationalContent[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -24,15 +25,21 @@ const EducationalContentCards: React.FC = () => {
         setContents(data);
         setLoading(false);
       })
-      .catch(err => {
+      .catch(() => {
         setError('Erro ao buscar conteúdos educacionais.');
         setLoading(false);
       });
   }, []);
 
+  function formatarData(dataString?: string) {
+    if (!dataString) return '';
+    const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(dataString).toLocaleDateString('pt-BR', options);
+  }
+
   if (loading) {
     return (
-      <div className="cards-container">
+      <div className="ecc-cards-container">
         <p>Carregando...</p>
       </div>
     );
@@ -40,33 +47,38 @@ const EducationalContentCards: React.FC = () => {
 
   if (error) {
     return (
-      <div className="cards-container">
+      <div className="ecc-cards-container">
         <p>{error}</p>
       </div>
     );
   }
 
   return (
-    <div className="cards-container">
-      {contents.length === 0 ? (
-        <p>Nenhum conteúdo encontrado.</p>
-      ) : (
-        contents.map(item => (
-          <div key={item.contentId} className="card">
-            {item.imagem && (
-              <img src={item.imagem} alt={item.titulo} className="card-image" />
-            )}
-            <div className="card-body">
-              <h3 className="card-title">{item.titulo}</h3>
-              <p className="card-description">{item.descricao}</p>
-              <p className="card-type">Tipo: {item.tipo}</p>
-              <Link to={`/educational-content/view/${item.contentId}`} className="card-button">
-                Ver Mais
-              </Link>
-            </div>
+    <div className="ecc-container-conteudo">
+      <button className="ecc-botao-adicionar" onClick={() => {/* abrir modal aqui */}}>+ adicionar</button>
+      <div className="ecc-grade-conteudos">
+        {contents.length === 0 ? (
+          <div className="ecc-sem-conteudo">
+            <p>Nenhum conteúdo educacional encontrado</p>
           </div>
-        ))
-      )}
+        ) : (
+          contents.map(item => (
+            <div key={item.contentId} className="ecc-card-conteudo">
+              <div className="ecc-categoria">{item.tipo}</div>
+              <h3 className="ecc-titulo-conteudo">{item.titulo}</h3>
+              {item.imagem && (
+                <img src={item.imagem} alt={item.titulo} className="ecc-imagem-card" />
+              )}
+              <p className="ecc-descricao-conteudo">{item.descricao}</p>
+              <div className="ecc-metadados">
+                <span className="ecc-data">{formatarData((item as any).dataPublicacao)}</span>
+                <span className="ecc-autor">{(item as any).autor}</span>
+              </div>
+              <button className="ecc-botao-ver-mais" onClick={() => window.location.href = `/educational-content/view/${item.contentId}`}>Ver Conteúdo</button>
+            </div>
+          ))
+        )}
+      </div>
     </div>
   );
 };
