@@ -14,21 +14,21 @@ using Sustema.Api.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Validação de DTOs
+// Validaï¿½ï¿½o de DTOs
 builder.Services.AddValidatorsFromAssemblyContaining<RegisterRequestValidator>();
 // Add services to the container.
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Registro dos serviços
+// Registro dos serviï¿½os
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IRepository<EducationalContent>, Repository<EducationalContent>>();
 builder.Services.AddScoped<IRepository<CollectionPoint>, Repository<CollectionPoint>>();
 builder.Services.AddScoped<IUserService, UserService>();
 
 
-// Configuração de autenticação JWT
+// Configuraï¿½ï¿½o de autenticaï¿½ï¿½o JWT
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -71,7 +71,7 @@ builder.Services.AddSwaggerGen(c =>
     c.IncludeXmlComments(xmlPath);
 });
 
-// Adicione o serviço de CORS
+// Adicione o serviï¿½o de CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAllOrigins", policy =>
@@ -110,4 +110,7 @@ app.MapControllers();
 
 app.UseMiddleware<ExceptionMiddleware>();
 
-app.Run(); 
+app.Run();
+
+// Torna a classe Program pÃºblica para testes
+public partial class Program { }
