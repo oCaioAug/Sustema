@@ -2,26 +2,11 @@ import React from 'react';
 import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import Login from './Login';
+import axiosInstance from '../helper/axios-instance';
 
-// Mock the axios-instance before any imports that might use it
-jest.mock('../helper/axios-instance', () => ({
-  __esModule: true,
-  default: {
-    get: jest.fn(),
-    post: jest.fn(),
-    put: jest.fn(),
-    delete: jest.fn(),
-    interceptors: {
-      request: { use: jest.fn() },
-      response: { use: jest.fn() }
-    }
-  }
-}));
-
-// Mock do axios
-import axios from 'axios';
-jest.mock('axios');
-const mockedAxios = axios as jest.Mocked<typeof axios>;
+// Mock do axios-instance
+jest.mock('../helper/axios-instance');
+const mockedAxios = axiosInstance as jest.Mocked<typeof axiosInstance>;
 
 // Mock do useNavigate
 const mockNavigate = jest.fn();
@@ -59,17 +44,15 @@ describe('Login Component', () => {
   test('renders login form correctly', () => {
     renderWithRouter(<Login />);
     
-    expect(screen.getByRole('textbox', { name: /email/i })).toBeInTheDocument();
+    expect(screen.getByLabelText(/e-mail/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/senha/i)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /entrar/i })).toBeInTheDocument();
+    expect(screen.getByDisplayValue(/entrar/i)).toBeInTheDocument();
   });
 
   test('handles successful login', async () => {
     const mockResponse = {
       data: {
-        success: true,
-        token: 'fake-token',
-        user: { id: 1, email: 'test@example.com' }
+        token: 'fake-token'
       }
     };
     
@@ -77,9 +60,9 @@ describe('Login Component', () => {
     
     renderWithRouter(<Login />);
     
-    const emailInput = screen.getByRole('textbox', { name: /email/i });
+    const emailInput = screen.getByLabelText(/e-mail/i);
     const passwordInput = screen.getByLabelText(/senha/i);
-    const submitButton = screen.getByRole('button', { name: /entrar/i });
+    const submitButton = screen.getByDisplayValue(/entrar/i);
     
     fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
     fireEvent.change(passwordInput, { target: { value: 'password123' } });
@@ -94,9 +77,9 @@ describe('Login Component', () => {
   test('handles login failure', async () => {
     const mockError = {
       response: {
+        status: 401,
         data: {
-          success: false,
-          message: 'Invalid credentials'
+          error: 'Invalid credentials'
         }
       }
     };
@@ -105,23 +88,43 @@ describe('Login Component', () => {
     
     renderWithRouter(<Login />);
     
-    const emailInput = screen.getByRole('textbox', { name: /email/i });
+    const emailInput = screen.getByLabelText(/e-mail/i);
     const passwordInput = screen.getByLabelText(/senha/i);
-    const submitButton = screen.getByRole('button', { name: /entrar/i });
+    const submitButton = screen.getByDisplayValue(/entrar/i);
     
     fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
     fireEvent.change(passwordInput, { target: { value: 'wrongpassword' } });
     fireEvent.click(submitButton);
     
     await waitFor(() => {
-      expect(screen.getByText(/invalid credentials/i)).toBeInTheDocument();
+      expect(screen.getByText(/email ou senha inválidos/i)).toBeInTheDocument();
+    });
+  });
+
+  test('handles network error', async () => {
+    const mockError = new Error('Network Error');
+    
+    mockedAxios.post.mockRejectedValue(mockError);
+    
+    renderWithRouter(<Login />);
+    
+    const emailInput = screen.getByLabelText(/e-mail/i);
+    const passwordInput = screen.getByLabelText(/senha/i);
+    const submitButton = screen.getByDisplayValue(/entrar/i);
+    
+    fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
+    fireEvent.change(passwordInput, { target: { value: 'password123' } });
+    fireEvent.click(submitButton);
+    
+    await waitFor(() => {
+      expect(screen.getByText(/erro ao conectar ao servidor/i)).toBeInTheDocument();
     });
   });
 
   test('renders registration link', () => {
     renderWithRouter(<Login />);
     
-    expect(screen.getByText(/não tem uma conta/i)).toBeInTheDocument();
-    expect(screen.getByText(/registre-se/i)).toBeInTheDocument();
+    expect(screen.getByText(/ainda não tem conta/i)).toBeInTheDocument();
+    expect(screen.getByText(/cadastre-se/i)).toBeInTheDocument();
   });
 });

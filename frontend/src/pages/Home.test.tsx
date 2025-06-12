@@ -1,10 +1,10 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import Home from '../Home';
+import Home from './Home';
 
 // Mock do useDocumentTitle
-jest.mock('../../helper/useDocumentTitle', () => {
+jest.mock('../helper/useDocumentTitle', () => {
   return jest.fn();
 });
 
@@ -41,7 +41,7 @@ describe('Home Component', () => {
   });
 
   test('sets correct document title', () => {
-    const mockUseDocumentTitle = require('../../helper/useDocumentTitle');
+    const mockUseDocumentTitle = require('../helper/useDocumentTitle');
     
     renderWithRouter(<Home />);
     
