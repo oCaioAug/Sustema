@@ -1,5 +1,6 @@
 import React from 'react';
 import { render, screen, waitFor, fireEvent } from '@testing-library/react';
+import { BrowserRouter } from 'react-router-dom';
 import '@testing-library/jest-dom';
 import EducationalContentList from './EducationalContentList';
 import axiosInstance from '../../helper/axios-instance';
@@ -25,13 +26,21 @@ const mockContents = [
   }
 ];
 
+const renderWithRouter = (component: React.ReactElement) => {
+  return render(
+    <BrowserRouter>
+      {component}
+    </BrowserRouter>
+  );
+};
+
 describe('EducationalContentList', () => {
   beforeEach(() => {
     (axiosInstance.get as jest.Mock).mockResolvedValue({ data: mockContents });
   });
 
   it('renderiza a lista de conteúdos', async () => {
-    render(<EducationalContentList />);
+    renderWithRouter(<EducationalContentList />);
     expect(screen.getByPlaceholderText(/Pesquisar por título/i)).toBeInTheDocument();
     await waitFor(() => {
       expect(screen.getByText('Primeiro Conteúdo')).toBeInTheDocument();
@@ -40,7 +49,7 @@ describe('EducationalContentList', () => {
   });
 
   it('filtra conteúdos pelo título', async () => {
-    render(<EducationalContentList />);
+    renderWithRouter(<EducationalContentList />);
     await waitFor(() => screen.getByText('Primeiro Conteúdo'));
     const input = screen.getByPlaceholderText(/Pesquisar por título/i);
     fireEvent.change(input, { target: { value: 'Segundo' } });

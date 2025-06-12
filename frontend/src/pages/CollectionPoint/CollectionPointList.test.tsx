@@ -1,11 +1,11 @@
 import React from 'react';
 import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import CollectionPointList from '../CollectionPointList';
-import axiosInstance from '../../../helper/axios-instance';
+import CollectionPointList from './CollectionPointList';
+import axiosInstance from '../../helper/axios-instance';
 
 // Mock do axios
-jest.mock('../../../helper/axios-instance');
+jest.mock('../../helper/axios-instance');
 const mockedAxios = axiosInstance as jest.Mocked<typeof axiosInstance>;
 
 const renderWithRouter = (component: React.ReactElement) => {
@@ -67,7 +67,7 @@ describe('CollectionPointList Component', () => {
       expect(screen.getByText('Ponto de Coleta Centro')).toBeInTheDocument();
     });
     
-    const searchInput = screen.getByPlaceholderText(/buscar/i);
+    const searchInput = screen.getByPlaceholderText(/pesquisar por nome/i);
     fireEvent.change(searchInput, { target: { value: 'Centro' } });
     
     expect(searchInput).toHaveValue('Centro');
@@ -81,22 +81,22 @@ describe('CollectionPointList Component', () => {
     renderWithRouter(<CollectionPointList />);
     
     await waitFor(() => {
-      const editButtons = screen.getAllByText(/editar/i);
-      const deleteButtons = screen.getAllByText(/excluir/i);
+      const editButtons = screen.getAllByAltText(/editar/i);
+      const deleteButtons = screen.getAllByAltText(/apagar/i);
       
       expect(editButtons).toHaveLength(2);
       expect(deleteButtons).toHaveLength(2);
     });
   });
 
-  test('renders "Novo Ponto de Coleta" link', async () => {
+  test('renders "Novo Ponto" link', async () => {
     mockedAxios.get.mockResolvedValue({ 
       data: { data: mockCollectionPoints }
     });
     
     renderWithRouter(<CollectionPointList />);
     
-    expect(screen.getByText(/novo ponto de coleta/i)).toBeInTheDocument();
+    expect(screen.getByText(/novo ponto/i)).toBeInTheDocument();
   });
 
   test('handles API error gracefully', async () => {

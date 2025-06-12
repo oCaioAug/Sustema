@@ -1,11 +1,11 @@
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import EducationalContentCards from '../EducationalContentCards';
-import axiosInstance from '../../../helper/axios-instance';
+import EducationalContentCards from './EducationalContentCards';
+import axiosInstance from '../../helper/axios-instance';
 
 // Mock do axios
-jest.mock('../../../helper/axios-instance');
+jest.mock('../../helper/axios-instance');
 const mockedAxios = axiosInstance as jest.Mocked<typeof axiosInstance>;
 
 const renderWithRouter = (component: React.ReactElement) => {
