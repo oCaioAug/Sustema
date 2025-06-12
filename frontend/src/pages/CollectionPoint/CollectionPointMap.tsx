@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import MapComponent from '../../map/MapComponent';
 import '../styles/CollectionPoint/CollectionPointMap.css';
-import axiosInstance from '../../helper/axios-instance'
+import axiosInstance from '../../helper/axios-instance';
 import L from 'leaflet';
 
 const CollectionPointMap: React.FC = () => {
@@ -29,26 +29,27 @@ const CollectionPointMap: React.FC = () => {
     }
   };
 
-  useEffect(() => { fetchCollectionPoints(); }, []);
+  useEffect(() => {
+    fetchCollectionPoints();
+  }, []);
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
-      <div style={{ flex: 1, minHeight: 0, marginTop: '2rem', marginLeft: '2rem', marginRight: '2rem' }}>
-        <MapComponent 
-          onMapClick={() => console.log('Map clicked')} 
-          mapRef={mapRef} 
-        />
-      </div>
       <div className="collection-point-btn-wrapper">
-        <button
-          className="collection-point-manage-btn"
-          onClick={() => window.location.href = '/collection-points/' }
+        <a
+          href="/collection-points/"
+          className="collection-point-manage-link"
         >
           Gerenciar Pontos
-        </button>
+        </a>
+      </div>
+      <div style={{ flex: 1, minHeight: 0, margin: '0 2rem 2rem 2rem' }}>
+        <MapComponent
+          onMapClick={() => console.log('Map clicked')}
+          mapRef={mapRef}
+        />
       </div>
     </div>
-    
   );
 };
 
