@@ -55,7 +55,12 @@ const EducationalContentCards = () => {
 
   return (
     <div className="ecc-container-conteudo">
-      <button className="ecc-botao-adicionar" onClick={() => {/* abrir modal aqui */}}>+ adicionar</button>
+      <button
+        className="ecc-botao-adicionar"
+        onClick={() => { window.location.href = '/educational-content/create'; }}
+      >
+        + adicionar
+      </button>
       <div className="ecc-grade-conteudos">
         {contents.length === 0 ? (
           <div className="ecc-sem-conteudo">

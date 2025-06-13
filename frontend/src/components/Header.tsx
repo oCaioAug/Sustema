@@ -46,10 +46,10 @@ const Header = () => {
               </li>
             )}
             <li>
-              <Link to={'/collection-points2'} className="header-btn">Pontos de Coleta</Link>
+              <Link to={'/collection-points-map'} className="header-btn">Pontos de Coleta</Link>
             </li>
             <li>
-              <Link to={'/educational-content'} className="header-btn">Conteúdo Educacional</Link>
+              <Link to={'/educational-content/educational-cards'} className="header-btn">Conteúdo Educacional</Link>
             </li>
             <li>
               <Link to={'/'} className="header-btn">Início</Link>
