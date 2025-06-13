@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route, Link } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import './App.css';
 
 import UserList from './pages/User/UserList';
@@ -63,34 +63,34 @@ function App() {
         <Route path="/conscientizacao" element={<div>Conscientização</div>} />
         <Route path="/tutoriais" element={<Tutoriais />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/educational-content" element={<EducationalContentList />} />
+        <Route path="/users/create" element={<UserCreate />} />
+        <Route path="/educational-content/educational-cards" element={<EducationalContentCards />} />
         <Route path="/educational-content/view/:id" element={<EducationalContentView />} />
         <Route path="/educational-content/view/:id" element={<EducationalContentDetails />} />
-        <Route path="/collection-points" element={<CollectionPointList />} />
         <Route path="/collection-points-map" element={<CollectionPointMap />} />
 
         {/* Rotas Protegidas - Usuários */}
         <Route element={<ProtectedRoute />}>
           <Route path="/users" element={<UserList />} />
-          <Route path="/users/create" element={<UserCreate />} />
           <Route path="/users/edit/:id" element={<UserEdit />} />
           <Route path="/users/delete/:id" element={<UserDelete />} />
         </Route>
         
         {/* Rotas Protegidas - Conteúdo Educacional (CRUD) */}
-        {/* <Route element={<ProtectedRoute />}> */}
+        <Route element={<ProtectedRoute />}>
+          <Route path="/educational-content" element={<EducationalContentList />} />          
           <Route path="/educational-content/create" element={<EducationalContentCreate />} />
           <Route path="/educational-content/edit/:id" element={<EducationalContentEdit />} />
           <Route path="/educational-content/delete/:id" element={<EducationalContentDelete />} />
-          <Route path="/educational-content/educational-cards" element={<EducationalContentCards />} />
-        {/* </Route> */}
+        </Route>
         
         {/* Rotas Protegidas - Pontos de Coleta (CRUD) */}
-        {/* <Route element={<ProtectedRoute />}> */}
+        <Route element={<ProtectedRoute />}>
+          <Route path="/collection-points" element={<CollectionPointList />} />
           <Route path="/collection-points/create" element={<CollectionPointCreate />} />
           <Route path="/collection-points/edit/:id" element={<CollectionPointEdit />} />
           <Route path="/collection-points/delete/:id" element={<CollectionPointDelete />} />
-        {/* </Route> */}
+        </Route>
         
         {/* Rotas Protegidas - Perfil */}
         <Route element={<ProtectedRoute />}>
