@@ -18,18 +18,13 @@ const EducationalContentCreate: React.FC = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      let tipoNumeric = 0;
-
-      if (type === 'Artigo') {
-        tipoNumeric = 4;
-      } else if (type === 'Vídeo') {
-        tipoNumeric = 2;
-      }
+      // Enviar string diretamente em vez de mapear para número
+      const tipoString = type === 'Vídeo' ? 'Video' : type; // Converter 'Vídeo' para 'Video'
 
       const payload = {
         Titulo: title,
         Descricao: description,
-        Tipo: tipoNumeric,
+        Tipo: tipoString,
         URL: type === 'Vídeo' ? videoUrl : null,
         TextoArtigo: type === 'Artigo' ? content : null,
         DataPublicacao: new Date().toISOString(),

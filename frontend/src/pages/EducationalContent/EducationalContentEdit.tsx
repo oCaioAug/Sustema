@@ -49,8 +49,9 @@ const EducationalContentEdit: React.FC = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      // Ajuste: tipoString conforme enum backend (Artigo, Video, Imagem, etc)
-      let tipoString = type;
+      // Converter 'Vídeo' para 'Video' para corresponder ao enum do backend
+      let tipoString = type === 'Vídeo' ? 'Video' : type;
+      
       const payload: any = {
         Titulo: title,
         Descricao: description,
@@ -59,6 +60,7 @@ const EducationalContentEdit: React.FC = () => {
         TextoArtigo: type === 'Artigo' ? articleContent : null,
         DataPublicacao: new Date().toISOString(),
       };
+      
       // Se estiver alterando também a imagem, use FormData:
       if (image) {
         const form = new FormData();
@@ -70,8 +72,12 @@ const EducationalContentEdit: React.FC = () => {
           headers: { 'Content-Type': 'multipart/form-data' },
         });
       } else {
-        await axiosInstance.put(`/EducationalContent/${id}`, payload);
+        // Enviar como JSON se não tiver imagem
+        await axiosInstance.put(`/EducationalContent/${id}`, payload, {
+          headers: { 'Content-Type': 'application/json' },
+        });
       }
+      
       navigate('/educational-content');
     } catch (err) {
       console.error('Erro ao salvar alterações:', err);
