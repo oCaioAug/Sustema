@@ -31,7 +31,7 @@ namespace Sustema.Api.Repositories
             _dbSet.Remove(entity);
 
         public async Task SaveChangesAsync() =>
-            await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
 
         public async Task UpdateAsync(T entity)
         {
