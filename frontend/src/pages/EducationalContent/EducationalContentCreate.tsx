@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../../helper/axios-instance';
 import '../styles/EducationalContent/EducationalContentCreate.css';
-import { url } from 'inspector';
 
 const EducationalContentCreate: React.FC = () => {
   const [title, setTitle] = useState('');
@@ -18,18 +17,13 @@ const EducationalContentCreate: React.FC = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      let tipoNumeric = 0;
-
-      if (type === 'Artigo') {
-        tipoNumeric = 4;
-      } else if (type === 'Vídeo') {
-        tipoNumeric = 2;
-      }
+      // Enviar string diretamente em vez de mapear para número
+      const tipoString = type === 'Vídeo' ? 'Video' : type; // Converter 'Vídeo' para 'Video'
 
       const payload = {
         Titulo: title,
         Descricao: description,
-        Tipo: tipoNumeric,
+        Tipo: tipoString,
         URL: type === 'Vídeo' ? videoUrl : null,
         TextoArtigo: type === 'Artigo' ? content : null,
         DataPublicacao: new Date().toISOString(),
@@ -37,7 +31,12 @@ const EducationalContentCreate: React.FC = () => {
 
       console.log('Payload:', payload);
       
-      await axiosInstance.post('/EducationalContent', payload);
+      await axiosInstance.post('/EducationalContent', payload, {
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+      });
       navigate('/educational-content');
     } catch (err) {
       console.error(err);

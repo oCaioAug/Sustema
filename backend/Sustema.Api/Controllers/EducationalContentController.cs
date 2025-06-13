@@ -65,10 +65,11 @@ namespace Sustema.Api.Controllers
         /// </summary>
         /// <param name="content">Dados do conteúdo educativo.</param>
         /// <returns>Conteúdo criado.</returns>
-        //[Authorize]
+        [Authorize]
         [HttpPost]
         [ProducesResponseType(typeof(EducationalContent), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Create([FromBody] EducationalContent content)
         {
             if (!ModelState.IsValid)
@@ -105,11 +106,12 @@ namespace Sustema.Api.Controllers
         /// <param name="id">Identificador do conteúdo a ser atualizado.</param>
         /// <param name="updatedContent">Dados atualizados do conteúdo.</param>
         /// <returns>Status NoContent se atualizado com sucesso.</returns>
-        //[Authorize]
+        [Authorize]
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Update(int id, [FromBody] EducationalContent updatedContent)
         {
             if (!ModelState.IsValid)
@@ -167,10 +169,11 @@ namespace Sustema.Api.Controllers
         /// </summary>
         /// <param name="id">Identificador do conteúdo a ser excluído.</param>
         /// <returns>Status NoContent se excluído com sucesso.</returns>
-        //[Authorize]
+        [Authorize]
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Delete(int id)
         {
             var content = await _repository.GetByIdAsync(id);

@@ -49,9 +49,10 @@ const EducationalContentEdit: React.FC = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      // Ajuste: tipoString conforme enum backend (Artigo, Video, Imagem, etc)
-      let tipoString = type;
-      const payload: any = {
+      // Converter 'Vídeo' para 'Video' para corresponder ao enum do backend
+      const tipoString = type === 'Vídeo' ? 'Video' : type;
+      
+      const payload = {
         Titulo: title,
         Descricao: description,
         Tipo: tipoString,
@@ -59,19 +60,17 @@ const EducationalContentEdit: React.FC = () => {
         TextoArtigo: type === 'Artigo' ? articleContent : null,
         DataPublicacao: new Date().toISOString(),
       };
-      // Se estiver alterando também a imagem, use FormData:
-      if (image) {
-        const form = new FormData();
-        Object.entries(payload).forEach(([key, value]) => {
-          if (value !== null && value !== undefined) form.append(key, value as string);
-        });
-        form.append('Imagem', image);
-        await axiosInstance.put(`/EducationalContent/${id}`, form, {
-          headers: { 'Content-Type': 'multipart/form-data' },
-        });
-      } else {
-        await axiosInstance.put(`/EducationalContent/${id}`, payload);
-      }
+
+      console.log('Payload de edição:', payload);
+      
+      // Sempre enviar como JSON com Content-Type explícito
+      await axiosInstance.put(`/EducationalContent/${id}`, payload, {
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+      });
+      
       navigate('/educational-content');
     } catch (err) {
       console.error('Erro ao salvar alterações:', err);

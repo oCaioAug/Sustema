@@ -66,10 +66,11 @@ namespace Sustema.Api.Controllers
         /// </summary>
         /// <param name="point">Dados do ponto de coleta.</param>
         /// <returns>Ponto de coleta criado.</returns>
-        //[Authorize]
+        [Authorize]
         [HttpPost]
         [ProducesResponseType(typeof(CollectionPoint), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Create([FromBody] CollectionPoint point)
         {
             if (!ModelState.IsValid)
@@ -89,42 +90,44 @@ namespace Sustema.Api.Controllers
         /// <param name="id"></param>
         /// <param name="collectionPointDto"></param>
         /// <returns></returns>
-        //[Authorize]
-      [HttpPut("update/{id}")]
-[ProducesResponseType(StatusCodes.Status204NoContent)]
-[ProducesResponseType(StatusCodes.Status400BadRequest)]
-[ProducesResponseType(StatusCodes.Status404NotFound)]
-public async Task<IActionResult> UpdateCollectionPoint(int id, [FromBody] UpdateCollectionPointDto collectionPointDto)
-{
-    // Inverte a condição:
-    if (!ModelState.IsValid)
-    {
-        return BadRequest(ModelState);
-    }
+        [Authorize]
+        [HttpPut("update/{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> UpdateCollectionPoint(int id, [FromBody] UpdateCollectionPointDto collectionPointDto)
+        {
+            // Inverte a condição:
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-    var collectionPoint = await _repository.GetByIdAsync(id);
-    if (collectionPoint == null)
-        return NotFound(new { message = "Ponto de coleta não encontrado.", collectionPointDto });
+            var collectionPoint = await _repository.GetByIdAsync(id);
+            if (collectionPoint == null)
+                return NotFound(new { message = "Ponto de coleta não encontrado.", collectionPointDto });
 
-    collectionPoint.Nome      = collectionPointDto.Nome;
-    collectionPoint.Endereco  = collectionPointDto.Endereco;
-    collectionPoint.Descricao = collectionPointDto.Descricao;
-    collectionPoint.Latitude  = collectionPointDto.Latitude;
-    collectionPoint.Longitude = collectionPointDto.Longitude;
+            collectionPoint.Nome      = collectionPointDto.Nome;
+            collectionPoint.Endereco  = collectionPointDto.Endereco;
+            collectionPoint.Descricao = collectionPointDto.Descricao;
+            collectionPoint.Latitude  = collectionPointDto.Latitude;
+            collectionPoint.Longitude = collectionPointDto.Longitude;
 
-    await _repository.SaveChangesAsync();
-    return NoContent();
-}
+            await _repository.SaveChangesAsync();
+            return NoContent();
+        }
 
         /// <summary>
         /// Deleta um Ponto de Coleta
         /// </summary>
         /// <param name="id"></param>
         /// <returns>Retorna `NoContent` se o Ponto de Coleta foi apagado</returns>
-        //[Authorize]
+        [Authorize]
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> DeleteCollectionPoint(int id)
         {
             var collectionPoint = await _repository.GetByIdAsync(id);
