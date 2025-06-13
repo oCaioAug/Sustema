@@ -1,183 +1,289 @@
-# Sustema Project
+# 🌱 Sustema Project
 
-Sustema é um sistema de gestão de reciclagem e sustentabilidade que integra um backend ASP.NET Core (Web API) com um frontend em React (TypeScript). O sistema permite o registro de ações de reciclagem, visualização de pontos de coleta, gerenciamento de conteúdos educativos e gamificação (com badges armazenados como JSON).
+Sustema é um sistema completo de gestão de reciclagem e sustentabilidade que integra um backend ASP.NET Core (Web API) com um frontend em React (TypeScript). O sistema permite o registro de ações de reciclagem, visualização de pontos de coleta, gerenciamento de conteúdos educativos e gamificação com sistema de badges e pontuação.
+
+## 🌟 Funcionalidades
+
+### 🔄 Gestão de Reciclagem
+- **Registro de ações**: Cadastro de ações de reciclagem com diferentes tipos de materiais
+- **Pontos de coleta**: Mapa interativo com pontos de coleta geolocalizados
+- **Controle de quantidade**: Registro detalhado com quantidades e unidades de medida
+
+### 🎮 Sistema de Gamificação
+- **Sistema de pontos**: Pontuação baseada nas ações de reciclagem
+- **Badges**: Sistema de conquistas e medalhas
+- **Ranking**: Classificação dos usuários mais ativos
+
+### 📚 Conteúdo Educativo
+- **Artigos**: Conteúdo textual sobre sustentabilidade
+- **Vídeos**: Material audiovisual educativo
+- **Múltiplos formatos**: Suporte a diferentes tipos de conteúdo
+
+### 👥 Gestão de Usuários
+- **Autenticação JWT**: Sistema seguro de login e autorização
+- **Perfis de usuário**: Diferentes níveis de acesso
+- **Histórico de ações**: Acompanhamento das atividades dos usuários
 
 ---
 
-## Índice
+## 📑 Índice
 
 - [Pré-requisitos](#pré-requisitos)
+- [Tecnologias Utilizadas](#tecnologias-utilizadas)
 - [Estrutura do Projeto](#estrutura-do-projeto)
 - [Configuração do Backend](#configuração-do-backend)
 - [Configuração do Frontend](#configuração-do-frontend)
+- [Endpoints da API](#endpoints-da-api)
 - [Docker (Opcional)](#docker-opcional)
 - [Documentação da API](#documentação-da-api)
 - [Comandos Git e Branches](#comandos-git-e-branches)
+- [Testes](#testes)
 
 ---
 
-## Pré-Requisitos
+## 🛠️ Tecnologias Utilizadas
+
+### Backend
+- **ASP.NET Core 9.0**: Framework principal da API
+- **Entity Framework Core 9.0**: ORM para acesso a dados
+- **SQL Server**: Banco de dados relacional
+- **JWT Authentication**: Sistema de autenticação
+- **Swagger/OpenAPI**: Documentação da API
+- **FluentValidation**: Validação de modelos
+- **xUnit**: Framework de testes
+
+### Frontend
+- **React 19.0**: Biblioteca para interface de usuário
+- **TypeScript 4.9**: Linguagem tipada
+- **React Router DOM 6.14**: Roteamento SPA
+- **Axios**: Cliente HTTP para requisições
+- **Bootstrap 5.3**: Framework CSS
+- **Leaflet**: Biblioteca para mapas interativos
+
+### Ferramentas
+- **Docker**: Containerização (opcional)
+- **Git**: Controle de versão
+- **Visual Studio Code**: Editor recomendado
+
+---
+
+## 📋 Pré-Requisitos
 
 - [.NET 9 SDK](https://dotnet.microsoft.com/pt-br/download/dotnet/9.0)
-- [Node.js (versão 16 ou superior)](https://nodejs.org/)
+- [Node.js 18+](https://nodejs.org/)
+- [SQL Server](https://www.microsoft.com/sql-server) ou SQL Server Express
 - [Git](https://git-scm.com/)
 - (Opcional) [Docker](https://www.docker.com/)
 
 ---
 
-## Estrutura do Projeto
+## 📁 Estrutura do Projeto
 
-```bash
-raiz/
-├───backend/
-│   └───Sustema.Api/
-│   │    ├───Controllers/
-│   │    ├───Data/
-│   │    ├───Helpers/
-│   │    ├───Migrations/
-│   │    ├───Models/
-│   │    │   └───DTOs/
-│   │    ├───Properties/
-│   │    ├───Repositories/
-│   │    └───Services/
-│   │    ├───Program.cs
-│   │    ├───appsetting.json
-│   │    ├───Dockerfile
-│   │    └───Sustema.Api.http
-├───frontend/
-│  ├───public/
-│  ├───src/
-│  ├───package.json
-│  ├───dockerfile (Opcional)
-│  └───tsconfig.json
-└───docker-compose.yaml (Opcional)
 ```
-<!-- project-root/ 
-├── backend/ # Projeto ASP.NET Core Web API 
-│ ├── EcoTech.API.csproj 
-│ ├── Program.cs 
-│ ├── Data/ # ApplicationDbContext e migrações 
-│ ├── Models/ # Entidades: User, CollectionPoint, RecyclingAction, GamificationRecord, EducationalContent, BadgeInfo 
-│ ├── Repositories/# Interfaces e implementações do padrão Repository 
-│ ├── Services/ # Lógica de negócio, como GamificationService 
-│ ├── Controllers/ # Endpoints RESTful (UserController, CollectionPointController, etc.) 
-│ └── Dockerfile # (Opcional) Configuração Docker para o backend 
-
-├── frontend/ # Projeto React com TypeScript 
-│ ├── package.json 
-│ ├── tsconfig.json 
-│ ├── public/ 
-│ ├── src/ # Componentes, serviços, modelos e rotas 
-│ └── Dockerfile # (Opcional) Configuração Docker para o frontend 
-└── docker-compose.yml # (Opcional) Orquestração dos serviços via Docker Compose -->
+Sustema/
+├── backend/
+│   ├── backend.sln                          # Solution do .NET
+│   └── Sustema.Api/
+│       ├── Controllers/                     # Controladores da API
+│       │   ├── UserController.cs
+│       │   ├── CollectionPointController.cs
+│       │   ├── EducationalContentController.cs
+│       │   ├── RecyclingActionController.cs
+│       │   └── GamificationRecordController.cs
+│       ├── Data/                           # Contexto do banco de dados
+│       │   └── ApplicationDbContext.cs
+│       ├── Models/                         # Entidades e DTOs
+│       │   ├── User.cs
+│       │   ├── CollectionPoint.cs
+│       │   ├── EducationalContent.cs
+│       │   ├── RecyclingAction.cs
+│       │   ├── GamificationRecord.cs
+│       │   ├── BadgeInfo.cs
+│       │   └── DTOs/
+│       ├── Repositories/                   # Padrão Repository
+│       ├── Services/                       # Lógica de negócio
+│       ├── Migrations/                     # Migrações do banco
+│       ├── Helpers/                        # Classes auxiliares
+│       ├── Middlewares/                    # Middlewares customizados
+│       ├── Program.cs                      # Configuração da aplicação
+│       ├── appsettings.json               # Configurações
+│       └── Dockerfile                      # Container Docker
+├── frontend/
+│   ├── public/                            # Arquivos públicos
+│   │   ├── index.html
+│   │   ├── profile.html
+│   │   └── tutorials.html
+│   ├── src/                               # Código-fonte React
+│   │   ├── components/                    # Componentes reutilizáveis
+│   │   ├── pages/                         # Páginas da aplicação
+│   │   ├── services/                      # Serviços de API
+│   │   ├── helper/                        # Funções auxiliares
+│   │   ├── styles/                        # Arquivos de estilo
+│   │   └── App.tsx                        # Componente principal
+│   ├── package.json                       # Dependências do Node.js
+│   ├── tsconfig.json                      # Configuração TypeScript
+│   └── dockerfile                         # Container Docker
+├── docker-compose.yaml                    # Orquestração completa
+├── package.json                           # Configurações globais
+└── README.md                              # Este arquivo
+```
 
 ---
 
-## Configuração do Backend
+## ⚙️ Configuração do Backend
 
-1. **Navegue até a pasta `backend`:**
+### 1. Navegue até a pasta backend:
+```bash
+cd backend/Sustema.Api
+```
 
-  ```bash
-  cd backend
-  ```
+### 2. Restaure as dependências:
+```bash
+dotnet restore
+```
 
-2.**Restaure as dependências e compile o projeto**
+### 3. Configure o banco de dados:
+Edite o arquivo `appsettings.json` com sua string de conexão:
+```json
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=localhost;Database=SustemaDb;Integrated Security=true;TrustServerCertificate=true;"
+  },
+  "Jwt": {
+    "Secret": "SuaChaveSecretaAqui",
+    "Issuer": "Sustema",
+    "Audience": "SustemaUsers",
+    "ExpiryMinutes": 60
+  }
+}
+```
 
-  ```bash
-  dotnet restore
-  dotnet build
-  ```
+### 4. Execute as migrações:
+```bash
+dotnet ef database update
+```
 
-3.**Configuração**
+### 5. Execute o projeto:
+```bash
+dotnet run
+```
 
-- Defina a string de conexão e demais configurações no arquivo `appsettings.json`.
-- O `ApplicationDbContext` está configurado para mapear as entidades conforme o modelo.
+A API estará disponível em: `http://localhost:5263`
 
 ---
 
-## Configuração do Frontend
+## 🎨 Configuração do Frontend
 
-1. **Navegue até a pasta `frontend:**
-
+### 1. Navegue até a pasta frontend:
 ```bash
 cd frontend
 ```
 
-2.**Instale as dependências:**
-
+### 2. Instale as dependências:
 ```bash
 npm install
 ```
 
-3.**Inicie o projeto em modo de desenvolvimento:**
-
+### 3. Inicie o projeto em modo de desenvolvimento:
 ```bash
 npm start
 ```
 
-4.**Acesso:**
-O aplicativo React será servido na porta 3000 e realizará chamadas para a API em `https://localhost:5001/api`.
+### 4. Acesso:
+O aplicativo React será servido em `http://localhost:3000` e realizará chamadas para a API em `http://localhost:5263/api`.
 
 ---
 
-## Docker (Opcional)
+## 🔗 Endpoints da API
 
-### Backend
+### Usuários
+- `GET /api/User` - Listar todos os usuários
+- `GET /api/User/{id}` - Obter usuário por ID
+- `POST /api/User/register` - Registrar novo usuário
+- `POST /api/User/login` - Fazer login
+- `PUT /api/User/{id}` - Atualizar usuário
+- `DELETE /api/User/{id}` - Excluir usuário
+- `GET /api/User/perfis` - Listar perfis disponíveis
 
-O Dockerfile na pasta backend define o build e publicação do projeto ASP.NET Core:
+### Pontos de Coleta
+- `GET /api/CollectionPoint` - Listar todos os pontos
+- `GET /api/CollectionPoint/{id}` - Obter ponto por ID
+- `POST /api/CollectionPoint` - Criar novo ponto
+- `PUT /api/CollectionPoint/update/{id}` - Atualizar ponto
+- `DELETE /api/CollectionPoint/{id}` - Excluir ponto
 
-```dockerfile
-# Etapa de build
-FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
-WORKDIR /src
-COPY ["Sustema.Api.csproj", "./"]
-RUN dotnet restore "Sustema.Api.csproj"
-COPY . .
-RUN dotnet publish "Sustema.Api.csproj" -c Release -o /app/publish
+### Conteúdo Educativo
+- `GET /api/EducationalContent` - Listar todo o conteúdo
+- `GET /api/EducationalContent/{id}` - Obter conteúdo por ID
+- `POST /api/EducationalContent` - Criar novo conteúdo
+- `PUT /api/EducationalContent/{id}` - Atualizar conteúdo
+- `DELETE /api/EducationalContent/{id}` - Excluir conteúdo
+- `GET /api/EducationalContent/tipos` - Listar tipos de conteúdo
 
-# Etapa final
-FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS final
-WORKDIR /app
-COPY --from=build /app/publish .
-EXPOSE 80
-ENTRYPOINT ["dotnet", "Sustema.Api.dll"]
+### Ações de Reciclagem
+- `GET /api/RecyclingAction` - Listar todas as ações
+- `GET /api/RecyclingAction/{id}` - Obter ação por ID
+- `POST /api/RecyclingAction` - Registrar nova ação
+- `PUT /api/RecyclingAction/update/{id}` - Atualizar ação
+- `DELETE /api/RecyclingAction/{id}` - Excluir ação
+
+### Gamificação
+- `GET /api/GamificationRecord/user/{userId}` - Obter registros por usuário
+- `GET /api/GamificationRecord/{id}` - Obter registro por ID
+- `POST /api/GamificationRecord` - Criar novo registro
+- `PUT /api/GamificationRecord/{recordId}` - Atualizar pontuação
+- `GET /api/GamificationRecord/availableBadges/{recordId}` - Obter badges disponíveis
+- `DELETE /api/GamificationRecord/{id}` - Excluir registro
+
+---
+
+## 🐳 Docker (Opcional)
+
+### Execução com Docker Compose
+
+O projeto inclui configuração completa do Docker com banco de dados SQL Server:
+
+```bash
+# Executar todos os serviços
+docker compose up --build -d
+
+# Parar os serviços
+docker compose down
+
+# Ver logs
+docker compose logs -f
 ```
 
-#### Frontend
+### Serviços incluídos:
+- **Backend**: API na porta 5001
+- **Frontend**: Aplicação React na porta 3000
+- **Database**: SQL Server na porta 1433
 
-O Dockerfile na pasta frontend para o projeto React com TypeScript:
-
-```dockerfile
-# Etapa de build
-FROM node:16-alpine AS build
-WORKDIR /app
-COPY package.json package-lock.json ./
-RUN npm install
-COPY . .
-RUN npm run build
-
-# Etapa final: usando Nginx para servir os arquivos estáticos
-FROM nginx:alpine
-COPY --from=build /app/build /usr/share/nginx/html
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
-```
-
-#### Docker Compose
-
-No diretório raiz, o arquivo docker-compose.yml orquestra ambos os serviços:
-
+### Configuração do docker-compose.yaml:
 ```yaml
 version: '3.8'
 services:
   backend:
     build:
-      context: ./backend
+      context: ./backend/Sustema.Api
       dockerfile: Dockerfile
     ports:
-      - "5001:80"
+      - "5001:5001"
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: "http://+:5001"
+    depends_on:
+      - db
+
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      ACCEPT_EULA: Y
+      MSSQL_SA_PASSWORD: Sustema123!
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserverdata:/var/opt/mssql
 
   frontend:
     build:
@@ -185,129 +291,166 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3000:80"
-```
 
-Para rodar os containers:
-
-```bash
-docker compose up --build -d
+volumes:
+  sqlserverdata:
 ```
 
 ---
 
-## Documentação da API
+## 📚 Documentação da API
 
 A documentação interativa da API é gerada usando Swagger (Swashbuckle.AspNetCore) e segue a especificação OpenAPI.
 
-- **Configuração:**
-No `Program.cs` do backend, o Swagger é configurado e estará disponível na raiz (ex.: `https://localhost:5001/`) em ambiente de desenvolvimento.
+### Acesso:
+- **Desenvolvimento**: `http://localhost:5263/swagger`
+- **Docker**: `http://localhost:5001/swagger`
 
-- **Acesso:**
-Após executar o backend, abra o navegador e acesse a URL configurada para visualizar e interagir com a documentação.
+A documentação inclui:
+- Todos os endpoints disponíveis
+- Modelos de dados
+- Exemplos de requisições e respostas
+- Esquemas de autenticação
 
 ---
 
-## Comandos GIT e Branches
+## 🧪 Testes
 
-### Clonar o repositório
+O projeto inclui testes unitários e de integração:
 
+### Executar testes do backend:
+```bash
+cd backend
+dotnet test
+```
+
+### Executar testes do frontend:
+```bash
+cd frontend
+npm test
+```
+
+### Cobertura de testes:
+```bash
+# Backend
+dotnet test --collect:"XPlat Code Coverage"
+
+# Frontend
+npm test -- --coverage --watchAll=false
+```
+
+---
+
+## 🌿 Comandos Git e Branches
+
+### Clonar o repositório:
 ```bash
 git clone https://github.com/oCaioAug/Sustema
+cd Sustema
 ```
 
-#### Configurar o repositório
-
+### Comandos básicos:
 ```bash
-cd raiz-projeto
-```
-
-#### Comandos Básicos
-
-- **Verificar status:**
-
-```bash
+# Verificar status
 git status
-```
 
-- **Adicionar alterações:**
-
-```bash
+# Adicionar alterações
 git add .
-```
 
-- **Fazer commit:**
-
-```bash
+# Fazer commit
 git commit -m "Descrição do commit"
-```
 
-- **Enviar alterações para o repositório remoto (GitHub):**
-
-```bash
+# Enviar alterações
 git push origin main
 ```
 
-##### Trabalhando com Branches
-
-- **Criar uma nova branch:**
-
+### Trabalhando com branches:
 ```bash
-git checkout -b feature/noma-da-feature
-```
+# Criar nova branch
+git checkout -b feature/nome-da-feature
 
-- **Mudar de branch:**
-
-```bash
+# Mudar de branch
 git checkout nome-da-branch
-```
 
-- **Atualizar a branch `main`:**
-
-```bash
+# Atualizar branch main
 git checkout main
 git pull origin main
-```
 
-- **Mesclar branch de feature com `main`:**
-
-```bash
+# Mesclar branch
 git checkout main
 git merge feature/nome-da-feature
-```
 
-- **Excluir branch (local):**
-
-```bash
+# Excluir branch local
 git branch -d feature/nome-da-feature
 ```
 
 ---
 
-## Execução e Deploy
+## 🚀 Execução e Deploy
 
-- **Backend**
-Para executar o projeto:
+### Desenvolvimento Local:
 
+**Backend:**
 ```bash
+cd backend/Sustema.Api
 dotnet run
 ```
+API: `http://localhost:5263`
 
-A API estará disponível na porta configurada (ex.: `https://localhost:5001`).
-
-- **Frontend**
-
-Para executar o projeto:
-
+**Frontend:**
 ```bash
+cd frontend
 npm start
 ```
+App: `http://localhost:3000`
 
-O aplicativo React abrirá em `http://localhost:3000`.
-
-- **Deploy com Docker:**
-
-Utilize o Docker Compose para build e execução conjunta:
-
+### Deploy com Docker:
 ```bash
 docker compose up --build -d
 ```
+- API: `http://localhost:5001`
+- App: `http://localhost:3000`
+- DB: `localhost:1433`
+
+---
+
+## 📝 Notas de Desenvolvimento
+
+### Configurações importantes:
+1. **JWT Secret**: Configure uma chave secreta forte em produção
+2. **CORS**: Configurado para desenvolvimento, ajuste para produção
+3. **SSL**: Desabilitado para desenvolvimento, habilite em produção
+4. **Banco de dados**: Use SQL Server Express ou Docker para desenvolvimento
+
+### Estrutura de dados:
+- **Users**: Autenticação e perfis
+- **CollectionPoints**: Pontos geolocalizados
+- **RecyclingActions**: Histórico de reciclagem
+- **EducationalContent**: Material educativo
+- **GamificationRecords**: Sistema de pontuação e badges
+
+---
+
+## 🤝 Contribuição
+
+1. Faça um fork do projeto
+2. Crie uma branch: `git checkout -b feature/nova-funcionalidade`
+3. Commit: `git commit -m 'Adiciona nova funcionalidade'`
+4. Push: `git push origin feature/nova-funcionalidade`
+5. Abra um Pull Request
+
+---
+
+## 📄 Licença
+
+Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
+
+---
+
+## 👥 Autores
+
+- **Caio Augusto** - *Desenvolvimento* - [@oCaioAug](https://github.com/oCaioAug)
+
+---
+
+⭐ **Se este projeto foi útil, considere dar uma estrela!** ⭐
