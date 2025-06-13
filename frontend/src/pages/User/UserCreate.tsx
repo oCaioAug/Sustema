@@ -1,26 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import axiosInstance from '../../helper/axios-instance';
 import { useNavigate } from 'react-router-dom';
+import { useIsAdmin } from '../../hooks/useAuth';
 
 const UserCreate: React.FC = () => {
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
-  const [perfilOptions, setPerfilOptions] = useState<string[]>([]); // Array de opções de perfil
-  const [perfil, setPerfil] = useState(''); // Perfil selecionado
+  const [perfilOptions, setPerfilOptions] = useState<string[]>([]);
+  const [perfil, setPerfil] = useState('');
   const navigate = useNavigate();
+  const isAdmin = useIsAdmin();
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
+
+    // Se não for admin, força o perfil como Cidadão (valor 0)
+    const perfilValue = isAdmin ? parseInt(perfil) : 0;
 
     const userData = {
       nome,
       email,
       password: senha,
-      perfil: parseInt(perfil), // Adiciona o perfil ao objeto de dados do usuário
+      perfil: perfilValue,
     };
 
-    console.log('Dados do usuário:', userData); // Log dos dados do usuário
+    console.log('Dados do usuário:', userData);
     axiosInstance.post('/User/register', userData)
       .then(() => navigate('/users'))
       .catch(error => console.error('Error creating user:', error));
@@ -29,17 +34,34 @@ const UserCreate: React.FC = () => {
   useEffect(() => {
     axiosInstance.get('/User/perfil-usuarios')
       .then(response => {
-        setPerfilOptions(response.data); // Mapeia a resposta para o array de opções
-
+        let availableProfiles = response.data;
+        
+        // Se não for admin, mostrar apenas opção "Cidadão"
+        if (!isAdmin) {
+          availableProfiles = ['Cidadao']; // Apenas perfil de cidadão
+          setPerfil('0'); // Define automaticamente como Cidadão
+        }
+        
+        setPerfilOptions(availableProfiles);
       })
       .catch(error => {
         console.error('Error fetching perfil usuarios:', error);
+        // Fallback: se não conseguir buscar perfis e não for admin, define como Cidadão
+        if (!isAdmin) {
+          setPerfilOptions(['Cidadao']);
+          setPerfil('0');
+        }
       });
-    }, []); // Adicionado array de dependências vazio para evitar chamadas infinitas
+  }, [isAdmin]);
     
   return (
     <div>
       <h1>Criar Usuário</h1>
+      {!isAdmin && (
+        <div className="alert alert-info mb-3">
+          <strong>Nota:</strong> Novos usuários são cadastrados automaticamente como Cidadão.
+        </div>
+      )}
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label className="form-label">Nome</label>
@@ -74,20 +96,35 @@ const UserCreate: React.FC = () => {
           />
         </div>
 
-        <div className="mb-3">
-          <label className="form-label">Perfil</label>
-          <select
-            className="form-control"
-            value={perfil}
-            onChange={(event) => setPerfil(event.target.value)}
-            required
-          >
-            <option value="">Selecione um perfil</option>
-            {perfilOptions.map((option, index) => (
-              <option key={index} value={index}>{option}</option>
-            ))}
-          </select>
-        </div>
+        {isAdmin && (
+          <div className="mb-3">
+            <label className="form-label">Perfil</label>
+            <select
+              className="form-control"
+              value={perfil}
+              onChange={(event) => setPerfil(event.target.value)}
+              required
+            >
+              <option value="">Selecione um perfil</option>
+              {perfilOptions.map((option, index) => (
+                <option key={index} value={index}>{option}</option>
+              ))}
+            </select>
+          </div>
+        )}
+
+        {!isAdmin && (
+          <div className="mb-3">
+            <label className="form-label">Perfil</label>
+            <input
+              type="text"
+              className="form-control"
+              value="Cidadão"
+              disabled
+              style={{ backgroundColor: '#f8f9fa' }}
+            />
+          </div>
+        )}
 
         <button type="submit" className="btn btn-primary">Criar</button>
       </form>
