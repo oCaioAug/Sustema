@@ -32,3 +32,50 @@ export function useAuth(): boolean {
   
   return isAuthenticated;
 }
+
+/**
+ * Hook para verificar se o usuário é administrador
+ * @returns {boolean} - true se o usuário for Admin, false caso contrário
+ */
+export function useIsAdmin(): boolean {
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
+  
+  useEffect(() => {
+    const checkAdminStatus = () => {
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+          setIsAdmin(false);
+          return;
+        }
+
+        // Decodifica o JWT token para extrair o perfil
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        
+        // Verifica se o perfil é Admin (assumindo que Admin = 0 ou "Admin")
+        const userRole = payload['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] || payload.role;
+        setIsAdmin(userRole === '0' || userRole === 'Admin' || userRole === 0);
+        
+      } catch (error) {
+        console.error('Erro ao verificar perfil de admin:', error);
+        setIsAdmin(false);
+      }
+    };
+
+    // Verifica inicialmente
+    checkAdminStatus();
+    
+    // Adiciona listener para mudanças no localStorage
+    const handleStorageChange = () => {
+      checkAdminStatus();
+    };
+    
+    window.addEventListener('storage', handleStorageChange);
+    
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, []);
+  
+  return isAdmin;
+}
