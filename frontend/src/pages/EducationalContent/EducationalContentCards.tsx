@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axiosInstance from '../../helper/axios-instance';
+import { useIsAdmin } from '../../hooks/useAuth';
 import '../styles/EducationalContent/EducationalContentCards.css';
-
 
 interface EducationalContent {
   contentId: number;
@@ -18,6 +18,7 @@ const EducationalContentCards = () => {
   const [contents, setContents] = useState<EducationalContent[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const isAdmin = useIsAdmin();
 
   useEffect(() => {
     axiosInstance.get('/EducationalContent')
@@ -55,12 +56,14 @@ const EducationalContentCards = () => {
 
   return (
     <div className="ecc-container-conteudo">
-      <button
-        className="ecc-botao-adicionar"
-        onClick={() => { window.location.href = '/educational-content/create'; }}
-      >
-        + adicionar
-      </button>
+      {isAdmin && (
+        <button
+          className="ecc-botao-adicionar"
+          onClick={() => { window.location.href = '/educational-content/create'; }}
+        >
+          + adicionar
+        </button>
+      )}
       <div className="ecc-grade-conteudos">
         {contents.length === 0 ? (
           <div className="ecc-sem-conteudo">

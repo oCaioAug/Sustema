@@ -2,10 +2,12 @@ import React, { useEffect, useRef } from 'react';
 import MapComponent from '../../map/MapComponent';
 import '../styles/CollectionPoint/CollectionPointMap.css';
 import axiosInstance from '../../helper/axios-instance';
+import { useIsAdmin } from '../../hooks/useAuth';
 import L from 'leaflet';
 
 const CollectionPointMap: React.FC = () => {
   const mapRef = useRef<L.Map | null>(null);
+  const isAdmin = useIsAdmin();
 
   const fetchCollectionPoints = async () => {
     try {
@@ -35,14 +37,16 @@ const CollectionPointMap: React.FC = () => {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
-      <div className="collection-point-btn-wrapper">
-        <a
-          href="/collection-points/"
-          className="collection-point-manage-link"
-        >
-          Gerenciar Pontos
-        </a>
-      </div>
+      {isAdmin && (
+        <div className="collection-point-btn-wrapper">
+          <a
+            href="/collection-points/"
+            className="collection-point-manage-link"
+          >
+            Gerenciar Pontos
+          </a>
+        </div>
+      )}
       <div style={{ flex: 1, minHeight: 0, margin: '0 2rem 2rem 2rem' }}>
         <MapComponent
           onMapClick={() => console.log('Map clicked')}
