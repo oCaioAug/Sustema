@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axiosInstance from '../../helper/axios-instance';
 import { useParams, useNavigate } from 'react-router-dom';
-import '../../style.css';
+import '../styles/EducationalContent/EducationalContentView.css';
 
 const EducationalContentView: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -39,48 +39,55 @@ const EducationalContentView: React.FC = () => {
   if (loading) return <div className="content-view-container"><p>Carregando...</p></div>;
   if (error) return <div className="content-view-container"><p>{error}</p></div>;
 
+  const getEmbeddedVideoUrl = (originalUrl: string): string => {
+    // Suporte para YouTube
+    const youtubeMatch = originalUrl.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([^\s&?]+)/);
+    if (youtubeMatch && youtubeMatch[1]) {
+      return `https://www.youtube.com/embed/${youtubeMatch[1]}`;
+    }
+    // Se não for YouTube, retornar o próprio link como fallback (pode não funcionar com todos players)
+    return originalUrl;
+  };
+
   return (
     <div className="content-view-container">
-      <div className="content-view-card">
+      <div className="titulo-container">
         <h1>{title}</h1>
-        <p className="content-description">{description}</p>
-        <p className="content-type"><b>Tipo:</b> {type}</p>
-        {publicationDate && <p className="content-date"><b>Publicado em:</b> {publicationDate}</p>}
+      </div>
+      <p><strong>Data de Publicação:</strong> {publicationDate}</p>
 
-        {type === 'Artigo' && article && (
-          <div className="content-article">
-            <h2>Artigo</h2>
-            <p>{article}</p>
-          </div>
-        )}
-        {type === 'Imagem' && imageUrl && (
-          <div className="content-image">
-            <img src={imageUrl} alt="Imagem de capa" className="content-cover" />
-          </div>
-        )}
-        {type === 'Video' && url && (
-          <div className="content-video">
-            <h2>Vídeo</h2>
-            <iframe
-              width="100%"
-              height="400"
-              src={url}
-              title="Vídeo"
-              frameBorder="0"
-              allowFullScreen
-            />
-          </div>
-        )}
-        {type === 'Infografico' && imageUrl && (
-          <div className="content-infographic">
-            <h2>Infográfico</h2>
-            <img src={imageUrl} alt="Infográfico" className="content-cover" />
-          </div>
-        )}
+      {imageUrl && type !== 'Video' && (
+        <img src={imageUrl} alt={title} className="content-image" />
+      )}
 
-        <button className="botao-verde" onClick={() => navigate('/educational-content')}>
-          Voltar
-        </button>
+      <p>{description}</p>
+
+      {type === 'Video' && url && (
+        <div className="video-container">
+          <iframe
+            src={getEmbeddedVideoUrl(url)}
+            title="Vídeo Educacional"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          ></iframe>
+        </div>
+      )}
+
+      {type === 'Artigo' && article && (
+        <div className="article-container">
+          <p>{article}</p>
+        </div>
+      )}
+
+      {type === 'Link' && url && (
+        <div>
+          <h2>Link Externo</h2>
+          <a href={url} target="_blank" rel="noopener noreferrer">{url}</a>
+        </div>
+      )}
+
+      <div className="button-container">
+        <button onClick={() => navigate(-1)} className="back-button">Voltar</button>
       </div>
     </div>
   );

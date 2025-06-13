@@ -1,0 +1,115 @@
+.content-view-container {
+  background: rgba(255, 255, 255, 0.95);
+  width: 100vw;
+  max-width: 700px;
+  padding: 2.5rem 2rem;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  margin: 40px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.content-view-container h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #256d2b;
+  margin: 0 auto 0.5rem auto;
+  text-align: center;
+}
+
+.content-view-container p {
+  font-size: 1.1rem;
+  color: #333;
+  margin-bottom: 1rem;
+  width: 100%;
+  word-break: break-word;
+  white-space: pre-wrap;
+  text-align: left;
+}
+
+.titulo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  width: 100%;
+}
+
+.content-image {
+  width: 100%;
+  max-width: 420px;
+  border-radius: 12px;
+  margin: 1rem auto 1.5rem auto;
+  display: block;
+}
+
+.video-container {
+  width: 100%;
+  max-width: 600px;
+  aspect-ratio: 16 / 9;
+  margin: 1.5rem auto;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.video-container iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+
+.article-container {
+  text-align: left;
+  width: 100%;
+  max-width: 640px;
+  margin: 1rem auto;
+  font-size: 1rem;
+  line-height: 1.6;
+  white-space: pre-line;
+}
+
+.link-container {
+  width: 100%;
+  text-align: left;
+  margin-top: 1rem;
+}
+
+.button-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+  margin-top: 1.5rem;
+}
+
+.back-button {
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 24px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.back-button:hover {
+  background-color: #256d2b;
+}
+
+@media (max-width: 900px) {
+  .content-view-container {
+    max-width: 98vw;
+    padding: 1.2rem 0.5rem;
+  }
+
+  .content-image,
+  .video-container iframe {
+    max-width: 98vw;
+  }
+}

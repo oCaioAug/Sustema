@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-
+import './Header.css';
 const Header = () => {
   const navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -33,45 +33,45 @@ const Header = () => {
   return (
     <>
       <header>
-        <picture className="logoImg">
+        <picture className="header-logo-img">
           <Link to={'/'}>
             <img src="./imgs/logo-sustema.png" alt="Sustema Logo" />
           </Link>
         </picture>
         <nav>
-          <ul>
+          <ul className="header-nav-list">
             {isAuthenticated && (
               <li>
-                <Link to={'/users'} className="btn">Usuários</Link>
+                <Link to={'/users'} className="header-btn">Usuários</Link>
               </li>
             )}
             <li>
-              <Link to={'/collection-points2'} className="btn">Pontos de Coleta</Link>
+              <Link to={'/collection-points-map'} className="header-btn">Pontos de Coleta</Link>
             </li>
             <li>
-              <Link to={'/educational-content'} className="btn">Conteúdo Educacional</Link>
+              <Link to={'/educational-content/educational-cards'} className="header-btn">Conteúdo Educacional</Link>
             </li>
             <li>
-              <Link to={'/'} className="btn">Início</Link>
+              <Link to={'/'} className="header-btn">Início</Link>
             </li>
             <li>
-              <Link to={'/tutoriais'} className="btn">Tutoriais</Link>
+              <Link to={'/tutoriais'} className="header-btn">Tutoriais</Link>
             </li>
             {/* <li>
-              <Link to={'/estatisticas'} className="btn">Estatísticas</Link>
+              <Link to={'/estatisticas'} className="header-btn">Estatísticas</Link>
             </li> */}
             {isAuthenticated ? (
               <>
                 <li>
-                  <Link to={'/profile'} className="btn green">Perfil</Link>
+                  <Link to={'/profile'} className="header-btn header-btn-green">Perfil</Link>
                 </li>
                 <li>
-                  <button onClick={handleLogout} className="btn red">Logout</button>
+                  <button onClick={handleLogout} className="header-btn header-btn-red">Logout</button>
                 </li>
               </>
             ) : (
               <li>
-                <Link to={'/login'} className="btn green">Login</Link>
+                <Link to={'/login'} className="header-btn header-btn-green">Login</Link>
               </li>
             )}
           </ul>

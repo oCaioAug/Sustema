@@ -1264,18 +1264,6 @@ h1 {
     margin-bottom: 1.5rem;
     position: relative;
     width: 94vh;
-     &:after {
-        content: '';
-        display: block;
-        height: 3px;
-        /* margin: 10px, auto; */
-        margin-left: -25;
-        background: linear-gradient(to right, transparent, #a8e6cf, transparent);
-        border-radius: 2px;
-        width: 98vh;
-        margin-left: -2rem;
-
-    } 
 }
 /* Formulários */
 #login, #cadastro {

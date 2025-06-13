@@ -67,7 +67,7 @@ function App() {
         <Route path="/educational-content/view/:id" element={<EducationalContentView />} />
         <Route path="/educational-content/view/:id" element={<EducationalContentDetails />} />
         <Route path="/collection-points" element={<CollectionPointList />} />
-        <Route path="/collection-points2" element={<CollectionPointMap />} />
+        <Route path="/collection-points-map" element={<CollectionPointMap />} />
 
         {/* Rotas Protegidas - Usuários */}
         <Route element={<ProtectedRoute />}>
