@@ -6,14 +6,17 @@ Este diretório contém todos os diagramas UML e documentação visual do sistem
 
 ```
 docs/diagrams/
-├── use-cases/           # Diagramas de Caso de Uso
-│   ├── sustema-use-cases.puml     # PlantUML
-│   └── sustema-use-cases.mermaid  # Mermaid
-├── class-diagrams/      # Diagramas de Classe
-│   ├── domain-model.puml          # PlantUML
-│   └── domain-model.mermaid       # Mermaid
-├── sequence-diagrams/   # Diagramas de Sequência (futuro)
-└── README.md           # Este arquivo
+├── use-cases/                    # Diagramas de Caso de Uso
+│   └── sustema-use-cases.md      # Casos de uso completos
+├── class-diagrams/               # Diagramas de Classe
+│   ├── domain-model.puml         # PlantUML (existente)
+│   ├── domain-model.md           # Mermaid (existente)
+│   └── sustema-domain-model.md   # Modelo completo em Mermaid
+├── entity-relationship/          # Diagramas ER
+│   └── sustema-erd.md           # Modelo de dados completo
+├── sequence-diagrams/            # Diagramas de Sequência
+│   └── sustema-sequence-flows.md # Fluxos principais do sistema
+└── README.md                     # Este arquivo
 ```
 
 ## 🛠️ Ferramentas
@@ -25,8 +28,8 @@ Os diagramas são criados em **PlantUML** (arquivos `.puml`) por oferecer:
 - ✅ Geração automática de imagens
 - ✅ Fácil manutenção e edição
 
-### Mermaid (.mermaid)
-Também disponibilizamos em **Mermaid** (arquivos `.mermaid`) que oferece:
+### Mermaid (.md)
+Também disponibilizamos em **Mermaid** (arquivos `.md`) que oferece:
 - ✅ Integração nativa com GitHub/GitLab
 - ✅ Renderização automática em markdown
 - ✅ Sintaxe mais simples
@@ -55,33 +58,70 @@ java -jar plantuml.jar arquivo.puml
 
 #### 1. **VS Code**
 - Instale a extensão: `Mermaid Editor`
-- Abra um arquivo `.mermaid`
+- Abra um arquivo `.md` com diagramas Mermaid
 - Use preview integrado
 
 #### 2. **GitHub/GitLab**
-- Os arquivos `.mermaid` são renderizados automaticamente
-- Podem ser incluídos diretamente em README.md
+- Os arquivos `.md` com diagramas são renderizados automaticamente
+- Visualização direta no repositório
 
 #### 3. **Online**
 - Acesse: https://mermaid.live/
-- Cole o código do arquivo `.mermaid`
+- Cole o código do diagrama Mermaid
 
 ## 📊 Diagramas Disponíveis
 
-### 1. Casos de Uso
-- **PlantUML**: `use-cases/sustema-use-cases.puml`
-- **Mermaid**: `use-cases/sustema-use-cases.mermaid`
-- Atores: Cidadão, Empresa, Admin
-- Casos de uso principais do sistema
-- Permissões por perfil de usuário
+### 1. 🎯 Casos de Uso (`use-cases/sustema-use-cases.md`)
+- **Atores**: Cidadão, Empresa, Admin
+- **Funcionalidades por nível de acesso**
+- **Casos de uso detalhados**
+- **Matriz de permissões**
 
-### 2. Diagrama de Classes
-- **PlantUML**: `class-diagrams/domain-model.puml`
-- **Mermaid**: `class-diagrams/domain-model.mermaid`
-- Modelo de domínio completo
-- Entidades principais: User, CollectionPoint, RecyclingAction
-- Relacionamentos e cardinalidades
-- Enums: PerfilUsuario, ContentType
+**Principais funcionalidades:**
+- 🌐 Públicas: Cadastro, login, visualização de pontos e conteúdo
+- 👤 Cidadão: Registro de ações, gamificação
+- 👔 Empresa: Criação de pontos de coleta
+- 🔧 Admin: Gestão completa do sistema
+
+### 2. 🏗️ Diagrama de Classes (`class-diagrams/sustema-domain-model.md`)
+- **Entidades principais**: User, CollectionPoint, RecyclingAction, GamificationRecord, EducationalContent
+- **DTOs**: UserDto, RegisterRequest, LoginRequest
+- **Enums**: PerfilUsuario, ContentType
+- **Relacionamentos e cardinalidades**
+- **Métodos de negócio**
+
+**Padrões implementados:**
+- Repository Pattern
+- DTO Pattern
+- Service Layer
+- Enum Pattern
+
+### 3. 🗃️ Entidade Relacionamento (`entity-relationship/sustema-erd.md`)
+- **Estrutura completa do banco de dados**
+- **Relacionamentos 1:N e N:M**
+- **Índices para performance**
+- **Constraints e validações**
+- **Sistema de badges (USER_BADGE)**
+
+**Tabelas principais:**
+- USER (usuários e perfis)
+- COLLECTION_POINT (pontos de coleta)
+- RECYCLING_ACTION (ações de reciclagem)
+- GAMIFICATION_RECORD (sistema de pontos)
+- EDUCATIONAL_CONTENT (conteúdo educativo)
+
+### 4. 🔄 Diagramas de Sequência (`sequence-diagrams/sustema-sequence-flows.md`)
+- **Fluxo de Autenticação**: Login completo com JWT
+- **Registro de Ação de Reciclagem**: Com gamificação automática
+- **Criação de Conteúdo Educacional**: Fluxo administrativo
+- **Visualização do Mapa**: Interação com pontos de coleta
+
+**Aspectos cobertos:**
+- Validação em camadas
+- Segurança e autorização
+- Gamificação em tempo real
+- Upload de arquivos
+- Geolocalização
 
 ## ⚖️ Comparação: PlantUML vs Mermaid
 
@@ -108,6 +148,19 @@ java -jar plantuml.jar arquivo.puml
 - ✅ Criar documentação rápida
 - ✅ Trabalhar com equipes mistas
 
+## 🎯 Matriz de Funcionalidades por Diagrama
+
+| Funcionalidade | Casos de Uso | Classes | ER | Sequência |
+|----------------|:------------:|:-------:|:--:|:---------:|
+| **Autenticação** | ✅ | ✅ | ✅ | ✅ |
+| **Gestão de Usuários** | ✅ | ✅ | ✅ | - |
+| **Pontos de Coleta** | ✅ | ✅ | ✅ | ✅ |
+| **Ações de Reciclagem** | ✅ | ✅ | ✅ | ✅ |
+| **Gamificação** | ✅ | ✅ | ✅ | ✅ |
+| **Conteúdo Educacional** | ✅ | ✅ | ✅ | ✅ |
+| **Controle de Acesso** | ✅ | ✅ | ✅ | ✅ |
+| **Geolocalização** | ✅ | ✅ | ✅ | ✅ |
+
 ## 🔄 Atualização dos Diagramas
 
 ### Quando Atualizar
@@ -115,39 +168,71 @@ java -jar plantuml.jar arquivo.puml
 - ✅ Mudanças no modelo de dados
 - ✅ Novos atores ou casos de uso
 - ✅ Alterações na arquitetura
+- ✅ Novos fluxos de negócio
 
 ### Como Atualizar
-1. Edite o arquivo `.puml` ou `.mermaid` correspondente
-2. Teste a visualização
-3. Mantenha ambos os formatos sincronizados
+1. Edite o arquivo `.puml` ou `.md` correspondente
+2. Teste a visualização no VS Code ou online
+3. Mantenha consistência entre diagramas relacionados
 4. Commit as mudanças no Git
 5. Documente as alterações no PR/commit
+
+### Checklist de Consistência
+- [ ] Nomes de entidades consistentes entre diagramas
+- [ ] Relacionamentos alinhados entre Classes e ER
+- [ ] Casos de uso refletidos nos fluxos de sequência
+- [ ] Perfis de usuário consistentes em todos os diagramas
 
 ## 📋 Convenções
 
 ### Nomenclatura
-- **Arquivos**: `kebab-case.puml` / `kebab-case.mermaid`
+- **Arquivos**: `kebab-case.md` ou `kebab-case.puml`
 - **Classes**: `PascalCase`
 - **Atributos**: `camelCase`
 - **Casos de Uso**: "Verbo + Objeto"
+- **Tabelas**: `UPPER_CASE` (no ER)
 
 ### Estilo
 - Usar temas consistentes
 - Incluir títulos em todos os diagramas
 - Adicionar comentários/notas para esclarecimentos
-- Usar emojis nos atores para facilitar identificação
+- Usar emojis nos atores e seções para facilitar identificação
 - Manter cores e estilos padronizados
+
+### Estrutura de Arquivos
+- Um diagrama principal por arquivo
+- Documentação explicativa junto com o diagrama
+- Versionamento através do Git
+- README em cada subdiretório se necessário
 
 ## 🚀 Próximos Passos
 
-### Diagramas Planejados
-- [ ] Diagrama de Sequência - Fluxo de Autenticação
-- [ ] Diagrama de Sequência - Registro de Ação de Reciclagem
+### Diagramas Complementares
 - [ ] Diagrama de Componentes - Arquitetura do Sistema
 - [ ] Diagrama de Atividade - Processo de Gamificação
+- [ ] Diagrama de Estado - Ciclo de vida dos pontos de coleta
+- [ ] Diagrama de Comunicação - Interação entre serviços
+
+### Melhorias Planejadas
+- [ ] Diagramas de infraestrutura (deployment)
+- [ ] Fluxos de erro e exceções
+- [ ] Diagramas de segurança e autenticação
+- [ ] Modelos de dados históricos
 
 ### Integração
 - [ ] Configurar geração automática de imagens no CI/CD
-- [ ] Incluir diagramas no README principal
+- [ ] Incluir diagramas no README principal do projeto
 - [ ] Criar documentação de API baseada nos diagramas
 - [ ] Automatizar sincronização entre PlantUML e Mermaid
+- [ ] Validação automática de consistência entre diagramas
+
+## 📖 Guia de Leitura Recomendado
+
+Para melhor compreensão do sistema, sugerimos a seguinte ordem de leitura:
+
+1. **Casos de Uso** - Entenda o que o sistema faz
+2. **Diagrama de Classes** - Compreenda a estrutura do código
+3. **Entidade Relacionamento** - Visualize o modelo de dados
+4. **Diagramas de Sequência** - Veja como tudo funciona em tempo de execução
+
+Esta documentação visual serve como referência técnica completa para desenvolvedores, analistas e stakeholders do projeto Sustema.
