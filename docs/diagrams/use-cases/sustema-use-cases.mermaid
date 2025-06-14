@@ -1,0 +1,54 @@
+graph TD
+    %% Atores
+    Cidadao["👤 Cidadão"]
+    Empresa["👔 Empresa"] 
+    Admin["🔧 Admin"]
+    
+    %% Sistema
+    subgraph "Sistema Sustema"
+        UC1["Fazer Login/Cadastro"]
+        UC2["Visualizar Pontos de Coleta"]
+        UC3["Registrar Ação de Reciclagem"]
+        UC4["Visualizar Conteúdo Educacional"]
+        UC5["Visualizar Gamificação/Badges"]
+        UC6["Criar Pontos de Coleta"]
+        UC7["Gerenciar Usuários"]
+        UC8["Gerenciar Pontos de Coleta"]
+        UC9["Gerenciar Conteúdo Educacional"]
+        UC10["Gerenciar Gamificação"]
+    end
+    
+    %% Relacionamentos Cidadão
+    Cidadao --> UC1
+    Cidadao --> UC2
+    Cidadao --> UC3
+    Cidadao --> UC4
+    Cidadao --> UC5
+    
+    %% Relacionamentos Empresa
+    Empresa --> UC1
+    Empresa --> UC2
+    Empresa --> UC3
+    Empresa --> UC4
+    Empresa --> UC5
+    Empresa --> UC6
+    
+    %% Relacionamentos Admin
+    Admin --> UC1
+    Admin --> UC2
+    Admin --> UC3
+    Admin --> UC4
+    Admin --> UC5
+    Admin --> UC6
+    Admin --> UC7
+    Admin --> UC8
+    Admin --> UC9
+    Admin --> UC10
+    
+    %% Estilos
+    classDef actor fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+    classDef usecase fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+    classDef system fill:#e8f5e8,stroke:#1b5e20,stroke-width:3px
+    
+    class Cidadao,Empresa,Admin actor
+    class UC1,UC2,UC3,UC4,UC5,UC6,UC7,UC8,UC9,UC10 usecase

@@ -1,0 +1,87 @@
+@startuml Sustema-Class-Diagram
+!theme plain
+title Sistema Sustema - Diagrama de Classes
+
+package "Models" {
+  enum PerfilUsuario {
+    Cidadao = 0
+    Empresa = 1
+    Admin = 2
+  }
+
+  enum ContentType {
+    Texto = 0
+    Imagem = 1
+    Video = 2
+    Audio = 3
+    Artigo = 4
+    Infografico = 5
+  }
+
+  class User {
+    +int UserId
+    +string Nome
+    +string Email
+    +string PasswordHash
+    +PerfilUsuario Perfil
+    +DateTime DataCadastro
+    +ICollection<RecyclingAction> RecyclingActions
+    +ICollection<GamificationRecord> GamificationRecords
+  }
+
+  class CollectionPoint {
+    +int CollectionPointId
+    +string Nome
+    +string Endereco
+    +double Latitude
+    +double Longitude
+    +string Descricao
+    +ICollection<RecyclingAction> RecyclingActions
+  }
+
+  class RecyclingAction {
+    +int RecyclingActionId
+    +int UserId
+    +int CollectionPointId
+    +DateTime Data
+    +string TipoMaterial
+    +decimal Quantidade
+    +string UnidadeMedida
+    +User User
+    +CollectionPoint CollectionPoint
+  }
+
+  class GamificationRecord {
+    +int GamificationRecordId
+    +int UserId
+    +int Pontos
+    +string Badges
+    +DateTime DataRegistro
+    +User User
+  }
+
+  class EducationalContent {
+    +int ContentId
+    +string Titulo
+    +string Descricao
+    +ContentType Tipo
+    +string URL
+    +string TextoArtigo
+    +DateTime DataPublicacao
+  }
+}
+
+' Relacionamentos
+User ||--o{ RecyclingAction : "1..*"
+CollectionPoint ||--o{ RecyclingAction : "1..*"
+User ||--o{ GamificationRecord : "1..*"
+User }o--|| PerfilUsuario
+EducationalContent }o--|| ContentType
+
+note top of User : Usuário principal do sistema\ncom diferentes perfis de acesso
+
+note right of GamificationRecord : Badges armazenados\ncomo JSON string
+
+note bottom of RecyclingAction : Ação de reciclagem\nrealizada pelo usuário
+
+@enduml

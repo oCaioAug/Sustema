@@ -1,0 +1,56 @@
+@startuml Sustema-Use-Cases
+!theme plain
+title Sistema Sustema - Casos de Uso
+
+actor "👤 Cidadão" as Cidadao
+
+package "Sistema Sustema" {
+  usecase "Fazer Login/Cadastro" as UC1
+  usecase "Visualizar Pontos de Coleta" as UC2
+  usecase "Registrar Ação de Reciclagem" as UC3
+  usecase "Visualizar Conteúdo Educacional" as UC4
+  usecase "Visualizar Gamificação/Badges" as UC5
+  usecase "Criar Pontos de Coleta" as UC6
+  usecase "Gerenciar Usuários" as UC7
+  usecase "Gerenciar Pontos de Coleta" as UC8
+  usecase "Gerenciar Conteúdo Educacional" as UC9
+  usecase "Gerenciar Gamificação" as UC10
+}
+
+actor "👔 Empresa" as Empresa
+actor "🔧 Admin" as Admin
+
+' Relacionamentos Cidadão
+Cidadao --> UC1
+Cidadao --> UC2
+Cidadao --> UC3
+Cidadao --> UC4
+Cidadao --> UC5
+
+' Relacionamentos Empresa
+Empresa --> UC1
+Empresa --> UC2
+Empresa --> UC3
+Empresa --> UC4
+Empresa --> UC5
+Empresa --> UC6
+
+' Relacionamentos Admin
+Admin --> UC1
+Admin --> UC2
+Admin --> UC3
+Admin --> UC4
+Admin --> UC5
+Admin --> UC6
+Admin --> UC7
+Admin --> UC8
+Admin --> UC9
+Admin --> UC10
+
+note right of Admin : Acesso completo\na todas as funcionalidades
+
+note bottom of UC6 : Apenas Empresa\ne Admin podem criar\npontos de coleta
+
+note top of Cidadao : Perfil básico\ncom funcionalidades\nde visualização
+
+@enduml
